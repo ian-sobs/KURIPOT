@@ -1,6 +1,6 @@
 # Kuripot
 
-Kuripot is a simple finance tracker.
+Kuripot is a simple finance tracker created in compliance for our AppDevelopment(3105) class.
 
 ## Table of Contents
 
