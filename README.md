@@ -53,43 +53,15 @@ README.md
 
 ### Installation
 
-1. Clone the repository:
+Clone the repository:
 
-   ```bash
-   git clone https://github.com/ChanAbay-abay/Kuripot.git
-   ```
-   ```bash
-   cd Kuripot
-   ```
+```bash
+git clone https://github.com/ChanAbay-abay/Kuripot.git
+```
 
-2. Navigate to the Server folder and install dependencies:
-
-   ```bash
-   cd server
-   ```
-   ```bash
-   npm install
-   ```
-
-3. Navigate to the Client folder and create the React app:
-
-   ```bash
-   cd ../client
-   ```
-   ```bash
-   npx create-react-app .
-   ```
-
-4. Install Tailwind CSS:
-
-   ```bash
-   npm install -D tailwindcss postcss autoprefixer
-   ```
-   ```bash
-   npx tailwindcss init -p
-   ```
-
-5. Configure Tailwind CSS (update `tailwind.config.js` and `src/index.css` as mentioned above).
+```bash
+cd Kuripot
+```
 
 ### Running the Project
 
