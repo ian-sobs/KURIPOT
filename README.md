@@ -18,7 +18,7 @@ Kuripot is a simple finance tracker created in compliance for our AppDevelopment
 
 - **Frontend:** React, Tailwind CSS
 - **Backend:** Express, Sequelize
-- **Database:** TBD
+- **Database:** SQL
 - **Containerization:** Docker
 
 ## Project Structure
