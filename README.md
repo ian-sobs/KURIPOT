@@ -57,6 +57,8 @@ README.md
 
    ```bash
    git clone https://github.com/ChanAbay-abay/Kuripot.git
+   ```
+   ```bash
    cd Kuripot
    ```
 
@@ -64,6 +66,8 @@ README.md
 
    ```bash
    cd server
+   ```
+   ```bash
    npm install
    ```
 
@@ -71,6 +75,8 @@ README.md
 
    ```bash
    cd ../client
+   ```
+   ```bash
    npx create-react-app .
    ```
 
@@ -78,6 +84,8 @@ README.md
 
    ```bash
    npm install -D tailwindcss postcss autoprefixer
+   ```
+   ```bash
    npx tailwindcss init -p
    ```
 
