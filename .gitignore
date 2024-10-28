@@ -1,0 +1,22 @@
+
+# Dependency directories
+node_modules/
+dist/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Environment variables
+.env
+
+# Build files
+build/
