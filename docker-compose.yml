@@ -2,11 +2,11 @@
 services:
   server:
     build:
-      context: ./Server
+      context: ./server
     ports:
       - "5001:5000"
   client:
     build:
-      context: ./Client
+      context: ./client
     ports:
       - "3000:80"
