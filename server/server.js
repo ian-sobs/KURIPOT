@@ -3,32 +3,23 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+const { sequelize, connectDB } = require("./config/db");
 // app.get("/", (req, res) => {
 //   res.send("Hello World!");
 // });
 
-const { Sequelize } = require('sequelize');
-
-// Option 3: Passing parameters separately (other dialects)
-const sequelize = new Sequelize('Kuripot', 'postgres', 'falgor123', {
-  host: 'localhost',
-  port: 5432,
-  dialect: 'postgres' 
-});
-
+// Start the server and connect to the database
 const startServer = async () => {
   try {
-    await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
-
+    await connectDB(); // Initialize the database connection
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
   } catch (error) {
-    console.error("Unable to connect to the database:", error);
+    console.error("Failed to start server:", error);
   }
 };
 
 startServer();
+
 
