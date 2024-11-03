@@ -37,7 +37,7 @@ const RecurrTransacGrp = sequelize.define(
     // Other model options go here
     tableName: 'recurrTransacGrps',
 
-    // add an option such that when a user is deleted, any record that references a users record, directly or indirectly, is also deleted
+    // add an option such that when a RecurrTransacGrp is deleted, any future transaction that references a RecurrTransacGrp record is deleted from the transactions table.
   },
 );
 
