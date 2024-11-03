@@ -20,3 +20,6 @@ docker-compose.override.yml
 
 # Build files
 build/
+
+#db environment variables
+db/password.txt
