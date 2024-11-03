@@ -18,6 +18,7 @@ const Account = sequelize.define(
     // have to implement user_id foreign key
     amount: {
         type: DataTypes.DECIMAL(18,2),
+        defaultValue: 0
     }
   },
   {

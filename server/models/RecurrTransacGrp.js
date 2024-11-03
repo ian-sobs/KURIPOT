@@ -13,6 +13,7 @@ const RecurrTransacGrp = sequelize.define(
     },
     amount: {
       type: DataTypes.DECIMAL(16,2),
+      defaultValue: 0,
       allowNull: false,
     },
     // have to implement user_id foreign key

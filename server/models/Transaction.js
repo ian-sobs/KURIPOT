@@ -13,6 +13,7 @@ const Transaction = sequelize.define(
     },
     amount: {
       type: DataTypes.DECIMAL(16,2),
+      defaultValue: 0,
       allowNull: false,
     },
     // have to implement account_id foreign key
