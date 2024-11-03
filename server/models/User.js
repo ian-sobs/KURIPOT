@@ -43,3 +43,5 @@ const User = sequelize.define(
     // add an option such that when a user is deleted, any record that references a users record, directly or indirectly, is also deleted
   },
 );
+
+module.exports = User;
