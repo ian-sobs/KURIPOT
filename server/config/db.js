@@ -1,12 +1,15 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize } = require('sequelize');
 
-// Initialize the Sequelize instance with configuration
-const sequelize = new Sequelize("Kuripot", "postgres", "falgor123", {
-  host: "localhost",
-  port: 5432,
-  dialect: "postgres",
-});
-
+// initialize new sequelize instance with this configuration
+const sequelize = new Sequelize(
+  process.env.POSTGRES_DB,
+  process.env.POSTGRES_USER,
+  process.env.POSTGRES_PASSWORD,
+  {
+    host: process.env.POSTGRES_HOST,
+    dialect: 'postgres',
+  }
+);
 // Test the connection
 const connectDB = async () => {
   try {
