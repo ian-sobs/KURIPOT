@@ -17,13 +17,17 @@ const CategoriesInBudget = sequelize.define(
         type: DataTypes.DECIMAL(18,2),
         defaultValue: 0,
         allowNull: false,
+    },
+    dateIncluded:{
+      type: DataTypes.DATE,
+      allowNull: false,
     }
   },
   {
     // Other model options go here
     tableName: 'categoriesInBudgets',
 
-    // add an option such that when a user is deleted, any record that references a users record, directly or indirectly, is also deleted
+    
   },
 );
 

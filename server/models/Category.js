@@ -25,6 +25,9 @@ const Category = sequelize.define(
     // Other model options go here
     tableName: 'categories',
 
+    // Deleting a category does not delete transactions assigned to that category.
+
+    // Deleting a category will also delete a record in `categoriesInBudgets` table that references the deleted category record.
   },
 );
 
