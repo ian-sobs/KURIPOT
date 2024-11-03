@@ -21,6 +21,10 @@ const Transaction = sequelize.define(
         allowNull: false
     },
     // have to implement category_id foreign key
+    categoryName:{
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     // have to implement from_account_id foreign key
     // have to implement to_account_id foreign key
     note:{
