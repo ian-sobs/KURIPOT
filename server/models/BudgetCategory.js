@@ -12,6 +12,15 @@ BudgetCategory.init(
       primaryKey: true,
       autoIncrement: true
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+
+      references: {
+        model: User,
+        key: 'id'
+      }
+    }
+    ,
     budget_id: {
       type: DataTypes.INTEGER,
 

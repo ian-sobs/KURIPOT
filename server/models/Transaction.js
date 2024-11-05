@@ -14,6 +14,15 @@ Transaction.init(
       primaryKey: true,
       autoIncrement: true
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+
+      references: {
+        model: User,
+        key: 'id'
+      }
+    },
     amount: {
       type: DataTypes.DECIMAL(16,2),
       defaultValue: 0,
