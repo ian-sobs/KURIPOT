@@ -1,5 +1,6 @@
 const {DataTypes, Model } = require('sequelize');
 const {sequelize, connectDB} = require('../config/db');
+const User = require('./User');
 
 class Budget extends Model{}
 
@@ -12,8 +13,14 @@ Budget.init(
       primaryKey: true,
       autoIncrement: true
     },
-    // implement user_id foreign key
+    user_id: {
+      type: DataTypes.INTEGER,
 
+      references: {
+        model: User, 
+        key: 'id',
+      }
+    },
     date:{
       type: DataTypes.DATEONLY,
       allowNull: false,

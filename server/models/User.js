@@ -25,7 +25,7 @@ User.init(
       allowNull: false
     },
     password:{
-      type: DataTypes.STRING(72),
+      type: DataTypes.STRING(72), //72 characters long to store password hashes
       allowNull: false,
     },
     isFirstLogin:{

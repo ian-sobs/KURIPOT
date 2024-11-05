@@ -1,10 +1,9 @@
 const {DataTypes, Model } = require('sequelize');
 const {sequelize, connectDB} = require('../config/db');
-const User = require('./User');
 
-class Account extends Model{}
+class BudgetCategory extends Model{}
 
-Account.init(
+BudgetCategory.init(
   {
     // Model attributes are defined here
     id:{
@@ -13,30 +12,37 @@ Account.init(
       primaryKey: true,
       autoIncrement: true
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    user_id: {
+    budget_id: {
       type: DataTypes.INTEGER,
 
       references: {
-        model: User,
-        key: 'id',
-        // research if you need Deferrable options
+        model: Budget,
+        key: 'id'
       }
     },
-    amount: {
+    category_id: {
+      type: DataTypes.INTEGER,
+
+      references: {
+        model: Category,
+        key: 'id'
+      }
+    },
+    categoryLimit:{
         type: DataTypes.DECIMAL(18,2),
-        defaultValue: 0
-    }
+        defaultValue: 0,
+        allowNull: false,
+    },
+
   },
   {
     // Other model options go here
-    sequelize,
-    modelName: 'Account',
-    tableName: 'accounts',
+    tableName: 'budgetCategories',
+    modelName: 'BudgetCategory',
+    sequelize
+
+    
   },
 );
 
-module.exports = Account;
+module.exports = BudgetCategory;

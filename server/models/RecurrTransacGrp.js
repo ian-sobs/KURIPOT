@@ -1,8 +1,9 @@
-const {DataTypes } = require('sequelize');
+const {DataTypes, Model } = require('sequelize');
 const {sequelize, connectDB} = require('../config/db');
 
-const RecurrTransacGrp = sequelize.define(
-  'RecurrTransacGrp',
+class RecurrTransacGrp extends Model{}
+
+RecurrTransacGrp.init(
   {
     // Model attributes are defined here
     id:{
@@ -16,7 +17,14 @@ const RecurrTransacGrp = sequelize.define(
       defaultValue: 0,
       allowNull: false,
     },
-    // have to implement user_id foreign key
+    user_id: {
+      type: DataTypes.INTEGER,
+
+      references: {
+        model: User,
+        key: 'id'
+      }
+    },
     startDate:{
       type: DataTypes.DATE,
       allowNull: false,
@@ -36,6 +44,8 @@ const RecurrTransacGrp = sequelize.define(
   },
   {
     // Other model options go here
+    sequelize,
+    modelName: 'RecurrTransacGrp',
     tableName: 'recurrTransacGrps',
 
     // add an option such that when a RecurrTransacGrp is deleted, any future transaction, or all transactions, that references a RecurrTransacGrp record is deleted from the transactions table.

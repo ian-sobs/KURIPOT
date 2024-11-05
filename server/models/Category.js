@@ -1,8 +1,9 @@
-const {DataTypes } = require('sequelize');
+const {DataTypes, Model } = require('sequelize');
 const {sequelize, connectDB} = require('../config/db');
 
-const Category = sequelize.define(
-  'Category',
+class Category extends Model{}
+
+Category.init(
   {
     // Model attributes are defined here
     id:{
@@ -15,7 +16,14 @@ const Category = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // have to implement user_id foreign key
+    user_id: {
+      type: DataTypes.INTEGER,
+
+      references: {
+        model: User,
+        key: 'id'
+      }
+    },
     isIncome: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -23,6 +31,8 @@ const Category = sequelize.define(
   },
   {
     // Other model options go here
+    modelName: 'Category',
+    sequelize,
     tableName: 'categories',
 
     // Deleting a category does not delete transactions assigned to that category.

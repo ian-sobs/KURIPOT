@@ -1,8 +1,11 @@
-const {DataTypes } = require('sequelize');
+const {DataTypes, Model } = require('sequelize');
 const {sequelize, connectDB} = require('../config/db');
+const Account = require('./Account');
+const RecurrTransacGrp = require('./RecurrTransacGrp');
 
-const Transaction = sequelize.define(
-  'Transaction',
+class Transaction extends Model{}
+
+Transaction.init(
   {
     // Model attributes are defined here
     id:{
@@ -16,25 +19,63 @@ const Transaction = sequelize.define(
       defaultValue: 0,
       allowNull: false,
     },
-    // have to implement account_id foreign key
+    account_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+
+      references: {
+        model: Account,
+        key: 'id'
+      }
+    },
     date:{
         type: DataTypes.DATE,
         allowNull: false
     },
-    // have to implement category_id foreign key
+    category_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+
+      references: {
+        model: Category,
+        key: 'id'
+      }
+    },
     categoryName:{
       type: DataTypes.STRING,
       allowNull: false
     },
-    // have to implement from_account_id foreign key
-    // have to implement to_account_id foreign key
-    note:{
-        type: DataTypes.STRING,
+    from_account_id: {
+      type: DataTypes.INTEGER,
+
+      references: {
+        model: Account,
+        key: 'id'
+      }
+    },
+    to_account_id: {
+      type: DataTypes.INTEGER,
+
+      references: {
+        model: Account,
+        key: 'id'
+      }
+    },
+    note: DataTypes.STRING,
+  
+    recurr_id: {
+      type: DataTypes.INTEGER,
+
+      references: {
+        model: RecurrTransacGrp,
+        key: 'id'
+      }
     }
-    // have to implement recurr_id foreign key
   },
   {
     // Other model options go here
+    sequelize,
+    modelName: 'Transaction',
     tableName: 'transactions',
   },
 );
