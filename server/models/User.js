@@ -1,8 +1,9 @@
-const {DataTypes } = require('sequelize');
+const {DataTypes, Model } = require('sequelize');
 const {sequelize, connectDB} = require('../config/db');
 
-const User = sequelize.define(
-  'User',
+class User extends Model {}
+
+User.init(
   {
     // Model attributes are defined here
     id:{
@@ -34,6 +35,8 @@ const User = sequelize.define(
   },
   {
     // Other model options go here
+    sequelize,
+    modelName: User,
     tableName: 'users',
 
     // add an option such that when a user is deleted, any record that references a users record, directly or indirectly, is also deleted
