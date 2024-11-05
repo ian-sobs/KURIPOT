@@ -28,6 +28,7 @@ Transaction.init(
         key: 'id'
       }
     },
+    accountName: DataTypes.STRING,
     date:{
         type: DataTypes.DATE,
         allowNull: false
