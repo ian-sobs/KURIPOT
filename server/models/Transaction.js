@@ -63,6 +63,7 @@ Transaction.init(
         key: 'id'
       }
     },
+    from_accountName: DataTypes.STRING,
     to_account_id: {
       type: DataTypes.INTEGER,
 
@@ -71,6 +72,7 @@ Transaction.init(
         key: 'id'
       }
     },
+    to_accountName: DataTypes.STRING,
     note: DataTypes.STRING,
   
     recurr_id: {
