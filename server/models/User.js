@@ -11,11 +11,7 @@ const User = sequelize.define(
       primaryKey: true,
       autoIncrement: true
     },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lastName: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -33,7 +29,7 @@ const User = sequelize.define(
     },
     isFirstLogin:{
       type: DataTypes.BOOLEAN,
-      defaultValue: 1,
+      defaultValue: true,
     }
   },
   {
