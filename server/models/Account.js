@@ -1,8 +1,10 @@
-const {DataTypes } = require('sequelize');
+const {DataTypes, Model } = require('sequelize');
 const {sequelize, connectDB} = require('../config/db');
+const User = require('./User');
 
-const Account = sequelize.define(
-  'Account',
+class Account extends Model{}
+
+Account.init(
   {
     // Model attributes are defined here
     id:{
@@ -16,6 +18,15 @@ const Account = sequelize.define(
       allowNull: false,
     },
     // have to implement user_id foreign key
+    user_id: {
+      type: DataTypes.INTEGER,
+
+      references: {
+        model: User,
+        key: 'id',
+        // research if you need Deferrable options
+      }
+    },
     amount: {
         type: DataTypes.DECIMAL(18,2),
         defaultValue: 0
@@ -23,8 +34,9 @@ const Account = sequelize.define(
   },
   {
     // Other model options go here
+    sequelize,
+    modelName: 'Account',
     tableName: 'accounts',
-
   },
 );
 
