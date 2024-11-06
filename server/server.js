@@ -12,6 +12,7 @@ const { sequelize, connectDB } = require("./config/db");
 const startServer = async () => {
   try {
     await connectDB(); // Initialize the database connection
+    //await sequelize.sync()
   } catch (error) {
     console.error("Failed to start server:", error);
     process.exit(1);
@@ -23,6 +24,7 @@ const startServer = async () => {
 };
 
 startServer();
+
 
 
 
