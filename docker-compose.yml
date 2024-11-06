@@ -7,12 +7,13 @@ services:
       - "5001:5000"
     environment:
       - NODE_ENV=development
-      - POSTGRES_HOST=db
+      - POSTGRES_HOST=dbDev
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
       - POSTGRES_DB=Kuripot
+      - POSTGRES_PORT=5432
     depends_on:
-      db:
+      dbDev:
         condition: service_healthy
     secrets:
       - db-password
@@ -23,7 +24,7 @@ services:
     ports:
       - "3000:80"
 
-  db:
+  dbDev:
     image: postgres
     restart: always
     user: postgres
