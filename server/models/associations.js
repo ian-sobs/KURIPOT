@@ -1,6 +1,6 @@
 const sequelize = require('../config/db')
 
-const setupAssociations = () => {
+
     const { Account, Budget, BudgetCategory, Category, RecurrTransacGrp, Transaction, User } = sequelize.models;
   
     //One-to-Many relationships between sequelize models defautls to CASCADE ON UPDATE
@@ -116,6 +116,4 @@ const setupAssociations = () => {
         },
         onDelete: 'CASCADE'      
     })
-};
-  
-module.exports = setupAssociations;
+
