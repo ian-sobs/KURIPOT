@@ -16,6 +16,8 @@ services:
         condition: service_healthy
     secrets:
       - db-password
+    command: sh -c "npx sequelize-cli db:create && npx sequelize-cli db:migrate"
+    
   client:
     build:
       context: ./client
