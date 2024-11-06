@@ -1,4 +1,4 @@
-const sequelize = require('../config/db')
+const sequelize = require('../config/connection')
 
 
     const { Account, Budget, BudgetCategory, Category, RecurrTransacGrp, Transaction, User } = sequelize.models;
