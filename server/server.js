@@ -11,6 +11,13 @@ const db = require("./models/index")
 
 // Start the server and connect to the database
 const startServer = async () => {
+  try{
+    await db.sequelize.sync()
+    console.log("Models have been synchronized to the database")
+  } catch (error){
+    console.error("Failed to synchronize models:", error)
+  }
+  
   try {
     await connectDB(); // Initialize the database connection
     console.log("Started the server");
@@ -19,12 +26,7 @@ const startServer = async () => {
     process.exit(1);
   }
 
-  try{
-    await db.sequelize.sync()
-    console.log("Models have been synchronized to the database")
-  } catch (error){
-    console.error("Failed to synchronize models:", error)
-  }
+
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
