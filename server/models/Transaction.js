@@ -1,7 +1,5 @@
-const {DataTypes, Model } = require('sequelize');
-const {sequelize, connectDB} = require('../config/connection');
-const Account = require('./Account');
-const RecurrTransacGrp = require('./RecurrTransacGrp');
+const { Model } = require('sequelize');
+
 
 
 module.exports = (sequelize, DataTypes) => {
