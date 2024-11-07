@@ -30,19 +30,19 @@ module.exports = (sequelize, DataTypes) => {
       ,
       budget_id: {
         type: DataTypes.INTEGER,
-        
-        references: {
-          model: Budget,
-          key: 'id'
-        }
+
+        // references: {
+        //   model: Budget,
+        //   key: 'id'
+        // }
       },
       category_id: {
         type: DataTypes.INTEGER,
 
-        references: {
-          model: Category,
-          key: 'id'
-        }
+        // references: {
+        //   model: Category,
+        //   key: 'id'
+        // }
       },
       categoryLimit:{
           type: DataTypes.DECIMAL(18,2),
