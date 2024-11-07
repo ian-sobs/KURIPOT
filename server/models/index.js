@@ -29,7 +29,8 @@ fs
   })
   .forEach(file => {
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
+    const modelName = model.name || model.options.name.singular;
+    db[modelName] = model;
   });
 
 // Set up associations if they exist
