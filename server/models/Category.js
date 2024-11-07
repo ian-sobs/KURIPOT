@@ -67,4 +67,5 @@ module.exports = (sequelize, DataTypes) => {
       // Deleting a category will also delete a record in `categoriesInBudgets` table that references the deleted category record.
     },
   );
+  return Category
 }

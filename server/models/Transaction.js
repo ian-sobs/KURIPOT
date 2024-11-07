@@ -135,5 +135,5 @@ module.exports = (sequelize, DataTypes) => {
       tableName: 'transactions',
     },
   );
-
+  return Transaction
 }

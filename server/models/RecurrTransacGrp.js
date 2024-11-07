@@ -68,4 +68,5 @@ module.exports = (sequelize, DataTypes) => {
       // add an option such that when a RecurrTransacGrp is deleted, any future transaction, or all transactions, that references a RecurrTransacGrp record is deleted from the transactions table.
     },
   );
+  return RecurrTransacGrp
 }

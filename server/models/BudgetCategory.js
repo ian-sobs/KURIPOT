@@ -65,5 +65,5 @@ module.exports = (sequelize, DataTypes) => {
       
     },
   );
-
+  return BudgetCategory
 }
