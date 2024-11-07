@@ -95,7 +95,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       // Other model options go here
       sequelize,
-      modelName: User,
+      modelName: 'User',
       tableName: 'users',
 
       // add an option such that when a user is deleted, any record that references a users record, directly or indirectly, is also deleted
