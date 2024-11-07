@@ -6,7 +6,12 @@ module.exports = (sequelize, DataTypes) => {
 
   class Budget extends Model{
     static associate(models){
-      Budget.belongsTo(models.User, {foreignKey: 'user_id'})
+      Budget.belongsTo(models.User, {
+        foreignKey:{ 
+          name: 'user_id',
+          allowNull: false
+      }
+    })
       Budget.hasMany(models.BudgetCategory, {
         foreignKey: {
             name: 'budget_id',

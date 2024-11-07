@@ -11,7 +11,12 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         }
       })    
-      RecurrTransacGrp.belongsTo(models.User,{foreignKey: 'user_id'})
+      RecurrTransacGrp.belongsTo(models.User,{
+        foreignKey:{ 
+          name: 'user_id',
+          allowNull: false
+        }
+      })
     }
   }
 

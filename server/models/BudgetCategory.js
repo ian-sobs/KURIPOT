@@ -5,7 +5,12 @@ module.exports = (sequelize, DataTypes) => {
   class BudgetCategory extends Model{
     static associate(models){
       BudgetCategory.belongsTo(models.Budget, {foreignKey: 'budget_id'})
-      BudgetCategory.belongsTo(models.User, {foreignKey: 'user_id'})
+      BudgetCategory.belongsTo(models.User, {
+        foreignKey:{ 
+          name: 'user_id',
+          allowNull: false
+      }
+    })
       BudgetCategory.belongsTo(models.Category, {foreignKey: 'category_id'})
     }
   }
