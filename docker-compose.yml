@@ -45,47 +45,47 @@ services:
       timeout: 5s
       retries: 5
 
-  dbTest:
-    image: postgres
-    restart: always
-    user: postgres
-    secrets:
-      - db-password
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=Kuripot
-      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
-    expose:
-      - 5434
-    ports:
-      - "5435:5434"
-    healthcheck:
-      test: ["CMD", "pg_isready"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+  # dbTest:
+  #   image: postgres
+  #   restart: always
+  #   user: postgres
+  #   secrets:
+  #     - db-password
+  #   volumes:
+  #     - db-data:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_DB=Kuripot
+  #     - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+  #   expose:
+  #     - 5434
+  #   ports:
+  #     - "5435:5434"
+  #   healthcheck:
+  #     test: ["CMD", "pg_isready"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
 
-  dbProd:
-    image: postgres
-    restart: always
-    user: postgres
-    secrets:
-      - db-password
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=Kuripot
-      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
-    expose:
-      - 5436
-    ports:
-      - "5437:5436"
-    healthcheck:
-      test: ["CMD", "pg_isready"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+  # dbProd:
+  #   image: postgres
+  #   restart: always
+  #   user: postgres
+  #   secrets:
+  #     - db-password
+  #   volumes:
+  #     - db-data:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_DB=Kuripot
+  #     - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+  #   expose:
+  #     - 5436
+  #   ports:
+  #     - "5437:5436"
+  #   healthcheck:
+  #     test: ["CMD", "pg_isready"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
 
 volumes:
   db-data:

@@ -12,10 +12,16 @@ const { sequelize, connectDB } = require("./config/connection");
 const startServer = async () => {
   try {
     await connectDB(); // Initialize the database connection
-    //await sequelize.sync()
   } catch (error) {
     console.error("Failed to start server:", error);
     process.exit(1);
+  }
+
+  try{
+    await sequelize.sync({ force: true })
+    console.log("Models synchronized successfully")
+  } catch(error){
+    console.error("Failed to synchronize models: ", error)
   }
 
   app.listen(PORT, () => {
