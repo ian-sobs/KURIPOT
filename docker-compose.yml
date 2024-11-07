@@ -15,8 +15,8 @@ services:
     depends_on:
       dbDev:
         condition: service_healthy
-    secrets:
-      - db-password
+    # secrets:
+    #   - db-password
 
   client:
     build:
@@ -28,8 +28,8 @@ services:
     image: postgres
     restart: always
     user: postgres
-    secrets:
-      - db-password
+    # secrets:
+    #   - db-password
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
@@ -49,8 +49,8 @@ services:
     image: postgres
     restart: always
     user: postgres
-    secrets:
-      - db-password
+    # secrets:
+    #   - db-password
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
@@ -70,8 +70,8 @@ services:
     image: postgres
     restart: always
     user: postgres
-    secrets:
-      - db-password
+    # secrets:
+    #   - db-password
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
