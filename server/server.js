@@ -3,7 +3,8 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 5000;
-const { sequelize, connectDB } = require("./config/connection");
+const {connectDB } = require("./config/connection");
+const db = require("./models/index")
 // app.get("/", (req, res) => {
 //   res.send("Hello World!");
 // });
@@ -12,10 +13,17 @@ const { sequelize, connectDB } = require("./config/connection");
 const startServer = async () => {
   try {
     await connectDB(); // Initialize the database connection
-    //await sequelize.sync()
+    console.log("Started the server");
   } catch (error) {
     console.error("Failed to start server:", error);
     process.exit(1);
+  }
+
+  try{
+    await db.sequelize.sync()
+    console.log("Models have been synchronized to the database")
+  } catch (error){
+    console.error("Failed to synchronize models:", error)
   }
 
   app.listen(PORT, () => {
