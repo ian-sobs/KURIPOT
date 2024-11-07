@@ -1,48 +1,54 @@
-const {DataTypes, Model } = require('sequelize');
-const {sequelize, connectDB} = require('../config/connection');
-const User = require('./User');
+const {Model } = require('sequelize');
+//const {sequelize, connectDB} = require('../config/connection');
+//const User = require('./User');
 
-class Budget extends Model{}
+module.exports = (sequelize, DataTypes) => {
 
-Budget.init(
-  {
-    // Model attributes are defined here
-    id:{
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    user_id: {
-      type: DataTypes.INTEGER,
+  class Budget extends Model{
+    static associate(models){
+      Budget.belongsTo(models.User, {foreignKey: 'user_id'})
+    }
+  }
 
-      references: {
-        model: User, 
-        key: 'id',
+  Budget.init(
+    {
+      // Model attributes are defined here
+      id:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        // references: {
+        //   model: User, 
+        //   key: 'id',
+        // }
+      },
+      date:{
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      budgetLimit:{
+        type: DataTypes.DECIMAL(18,2),
+        allowNull: false,
+        defaultValue: 0,
+      },
+      type:{
+        type: DataTypes.ENUM('expense', 'income'),
+        allowNull: false,
       }
     },
-    date:{
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-    },
-    budgetLimit:{
-      type: DataTypes.DECIMAL(18,2),
-      allowNull: false,
-      defaultValue: 0,
-    },
-    type:{
-      type: DataTypes.ENUM('expense', 'income'),
-      allowNull: false,
-    }
-  },
-  {
-    // Other model options go here
-    sequelize,
-    modelName: 'Budget',
-    tableName: 'budgets',
+    {
+      // Other model options go here
+      sequelize,
+      modelName: 'Budget',
+      tableName: 'budgets',
 
-    // add an option such that when a budget record is deleted, any record in categoryBudgets table that references a budget record is also deleted
-  },
-);
+      // add an option such that when a budget record is deleted, any record in categoryBudgets table that references a budget record is also deleted
+    },
+  );
 
-module.exports = Budget;
+}
