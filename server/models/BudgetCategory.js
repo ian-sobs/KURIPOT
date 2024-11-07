@@ -1,5 +1,5 @@
 const {DataTypes, Model } = require('sequelize');
-const {sequelize, connectDB} = require('../config/connection');
+const {sequelize, connectDB} = require('../config/db');
 
 class BudgetCategory extends Model{}
 
