@@ -1,5 +1,5 @@
-const {DataTypes, Model } = require('sequelize');
-const {sequelize, connectDB} = require('../config/connection');
+const { Model } = require('sequelize');
+//const {sequelize, connectDB} = require('../config/connection');
 
 
 module.exports = (sequelize, DataTypes) => {
