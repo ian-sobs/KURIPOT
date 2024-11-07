@@ -1,42 +1,49 @@
-const {DataTypes, Model } = require('sequelize');
-const {sequelize, connectDB} = require('../config/connection');
-const User = require('./User');
+const {Model } = require('sequelize');
+//const {sequelize, connectDB} = require('../config/connection');
+//const User = require('./User');
 
-class Account extends Model{}
+module.exports = (sequelize, DataTypes) =>{
+  class Account extends Model{
+    static associate(models){
+      Account.belongsTo(models.User, {foreignKey: 'user_id'})
+    }
+  }
 
-Account.init(
-  {
-    // Model attributes are defined here
-    id:{
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    user_id: {
-      type: DataTypes.INTEGER,
-
-      references: {
-        model: User,
-        key: 'id',
-        // research if you need Deferrable options
+  Account.init(
+    {
+      // Model attributes are defined here
+      id:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        // references: {
+        //   model: models.User,
+        //   key: 'id',
+        //   // research if you need Deferrable options
+        // }
+      },
+      amount: {
+          type: DataTypes.DECIMAL(18,2),
+          defaultValue: 0
       }
     },
-    amount: {
-        type: DataTypes.DECIMAL(18,2),
-        defaultValue: 0
-    }
-  },
-  {
-    // Other model options go here
-    sequelize,
-    modelName: 'Account',
-    tableName: 'accounts',
-  },
-);
+    {
+      // Other model options go here
+      sequelize,
+      modelName: 'Account',
+      tableName: 'accounts',
+    },
+  );
 
-module.exports = Account;
+  return Account
+};
+//module.exports = Account;
