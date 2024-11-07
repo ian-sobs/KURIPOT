@@ -6,6 +6,21 @@ module.exports = (sequelize, DataTypes) =>{
   class Account extends Model{
     static associate(models){
       Account.belongsTo(models.User, {foreignKey: 'user_id'})
+      Account.hasMany(Transaction,{
+          foreignKey: {
+              name: 'from_account_id',
+
+              allowNull: true,
+          },
+      })
+
+      Account.hasMany(Transaction,{
+          foreignKey: {
+              name: 'to_account_id',
+
+              allowNull: true,
+          },
+      })
     }
   }
 
