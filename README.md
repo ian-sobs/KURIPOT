@@ -24,7 +24,7 @@ Kuripot is a simple finance tracker created in compliance for our AppDevelopment
 ## Project Structure
 
 ```
-your-project/
+Kuripot/
 │
 ├── Client/           # React frontend
 │   ├── Dockerfile
