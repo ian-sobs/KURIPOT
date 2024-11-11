@@ -1,12 +1,36 @@
-# version: "3"
 services:
   server:
     build:
       context: ./server
     ports:
       - "5001:5000"
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./server
+          target: /usr/src/app
+          ignore:
+            - node_modules/
+    command: npm run dev
+
   client:
+    environment:
+      - WATCHPACK_POLLING=true
     build:
       context: ./client
     ports:
-      - "3000:80"
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    develop:
+      watch:
+        - action: sync
+          path: ./client
+          target: /app
+          ignore:
+            - node_modules/
+    command: npm start
