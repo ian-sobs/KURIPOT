@@ -11,7 +11,7 @@ const db = require("./models/index")
 
 // Start the server and connect to the database
 const startServer = async () => {
-  if(process.env.NODE_ENV === "test"){
+  if(process.env.NODE_ENV === "test" || process.env.NODE_ENV === "development" ){
     try{
       await db.sequelize.sync()
       console.log("Models have been synchronized to the database")
