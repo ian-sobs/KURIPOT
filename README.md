@@ -69,10 +69,18 @@ To run both the frontend and backend, use Docker Compose:
 
 1. Make sure you’re in the root of your project directory.
 2. Run the following command:
+
    ```bash
    docker-compose up
    ```
 
+   If you want to run it for development purposes, you should run it with:
+
+```bash
+docker-compose up --watch
+```
+
+This enables hot reload, so every time you save, it will auto update within your localhost.
 Your Express server should be accessible at `http://localhost:5001`, and your React app at `http://localhost:3000`.
 
 ## Usage
