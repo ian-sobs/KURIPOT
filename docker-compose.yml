@@ -5,11 +5,12 @@ services:
     ports:
       - "5001:5000"
     volumes:
-      - ./server:/usr/src/app
-      - /usr/src/app/node_modules
+      - type: bind
+        source: ./server
+        target: /usr/src/app
     develop:
       watch:
-        - action: sync+restart
+        - action: sync
           path: ./server
           target: /usr/src/app
           ignore:
@@ -24,8 +25,9 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./client:/app
-      - /app/node_modules
+      - type: bind
+        source: ./client
+        target: /app
     develop:
       watch:
         - action: sync
