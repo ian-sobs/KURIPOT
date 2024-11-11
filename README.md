@@ -11,11 +11,12 @@ Kuripot is a simple finance tracker created in compliance for our AppDevelopment
   - [Installation](#installation)
   - [Running the Project](#running-the-project)
 - [Usage](#usage)
-  	- [[#Setting up the database|Setting up the database]]
-      - [[#Creating the database|Creating the database]]
-      - [[#Migrating the database|Migrating the database]]
-      - [[#Undoing the migrations|Undoing database migrations]]
-      - [[#Connecting dbeaver to the database in docker container|Connecting dbeaver to the database in docker container]]
+  - [Setting up the database](#setting-up-the-database)
+    - [Creating the database](#creating-the-database)
+    - [Migrating the database](#migrating-the-database)
+    - [Undoing database migrations](#undoing-database-migrations)
+    - [Connecting DBeaver to the database in Docker container](#connecting-dbeaver-to-the-database-in-docker-container)
+
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -88,8 +89,9 @@ Provide instructions on how to use your project. Include examples if necessary.
 ## Setting up the database
 
 
-> [!NOTE] Install Docker desktop before proceeding 
-> It is recommended to install Docker desktop first since it has many of the utilities used in the project and simplifies the commands you need to run for setting up the database.
+> **Note:** Install Docker Desktop before proceeding.  
+> It is recommended to install Docker Desktop first since it includes many of the utilities used in the project and simplifies the commands you need to run for setting up the database.
+
 
 
 If you have pulled the repo and built the Docker images and run the containers for the first time, the database associated to this web app will not exist just yet. Hence why running the server container for the first time requires you to build the database in the server container. Instructions to that are in the [[#Creating the database]] section below.
