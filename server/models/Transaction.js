@@ -82,10 +82,12 @@ module.exports = (sequelize, DataTypes) => {
         // }
       },
       accountName: DataTypes.STRING,
+
       date:{
           type: DataTypes.DATE,
           allowNull: false
       },
+      
       category_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
