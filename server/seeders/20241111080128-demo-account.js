@@ -12,6 +12,24 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+   await queryInterface.bulkInsert('accounts', [
+    {
+      name: "BPI",
+      user_id: 1,
+    },
+    {
+      name: "BDO",
+      user_id: 1,
+    },
+    {
+      name: "CHINA BANK",
+      user_id: 1,
+    },
+    {
+      name: "GCASH",
+      user_id: 1,
+    },
+   ])
   },
 
   async down (queryInterface, Sequelize) {
