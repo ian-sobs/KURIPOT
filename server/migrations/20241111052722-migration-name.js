@@ -3,20 +3,28 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+    try {
+      await queryInterface.createTable('goals', {
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true
+        },
+        // Add other fields as needed, for example:
+        // name: { type: Sequelize.STRING, allowNull: false }
+      });
+      console.log("Migration successful");
+    } catch (error) {
+      console.error("Migration failed:", error);
+    }
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+    try {
+      await queryInterface.dropTable('goals');
+      console.log("Rollback successful");
+    } catch (error) {
+      console.error("Rollback failed:", error);
+    }
   }
 };
