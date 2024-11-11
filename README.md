@@ -26,15 +26,15 @@ Kuripot is a simple finance tracker created in compliance for our AppDevelopment
 ```
 Kuripot/
 │
-├── Client/           # React frontend
-│   ├── Dockerfile
+├── client/           # React frontend
+│   ├── dockerfile
 │   ├── public/
 │   ├── src/
 │   ├── package.json
 │   └── ...
 │
-└── Server/           # Express backend
-    ├── Dockerfile
+└── server/           # Express backend
+    ├── dockerfile
     ├── server.js
     ├── package.json
     └── ...
