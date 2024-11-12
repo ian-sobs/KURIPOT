@@ -12,7 +12,7 @@ const registrationRouter = require('./routes/registrationRouter')
 
 // Start the server and connect to the database
 const startServer = async () => {
-  if(process.env.NODE_ENV === "test" || process.env.NODE_ENV === "development" ){
+  if(process.env.NODE_ENV === "test"){
     try{
       await db.sequelize.sync()
       console.log("Models have been synchronized to the database")
