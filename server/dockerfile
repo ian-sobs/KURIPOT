@@ -3,7 +3,8 @@ FROM node:18-alpine
 WORKDIR /usr/src/app
 
 # Install necessary build tools for Alpine
-RUN apk add --no-cache python3 make g++
+RUN apk add --no-cache python3 make g++ bash libc-dev
+
 
 
 # Set environment variable to force bcrypt rebuild
@@ -12,6 +13,7 @@ RUN apk add --no-cache python3 make g++
 COPY package*.json ./
 RUN npm install
 RUN npm install -g nodemon
+RUN npm rebuild bcrypt --build-from-source
 
 
 
