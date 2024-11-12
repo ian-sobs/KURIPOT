@@ -8,6 +8,7 @@ const db = require("./models/index")
 // app.get("/", (req, res) => {
 //   res.send("Hello World!");
 // });
+const registrationRouter = require('./routes/registrationRouter')
 
 // Start the server and connect to the database
 const startServer = async () => {
@@ -27,7 +28,7 @@ const startServer = async () => {
     process.exit(1);
   }
 
-
+  app.use('/signUp', registrationRouter)
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
