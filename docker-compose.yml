@@ -23,6 +23,8 @@ services:
       - type: bind
         source: ./server
         target: /usr/src/app
+      - type: volume
+        target: /usr/src/app/node_modules
     develop:
       watch:
         - action: sync
@@ -43,6 +45,8 @@ services:
       - type: bind
         source: ./client
         target: /app
+      - type: volume
+        target: /app/node_modules
     develop:
       watch:
         - action: sync
