@@ -13,7 +13,7 @@ RUN apk add --no-cache python3 make g++ bash libc-dev
 COPY package*.json ./
 RUN npm install
 RUN npm install -g nodemon
-RUN npm rebuild bcrypt --build-from-source
+#RUN npm rebuild bcrypt --build-from-source
 
 
 
