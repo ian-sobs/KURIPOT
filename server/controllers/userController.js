@@ -13,7 +13,13 @@ exports.registerUser = async (req,res) =>{
     const email = req.body.email.trim()
 
     const userExists = await checkIfUserExists(email)
-    if(!userExists){
+
+    try {
+        if (userExists) {
+            // User already exists, return a conflict response
+            return res.status(409).json({ message: "User already exists" });
+        }
+    
         const newUser = await User.create(
             {
                 username: username, 
@@ -21,9 +27,16 @@ exports.registerUser = async (req,res) =>{
                 email: email, 
                 password: password
             })
-        console.log("User registered successfully")       
-    } 
-    else{
-        console.log("User already exists")
+        console.log("User registered successfully")      
+        console.log(newUser) 
+
+        return res.status(201).json({
+            message: "User registered successfully",
+            user: newUser // Optional: you can return the newly created user data if needed
+        });
+    }
+    catch (error) {
+        console.error("Error during user registration:", error);
+        return res.status(500).json({ error: "Internal server error" });
     }
 }
