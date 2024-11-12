@@ -27,6 +27,9 @@ const startServer = async () => {
     console.error("Failed to start server:", error);
     process.exit(1);
   }
+  
+  app.use(express.json());  // Parses JSON body and adds it to req.body
+  app.use(express.urlencoded({ extended: true }));  // Parses form data and adds it to req.body
 
   app.use('/api/signUp', registrationRouter)
 
