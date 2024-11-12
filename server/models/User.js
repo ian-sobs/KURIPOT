@@ -87,7 +87,7 @@ module.exports = (sequelize, DataTypes) => {
       password:{
         type: DataTypes.STRING(72), //72 characters long to store password hashes
         set(value) {
-          const saltRounds = 10; // Adjust the salt rounds as necessary for security and performance
+          const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10; // Adjust the salt rounds as necessary for security and performance
           const hashedPassword = bcrypt.hashSync(value, saltRounds);
           this.setDataValue('password', hashedPassword);
         },
