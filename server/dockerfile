@@ -2,20 +2,21 @@ FROM node:18-alpine
 
 WORKDIR /usr/src/app
 
+# Install necessary build tools for Alpine
+RUN apk add --no-cache python3 make g++
+
+
+# Set environment variable to force bcrypt rebuild
+ENV BCRYPT_FORCE_REBUILD=1
+
 COPY package*.json ./
 RUN npm install
 RUN npm install -g nodemon
 
-# # Copy entrypoint script and ensure it's executable
-# COPY entrypoint.sh ./entrypoint.sh
-# RUN chmod +x ./entrypoint.sh
 
-# Copy all the app files
+
 COPY . .
 
 EXPOSE 5000
-# # Make sure entrypoint.sh is executed as a shell script
-# ENTRYPOINT ["/bin/sh", "./entrypoint.sh"]
 
-# Set the default command (node server.js)
 CMD ["npm", "run", "dev"]
