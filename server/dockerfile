@@ -7,7 +7,7 @@ RUN apk add --no-cache python3 make g++
 
 
 # Set environment variable to force bcrypt rebuild
-ENV BCRYPT_FORCE_REBUILD=1
+# ENV BCRYPT_FORCE_REBUILD=1
 
 COPY package*.json ./
 RUN npm install
