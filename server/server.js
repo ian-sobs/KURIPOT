@@ -28,7 +28,7 @@ const startServer = async () => {
     process.exit(1);
   }
 
-  app.use('/signUp', registrationRouter)
+  app.use('/api/signUp', registrationRouter)
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
