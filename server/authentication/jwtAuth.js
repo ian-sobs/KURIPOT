@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken'); // Import the jsonwebtoken package
 
 // Authentication middleware to check if the user has a valid JWT
-const authenticateToken = (req, res, next) => {
+exports.authenticateToken = (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1]; // Token from 'Authorization' header
   
   if (!token) {
