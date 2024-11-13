@@ -46,7 +46,6 @@ exports.registerUser = async (req,res) =>{
 exports.signInUser = async (req, res) => {
     const {password} = req.body
     const email = req.body.email.trim()
-    //const userExists = await checkIfUserExists(email)
 
     try {    
         const user = await User.findOne({where:{email: email}})
@@ -66,6 +65,7 @@ exports.signInUser = async (req, res) => {
             return res.status(401).json({ message: "Incorrect email or password, sign-in failed" });
         }
 
+        // jwt automatically adds an 'issuedAt' attribute to the token
         const token = jwt.sign({
             sub: user.id,                   // User's unique ID
             username: user.username,         // Username
