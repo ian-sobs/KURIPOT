@@ -1,27 +1,16 @@
-import logo from "./logo.svg";
-import "./App.css";
+// src/App.jsx
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Use Routes instead of Switch
+import LandingPage from "./pages/LandingPage";
 
-console.log("oten saved");
-
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> Docker is slowing us down. This is the udnockerized project
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />{" "}
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
