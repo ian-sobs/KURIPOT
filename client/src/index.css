@@ -6,7 +6,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('/public/images/kuripot-bg.png');
+  background-image: url('/public/images/kuripot-background1.png');
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
