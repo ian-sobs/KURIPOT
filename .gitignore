@@ -22,4 +22,4 @@ docker-compose.override.yml
 build/
 
 #db environment variables
-db/password.txt
+/db/
