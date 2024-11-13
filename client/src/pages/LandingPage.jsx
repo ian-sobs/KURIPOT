@@ -1,77 +1,54 @@
 import React from "react";
+import Navbar from "../components/navbar";
 
 const LandingPage = () => {
   return (
     <>
-      <div className="navbar bg-base-100">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <button tabIndex={0} className="btn btn-ghost lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
-            </button>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <button>Item 1</button>
-              </li>
-              <li>
-                <button>Parent</button>
-                <ul className="p-2">
-                  <li>
-                    <button>Submenu 1</button>
-                  </li>
-                  <li>
-                    <button>Submenu 2</button>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <button>Item 3</button>
-              </li>
-            </ul>
+      <Navbar />
+      <div className="landing-container w-full h-screen flex-col justify-center items-center">
+        <div className="description-container items-center text-center p-16 text-xl text-[#9747FF] font-bold">
+          Your Personal Finance
+          <br /> Tracker Application
+        </div>
+        <div className="slogan-container w-full h-56 bg-center-vertical p-6">
+          <div className="slogan-container-content h-full w-full flex items-center justify-between">
+            <div className="slogan-container-slogan text-2xl text-[#FAFAFA]">
+              "Its not the amount, <br /> but the habit."
+            </div>
+            <div className="slogan-container-media-placeholder">
+              placeholder
+            </div>
           </div>
-          <button className="btn btn-ghost text-xl">daisyUI</button>
         </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-            <li>
-              <button>Item 1</button>
-            </li>
-            <li>
-              <details>
-                <summary>Parent</summary>
-                <ul className="p-2">
-                  <li>
-                    <button>Submenu 1</button>
-                  </li>
-                  <li>
-                    <button>Submenu 2</button>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <button>Item 3</button>
-            </li>
-          </ul>
-        </div>
-        <div className="navbar-end">
-          <button className="btn">Button</button>
+        <div className="carousel-container w-full h-64 flex justify-center overflow-x-auto snap-x snap-mandatory p-4">
+          <div className="carousel-item h-full w-[70%] flex-shrink-0 snap-center flex justify-center items-center m-2">
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
+              className="rounded-box bg-red-500 h-full"
+              alt="carousel-item"
+            />
+          </div>
+          <div className="carousel-item h-full w-[70%] flex-shrink-0 snap-center flex justify-center items-center m-2">
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
+              className="rounded-box bg-red-500 h-full"
+              alt="carousel-item"
+            />
+          </div>
+          <div className="carousel-item h-full w-[70%] flex-shrink-0 snap-center flex justify-center items-center m-2">
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
+              className="rounded-box bg-red-500 h-full"
+              alt="carousel-item"
+            />
+          </div>
+          <div className="carousel-item h-full w-[70%] flex-shrink-0 snap-center flex justify-center items-center m-2">
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
+              className="rounded-box bg-red-500 h-full"
+              alt="carousel-item"
+            />
+          </div>
         </div>
       </div>
     </>
