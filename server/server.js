@@ -11,6 +11,8 @@ const db = require("./models/index")
 // });
 const registrationRouter = require('./routes/registrationRouter')
 const signInRouter = require('./routes/signInRouter')
+const authenticateToken = require('./authentication/jwtAuth')
+const protectedRouter = require('./routes/protectedRouter')
 
 // Start the server and connect to the database
 const startServer = async () => {
@@ -40,6 +42,8 @@ const startServer = async () => {
 
   app.use('/api/signUp', registrationRouter)
   app.use('/api/signIn', signInRouter)
+
+  app.use('/api/protected', authenticateToken, protectedRouter); // Apply to routes that need protection
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
