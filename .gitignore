@@ -11,10 +11,10 @@ npm-debug.log*
 # OS files
 .DS_Store
 
-# Docker
-docker-compose.override.yml
-.dockerignore
-docker*
+# # Docker
+# docker-compose.override.yml
+# .dockerignore
+# docker*
 
 # Environment variables
 .env
