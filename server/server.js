@@ -10,6 +10,7 @@ const db = require("./models/index")
 //   res.send("Hello World!");
 // });
 const registrationRouter = require('./routes/registrationRouter')
+const signInRouter = require('./routes/signInRouter')
 
 // Start the server and connect to the database
 const startServer = async () => {
@@ -38,6 +39,7 @@ const startServer = async () => {
   app.use(express.urlencoded({ extended: true }));  // Parses form data and adds it to req.body
 
   app.use('/api/signUp', registrationRouter)
+  app.use('/api/signIn', signInRouter)
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
