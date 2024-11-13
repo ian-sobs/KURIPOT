@@ -24,3 +24,6 @@ build/
 
 #db environment variables
 /db/
+
+
+/server/entrypoint.sh
