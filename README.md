@@ -23,29 +23,26 @@ Kuripot is a simple finance tracker created in compliance for our AppDevelopment
 ## Technologies Used
 
 - **Frontend:** React, Tailwind CSS
-- **Backend:** Express, Sequelize
-- **Database:** SQL
-- **Containerization:** Docker
+- **Backend:** Express, Sequelize, Node version 22.11.0
+- **Database:** PostgreSQL
+<!-- - **Containerization:** Docker -->
 
 ## Project Structure
 
 ```
-Kuripot/
+KURIPOT/
 │
 ├── client/           # React frontend
-│   ├── dockerfile
 │   ├── public/
 │   ├── src/
 │   ├── package.json
 │   └── ...
 │
 └── server/           # Express backend
-    ├── dockerfile
     ├── server.js
     ├── package.json
     └── ...
 
-docker-compose.yml
 README.md
 ```
 
@@ -53,25 +50,26 @@ README.md
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v14 or higher)
-- [Docker](https://www.docker.com/get-started)
-- [Docker Compose](https://docs.docker.com/compose/)
+- [Node.js](https://nodejs.org/) (v22.11.0 or higher)
+- [Nodemon](https://www.npmjs.com/package/nodemon)
+<!-- - [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/) -->
 
 ### Installation
 
 Clone the repository:
 
 ```bash
-git clone https://github.com/ChanAbay-abay/Kuripot.git
+git clone https://github.com/ian-sobs/KURIPOT.git
 ```
 
 ```bash
-cd Kuripot
+cd KURIPOT
 ```
 
 ### Running the Project
 
-To run both the frontend and backend, use Docker Compose:
+<!-- To run both the frontend and backend, use Docker Compose:
 
 1. Make sure you’re in the root of your project directory.
 2. Run the following command:
@@ -80,7 +78,7 @@ To run both the frontend and backend, use Docker Compose:
    docker-compose up
    ```
 
-Your Express server should be accessible at `http://localhost:5001`, and your React app at `http://localhost:3000`.
+Your Express server should be accessible at `http://localhost:5001`, and your React app at `http://localhost:3000`. -->
 
 ## Usage
 
@@ -98,17 +96,13 @@ If you have pulled the repo and built the Docker images and run the containers f
 
 ### Creating the database
 
-Follow the instructions here if the database doesn't exist yet.
-
-1. Install sequelize CLI (if not yet installed).
-2. Run the server container.
-3. Access the container of the server and just run the command in 'Exec' tab to create the database:
+In server directory run the below command:
 
 ```
 npx sequelize-cli db:create
 ```
 
-The database will be created by using the configuration of the databases in the docker-compose.yml file. The database config used is determined by the value of the `depends_on` attribute of `server` service.  By default, the `NODE_ENV` environment variable of `server` service is development. The value of the `depends_on` attribute of `server` service is also the development database by default. (Note: Only development and test environments can sync the models to the database, it is recommended to use development/test for coding and testing purposes).
+<!-- The database will be created by using the configuration of the databases in the docker-compose.yml file. The database config used is determined by the value of the `depends_on` attribute of `server` service.  By default, the `NODE_ENV` environment variable of `server` service is development. The value of the `depends_on` attribute of `server` service is also the development database by default. (Note: Only development and test environments can sync the models to the database, it is recommended to use development/test for coding and testing purposes). -->
 
 
 ### Migrating the database
@@ -117,7 +111,7 @@ Follow the instructions here if the database exists and already has records. Any
 
 1. Install sequelize CLI (if not yet installed)
 2. Run the server
-3. Access the container of the server and just run the command in exec to do the migrations:
+<!-- 3. Access the container of the server and just run the command in exec to do the migrations: -->
 
 ```
 npx sequelize-cli db:migrate 
@@ -132,7 +126,7 @@ npx sequelize-cli db:migrate --env <environment_name>
 
 1. Install sequelize CLI (if not yet installed)
 2. Run the server
-3. Access the container of the server and just run the command in 'Exec' to undo the last migration:
+<!-- 3. Access the container of the server and just run the command in 'Exec' to undo the last migration: -->
 ```
 npx sequelize-cli db:migrate:undo
 ```
@@ -149,8 +143,8 @@ npx sequelize-cli db:migrate:undo:all
 2. When asked for the user, just use the value of `POSTGRES_USER` server environment variable for connecting to the database.
 3. When asked for the password, just use the value of `POSTGRES_PASSWORD` server environment variable.
 4. When asked for the host, just use 'localhost' without the quotes.
-5. When asked for the port, use the host port that was mapped to the docker port of the database (database is in the container). In the `docker-compose.yml` code below, the database `Kuripot_dev` is in the docker container's port `5432`. But port `5432` of the docker container was mapped to port `5433` of the host machine.
-
+5. When asked for the port, use the value of `POSTGRES_PORT`.
+<!-- 
 ```
 # version: "3"
 
@@ -190,7 +184,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-```
+``` -->
 
 ## Contributing
 
