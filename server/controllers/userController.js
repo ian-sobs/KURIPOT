@@ -5,8 +5,26 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 
 async function checkIfUserExists(email) {
-    const user = await User.findOne({ where: { email } });
-    return user !== null; // Returns true if user exists, otherwise false
+    try {
+        const user = await User.findOne({ where: { email } });
+        return user !== null; // Returns true if user exists, otherwise false
+    } catch (error) {
+        console.error("Error checking if user exists:", error);
+        return false; // Return false in case of error
+    }
+}
+
+function makeJWT(user){
+     // jwt automatically adds an 'issuedAt' attribute to the token
+    const token = jwt.sign({
+        sub: user.id,                   // User's unique ID
+        username: user.username,         // Username
+        email: user.email,               // Email (optional)
+    }, process.env.JWT_SECRET, {
+        expiresIn: '90m' // 90 minutes
+    });
+
+    return token
 }
   
 
@@ -32,9 +50,12 @@ exports.registerUser = async (req,res) =>{
         console.log("User registered successfully")      
         console.log(newUser) 
 
+        const token = makeJWT(newUser)
+
         return res.status(201).json({
             message: "User registered successfully",
-            user: newUser // Optional: you can return the newly created user data if needed
+            user: newUser, // Optional: you can return the newly created user data if needed
+            jwt: token
         });
     }
     catch (error) {
@@ -51,8 +72,8 @@ exports.signInUser = async (req, res) => {
         const user = await User.findOne({where:{email: email}})
         
         if (!user) {
-            // User already exists, return a conflict response
-            return res.status(401).json({ message: "Incorrect email or password, sign-in failed" });
+            // User doesn't exist, return a conflict response
+            return res.status(401).json({ message: "User bearing that email does not exist" });
         }
 
         const match = await bcrypt.compare(password, user.password).catch(err => {
@@ -61,18 +82,12 @@ exports.signInUser = async (req, res) => {
           });
 
         if(!match){
-            // User already exists, return a conflict response
+            // Wrong password inputted
             return res.status(401).json({ message: "Incorrect email or password, sign-in failed" });
         }
 
         // jwt automatically adds an 'issuedAt' attribute to the token
-        const token = jwt.sign({
-            sub: user.id,                   // User's unique ID
-            username: user.username,         // Username
-            email: user.email,               // Email (optional)
-          }, process.env.JWT_SECRET, {
-            expiresIn: '90m' // 90 minutes
-          });
+        const token = makeJWT(user)
 
         console.log("User signed-in successfully") 
 
