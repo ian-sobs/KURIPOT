@@ -4,7 +4,7 @@ const LandingPage = () => {
   return (
     <div class="text-white">
       <h1 class="text-xl">Hello World!</h1>
-      <p>wenkwonk</p>
+      <p>wenkwonkskisbisi</p>
     </div>
   );
 };
