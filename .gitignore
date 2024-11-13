@@ -14,6 +14,7 @@ npm-debug.log*
 # Docker
 docker-compose.override.yml
 .dockerignore
+docker*
 
 # Environment variables
 .env
