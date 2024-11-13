@@ -1,6 +1,7 @@
 const db = require('../models/index')
 const sequelize = db.sequelize
 const {User} = sequelize.models
+const bcrypt = require('bcrypt')
 
 async function checkIfUserExists(email) {
     const user = await User.findOne({ where: { email } });
@@ -17,7 +18,7 @@ exports.registerUser = async (req,res) =>{
     try {
         if (userExists) {
             // User already exists, return a conflict response
-            return res.status(409).json({ message: "User already exists" });
+            return res.status(409).json({ message: "User already exists, sign-up failed" });
         }
     
         const newUser = await User.create(
@@ -42,5 +43,37 @@ exports.registerUser = async (req,res) =>{
 }
 
 exports.signInUser = async (req, res) => {
-    
+    const {password} = req.body
+    const email = req.body.email.trim()
+
+    const userExists = await checkIfUserExists(email)
+
+    try {    
+        const user = await User.findOne({where:{email: email}})
+        
+        if (!user) {
+            // User already exists, return a conflict response
+            return res.status(409).json({ message: "Incorrect email or password, sign-in failed" });
+        }
+
+        const match = await bcrypt.compare(password, user.password)
+
+        if(!match){
+            // User already exists, return a conflict response
+            return res.status(409).json({ message: "Incorrect email or password, sign-in failed" });
+        }
+
+        
+        console.log("User signed in successfully")      
+        console.log(newUser) 
+
+        return res.status(201).json({
+            message: "User registered successfully",
+            user: newUser // Optional: you can return the newly created user data if needed
+        });
+    }
+    catch (error) {
+        console.error("Error during user registration:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
 }
