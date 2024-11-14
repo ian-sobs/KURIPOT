@@ -2,7 +2,7 @@ const db = require('../../models/index')
 const sequelize = db.sequelize
 const {User} = sequelize.models
 const bcrypt = require('bcrypt')
-const makeJWT = require('../utility/makeJWT')
+const makeAccessToken = require('../utility/makeAccessToken')
 
 exports.signInUser = async (req, res) => {
     const {password} = req.body
@@ -27,13 +27,13 @@ exports.signInUser = async (req, res) => {
         }
 
         // jwt automatically adds an 'issuedAt' attribute to the token
-        const token = makeJWT(user)
+        const accessToken = makeAccessToken(user)
 
         console.log("User signed-in successfully") 
 
         return res.status(200).json({
             message: "User signed-in successfully",
-            jwt: token // Optional: you can return the newly created token if needed
+            jwt: accessToken // Optional: you can return the newly created token if needed
         });
     }
     catch (error) {

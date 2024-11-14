@@ -3,6 +3,7 @@ const db = require('../../models/index')
 const sequelize = db.sequelize
 const {User} = sequelize.models
 const checkIfUserExists = require('../utility/checkIfUserExists')
+const makeAccessToken = require('../utility/makeAccessToken')
 
 exports.registerUser = async (req,res) =>{
     const {username, birthDate, password} = req.body
@@ -26,12 +27,12 @@ exports.registerUser = async (req,res) =>{
         console.log("User registered successfully")      
         console.log(newUser) 
 
-        const token = makeJWT(newUser)
+        const accessToken = makeAccessToken(newUser)
 
         return res.status(201).json({
             message: "User registered successfully",
             user: newUser, // Optional: you can return the newly created user data if needed
-            jwt: token
+            jwt: accessToken
         });
     }
     catch (error) {
