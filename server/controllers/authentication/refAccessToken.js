@@ -10,14 +10,10 @@ exports.refAccessToken = (req, res) => {
     }
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, function(err, decoded){
-        if (err) {
+        if (err || !decoded) {
             return res.status(403).json({ message: 'Invalid Token' });
         }
 
-        if (!decoded) {
-            return res.status(403).json({ error: 'Invalid refresh token' });
-        }
-    
         // Generate a new access token only
         const newAccessToken = makeAccessToken({
             id: decoded.usrId,
