@@ -24,8 +24,8 @@ const LandingPage = () => {
             <div className="slogan-container-slogan text-2xl text-[#FAFAFA]">
               "It's not the amount, <br /> but the habit."
             </div>
-            <div className="slogan-container-media-placeholder">
-              placeholder
+            <div className="slogan-container-media w-56">
+              <img src="/images/landing-iphones.png" alt="" />
             </div>
           </div>
         </div>
