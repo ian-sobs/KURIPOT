@@ -9,6 +9,7 @@ const makeRefreshToken = require('../utility/makeRefreshToken')
 exports.registerUser = async (req,res) =>{
     const {username, birthDate, password} = req.body
     const email = req.body.email.trim()
+    let newUser
 
     try{
         const userExists = await checkIfUserExists(email)
@@ -23,7 +24,7 @@ exports.registerUser = async (req,res) =>{
     }
 
     try{
-        const newUser = await User.create(
+        newUser = await User.create(
             {
                 username: username, 
                 birthDate: birthDate, 
