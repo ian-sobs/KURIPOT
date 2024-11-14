@@ -86,13 +86,15 @@ Provide instructions on how to use your project. Include examples if necessary.
 
 ## Setting up the database
 
-
+<!-- 
 > **Note:** Install Docker Desktop before proceeding.  
 > It is recommended to install Docker Desktop first since it includes many of the utilities used in the project and simplifies the commands you need to run for setting up the database.
+ -->
 
+<!-- 
+If you have pulled the repo and built the Docker images and run the containers for the first time, the database associated to this web app will not exist just yet. Hence why running the server container for the first time requires you to build the database in the server container. Instructions to that are in the [[#Creating the database]] section below. -->
 
-
-If you have pulled the repo and built the Docker images and run the containers for the first time, the database associated to this web app will not exist just yet. Hence why running the server container for the first time requires you to build the database in the server container. Instructions to that are in the [[#Creating the database]] section below.
+Create the postgresql database first. Use the same database name as the one in the environment variable database name.
 
 ### Creating the database
 
@@ -136,14 +138,14 @@ To undo all migrations:
 npx sequelize-cli db:migrate:undo:all
 ```
 
-
+<!-- 
 ### Connecting dbeaver to the database in docker container
 
 1. In dbeaver, create a new connection to a database.
 2. When asked for the user, just use the value of `POSTGRES_USER` server environment variable for connecting to the database.
 3. When asked for the password, just use the value of `POSTGRES_PASSWORD` server environment variable.
 4. When asked for the host, just use 'localhost' without the quotes.
-5. When asked for the port, use the value of `POSTGRES_PORT`.
+5. When asked for the port, use the value of `POSTGRES_PORT`. -->
 <!-- 
 ```
 # version: "3"
