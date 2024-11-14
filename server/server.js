@@ -7,8 +7,9 @@ const PORT = process.env.PORT || 5000;
 const {connectDB } = require("./config/connection");
 const db = require("./models/index")
 const userRouter = require('./routes/userRouter')
-const {authAccessToken} = require('./authentication/authAccessToken')
+const {authAccessToken} = require('./controllers/authentication/authAccessToken')
 const protectedRouter = require('./routes/protectedRouter')
+const tokenRouter = require('./routes/tokenRouter')
 
 // Start the server and connect to the database
 const startServer = async () => {
@@ -36,7 +37,8 @@ const startServer = async () => {
   app.use(express.json());  // Parses JSON body and adds it to req.body
   app.use(express.urlencoded({ extended: true }));  // Parses form data and adds it to req.body
 
-  app.use('/api/user', userRouter)
+  app.use('/api/user', userRouter) // signing-in and signing-up API
+  app.use('/api/token', tokenRouter) // for getting a new access token if it expires
 
   app.use('/', authAccessToken, protectedRouter); // Apply to routes that need protection
 
