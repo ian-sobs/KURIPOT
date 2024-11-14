@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 5000;
 const {connectDB } = require("./config/connection");
 const db = require("./models/index")
 const userRouter = require('./routes/userRouter')
-const authAccessToken = require('./authentication/authAccessToken')
+const {authAccessToken} = require('./authentication/authAccessToken')
 const protectedRouter = require('./routes/protectedRouter')
 
 // Start the server and connect to the database
