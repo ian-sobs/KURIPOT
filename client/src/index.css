@@ -26,14 +26,6 @@ body {
   /* Hides scrollbar for Firefox */
 }
 
-.description-container {
-  background-image: 
-    url('/public/images/landing-page-gradient.png');
-  background-size: cover;
-  background-position: center center; 
-  background-repeat: no-repeat; 
-}
-
 .slogan-container-media-placeholder {
   background-image: url('/public/images/landing-iphones.png'); /* Replace with the actual path */
   background-size: contain; /* Ensures the image fits within the div */

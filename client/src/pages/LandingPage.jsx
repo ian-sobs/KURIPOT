@@ -89,9 +89,7 @@ const LandingPage = () => {
           Your Personal Finance
           <br /> Tracker Application
         </div>
-
       </div>
-      
 
       <Footer />
     </>
