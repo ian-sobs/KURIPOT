@@ -4,6 +4,7 @@ const sequelize = db.sequelize
 const {User} = sequelize.models
 const checkIfUserExists = require('../utility/checkIfUserExists')
 const makeAccessToken = require('../utility/makeAccessToken')
+const makeRefreshToken = require('../utility/makeRefreshToken')
 
 exports.registerUser = async (req,res) =>{
     const {username, birthDate, password} = req.body
@@ -28,7 +29,15 @@ exports.registerUser = async (req,res) =>{
         console.log(newUser) 
 
         const accessToken = makeAccessToken(newUser)
+        const refreshToken = makeRefreshToken(user)
 
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'Strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        });
+        
         return res.status(201).json({
             message: "User registered successfully",
             user: newUser, // Optional: you can return the newly created user data if needed
