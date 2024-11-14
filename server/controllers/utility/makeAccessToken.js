@@ -7,7 +7,7 @@ function makeAccessToken(user){
        usrId: user.id,                   // User's unique ID
        usrname: user.username,         // Username
        email: user.email,               // Email (optional)
-   }, process.env.JWT_SECRET, {
+   }, process.env.ACCESS_TOKEN_JWT_SECRET, {
        expiresIn: '15m' // 15 minutes
    });
 

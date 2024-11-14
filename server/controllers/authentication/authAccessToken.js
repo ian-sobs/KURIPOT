@@ -1,14 +1,14 @@
 const jwt = require('jsonwebtoken'); // Import the jsonwebtoken package
 
 // Authentication middleware to check if the user has a valid JWT
-exports.authenticateToken = (req, res, next) => {
+exports.authAccessToken = (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1]; // Token from 'Authorization' header
   
   if (!token) {
     return res.status(401).json({ message: 'Access Denied: No Token Provided' });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => { // Use your secret key
+  jwt.verify(token, process.env.ACCESS_TOKEN_JWT_SECRET, (err, user) => { // Use your secret key
     if (err) {
       return res.status(403).json({ message: 'Invalid Token' });
     }
