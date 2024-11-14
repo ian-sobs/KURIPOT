@@ -5,8 +5,8 @@ const Footer = () => {
     <footer className="footer footer-center bg-base-300 text-base-content p-4">
       <aside>
         <p>
-          Copyright © {new Date().getFullYear()} - All rights reserved by ACME
-          Industries Ltd
+          Copyright © {new Date().getFullYear()} - All rights reserved by Kuting
+          Mubo
         </p>
       </aside>
     </footer>

@@ -26,8 +26,9 @@ module.exports = {
       },
       backgroundImage: {
         "center-vertical":
-          "linear-gradient(to top, transparent 0%, #9747FF 15%, #9747FF 50%, #9747FF 85%, transparent 100%)",
+          "linear-gradient(to top, transparent 0%, #293F80 30%, #293F80 50%, #293F80 70%, transparent 100%)",
       },
+      // 293F80
     },
   },
   plugins: [require("daisyui")],
