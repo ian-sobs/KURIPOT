@@ -53,7 +53,7 @@ exports.signInUser = async (req, res) => {
 
     return res.status(200).json({
         message: "User signed-in successfully",
-        jwt: accessToken // Optional: you can return the newly created token if needed
+        accessToken: accessToken // Optional: you can return the newly created token if needed
     });
     
 }

@@ -52,7 +52,7 @@ exports.registerUser = async (req,res) =>{
     return res.status(201).json({
         message: "User registered successfully",
         user: newUser, // Optional: you can return the newly created user data if needed
-        jwt: accessToken
+        accessToken: accessToken
     });
 
 }
