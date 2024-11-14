@@ -4,7 +4,9 @@ const jwt = require('jsonwebtoken');
 function makeRefreshToken(user){
     // jwt automatically adds an 'issuedAt' attribute to the token
    const token = jwt.sign({
-       usrId: user.id,                   // User's unique ID
+        usrId: user.id,                   // User's unique ID
+        usrname: user.username,         // Username
+        email: user.email,               // Email (optional)
    }, process.env.REFRESH_TOKEN_JWT_SECRET, {
        expiresIn: '7d' // 7 days
    });
