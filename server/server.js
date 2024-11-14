@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 5000;
 const {connectDB } = require("./config/connection");
 const db = require("./models/index")
 const userRouter = require('./routes/userRouter')
-const authenticateToken = require('./authentication/jwtAuth')
+const authAccessToken = require('./authentication/authAccessToken')
 const protectedRouter = require('./routes/protectedRouter')
 
 // Start the server and connect to the database
@@ -38,7 +38,7 @@ const startServer = async () => {
 
   app.use('/api/user', userRouter)
 
-  app.use('/', authenticateToken, protectedRouter); // Apply to routes that need protection
+  app.use('/', authAccessToken, protectedRouter); // Apply to routes that need protection
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
