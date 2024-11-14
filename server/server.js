@@ -38,7 +38,7 @@ const startServer = async () => {
 
   app.use('/api/user', userRouter)
 
-  app.use('/api/protected', authenticateToken, protectedRouter); // Apply to routes that need protection
+  app.use('/', authenticateToken, protectedRouter); // Apply to routes that need protection
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
