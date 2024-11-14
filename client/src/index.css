@@ -13,6 +13,18 @@ body {
   height: 100vh;
 }
 
+.carousel-container::-webkit-scrollbar {
+  display: none;
+  /* Hides the scrollbar for WebKit browsers */
+}
+
+.carousel-container {
+  -ms-overflow-style: none;
+  /* Hides scrollbar for IE/Edge */
+  scrollbar-width: none;
+  /* Hides scrollbar for Firefox */
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
