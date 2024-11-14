@@ -3,6 +3,7 @@ const sequelize = db.sequelize
 const {User} = sequelize.models
 const bcrypt = require('bcrypt')
 const makeAccessToken = require('../utility/makeAccessToken')
+const makeRefreshToken = require('../utility/makeRefreshToken')
 
 exports.signInUser = async (req, res) => {
     const {password} = req.body
@@ -28,9 +29,16 @@ exports.signInUser = async (req, res) => {
 
         // jwt automatically adds an 'issuedAt' attribute to the token
         const accessToken = makeAccessToken(user)
+        const refreshToken = makeRefreshToken(user)
 
         console.log("User signed-in successfully") 
-
+        
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'Strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        });
         return res.status(200).json({
             message: "User signed-in successfully",
             jwt: accessToken // Optional: you can return the newly created token if needed
