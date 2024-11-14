@@ -6,11 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const {connectDB } = require("./config/connection");
 const db = require("./models/index")
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
-const registrationRouter = require('./routes/registrationRouter')
-const signInRouter = require('./routes/signInRouter')
+const userRouter = require('./routes/userRouter')
 const authenticateToken = require('./authentication/jwtAuth')
 const protectedRouter = require('./routes/protectedRouter')
 
@@ -40,8 +36,7 @@ const startServer = async () => {
   app.use(express.json());  // Parses JSON body and adds it to req.body
   app.use(express.urlencoded({ extended: true }));  // Parses form data and adds it to req.body
 
-  app.use('/api/signUp', registrationRouter)
-  app.use('/api/signIn', signInRouter)
+  app.use('/api/user', userRouter)
 
   app.use('/api/protected', authenticateToken, protectedRouter); // Apply to routes that need protection
 
