@@ -6,12 +6,43 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("/public/images/kuripot-background.png");
-  background-size: cover;
+  background-image: url('/public/images/kuripot-background-bigger.png');
+  background-size: auto; /* Ensure the background is displayed at its original size */
   background-position: center center;
-  background-attachment: fixed;
-  height: 100vh;
+  background-attachment: fixed; /* Keeps the background fixed while content scrolls */
+  height: auto; /* Allow content to define height instead of fixing it to 100vh */
 }
+
+
+.carousel-container::-webkit-scrollbar {
+  display: none;
+  /* Hides the scrollbar for WebKit browsers */
+}
+
+.carousel-container {
+  -ms-overflow-style: none;
+  /* Hides scrollbar for IE/Edge */
+  scrollbar-width: none;
+  /* Hides scrollbar for Firefox */
+}
+
+.description-container {
+  background-image: 
+    url('/public/images/landing-page-gradient.png');
+  background-size: cover;
+  background-position: center center; 
+  background-repeat: no-repeat; 
+}
+
+.slogan-container-media-placeholder {
+  background-image: url('/public/images/landing-iphones.png'); /* Replace with the actual path */
+  background-size: contain; /* Ensures the image fits within the div */
+  background-position: center center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  width: 100%; 
+  height: 100%; 
+}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
