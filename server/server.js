@@ -10,6 +10,8 @@ const userRouter = require('./routes/userRouter')
 const {authAccessToken} = require('./controllers/authentication/authAccessToken')
 const protectedRouter = require('./routes/protectedRouter')
 const tokenRouter = require('./routes/tokenRouter')
+const loggingMiddleware = require('./logging')
+const cookieParser = require('cookie-parser');
 
 // Start the server and connect to the database
 const startServer = async () => {
@@ -33,6 +35,8 @@ const startServer = async () => {
     process.exit(1);
   }
   
+  app.use(cookieParser())
+  app.use(loggingMiddleware);  // Use the logging middleware for all routes
   
   app.use(express.json());  // Parses JSON body and adds it to req.body
   app.use(express.urlencoded({ extended: true }));  // Parses form data and adds it to req.body
@@ -41,6 +45,7 @@ const startServer = async () => {
   app.use('/api/token', tokenRouter) // for getting a new access token if it expires
 
   app.use('/', authAccessToken, protectedRouter); // Apply to routes that need protection
+
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

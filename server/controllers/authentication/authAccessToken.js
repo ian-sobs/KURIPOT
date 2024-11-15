@@ -10,7 +10,7 @@ exports.authAccessToken = (req, res, next) => {
 
   jwt.verify(token, process.env.ACCESS_TOKEN_JWT_SECRET, (err, user) => { // Use your secret key
     if (err) {
-      return res.status(403).json({ message: 'Invalid Token' });
+      return res.status(403).json({ message: 'Invalid access token to a protected route' });
     }
 
     req.user = user; // Add user data to request for later use
