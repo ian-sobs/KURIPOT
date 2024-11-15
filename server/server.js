@@ -10,6 +10,7 @@ const userRouter = require('./routes/userRouter')
 const {authAccessToken} = require('./controllers/authentication/authAccessToken')
 const protectedRouter = require('./routes/protectedRouter')
 const tokenRouter = require('./routes/tokenRouter')
+const loggingMiddleware = require('./logging')
 
 // Start the server and connect to the database
 const startServer = async () => {
@@ -41,6 +42,7 @@ const startServer = async () => {
   app.use('/api/token', tokenRouter) // for getting a new access token if it expires
 
   app.use('/', authAccessToken, protectedRouter); // Apply to routes that need protection
+  app.use(loggingMiddleware);  // Use the logging middleware for all routes
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
