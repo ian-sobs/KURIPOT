@@ -9,7 +9,7 @@ exports.refAccessToken = (req, res) => {
         return res.status(401).json({ error: 'Refresh token not provided' });
     }
 
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, function(err, decoded){
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_JWT_SECRET, function(err, decoded){
         if (err || !decoded) {
             return res.status(403).json({ message: 'Invalid Token' });
         }
