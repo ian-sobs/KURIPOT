@@ -43,7 +43,7 @@ const LandingPage = () => {
           </div>
         </div>
 
-        <div className="carousel-container mt-4 w-full flex justify-start overflow-x-auto snap-x snap-mandatory px-[7.5%] scrollbar-hide">
+        <div className="carousel-container mt-4 w-full flex justify-start overflow-x-auto snap-x snap-mandatory px-[22%] scrollbar-hide">
           {[0, 1, 2, 3].map((_, index) => (
             <div
               key={index}
