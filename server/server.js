@@ -41,10 +41,10 @@ const startServer = async () => {
   app.use(express.json());  // Parses JSON body and adds it to req.body
   app.use(express.urlencoded({ extended: true }));  // Parses form data and adds it to req.body
 
-  app.use('/api/entry', entryRouter) // signing-in and signing-up API
-  app.use('/api/token', tokenRouter) // for getting a new access token if it expires
+  app.use('/entry', entryRouter) // signing-in and signing-up API
+  app.use('/token', tokenRouter) // for getting a new access token if it expires
 
-  app.use('/', authAccessToken, protectedRouter); // Apply to routes that need protection
+  app.use('/api', authAccessToken, protectedRouter); // Apply to routes that need protection
 
 
   app.listen(PORT, () => {
