@@ -1,7 +1,7 @@
 const express = require('express');
 const protectedRouter = express.Router();
-const getAccounts = require('../controllers/getAccounts')
-const getCategories = require('../controllers/getCategories')
+const getAccounts = require('../controllers/accounts/getAccounts')
+const getCategories = require('../controllers/categories/getCategories')
 
 // Example of a protected route that only authenticated users can access
 protectedRouter.get('/profile', (req, res) => {
