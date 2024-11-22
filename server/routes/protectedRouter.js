@@ -2,6 +2,7 @@ const express = require('express');
 const protectedRouter = express.Router();
 const getAccounts = require('../controllers/accounts/getAccounts')
 const getCategories = require('../controllers/categories/getCategories')
+const getMonthBudget = require('../controllers/budgets/getMonthBudget')
 
 // Example of a protected route that only authenticated users can access
 protectedRouter.get('/profile', (req, res) => {
@@ -16,4 +17,6 @@ protectedRouter.get('/dashboard', (req, res) => {
 
 protectedRouter.get('/getAccounts', getAccounts)
 protectedRouter.get('/getCategories', getCategories)
+protectedRouter.get('/getMonthBudget', getMonthBudget)
+
 module.exports = protectedRouter;
