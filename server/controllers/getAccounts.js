@@ -15,7 +15,8 @@ exports.getAccounts = async (req, res)=>{
         accountsOfUser = await Account.findAll({
             where: {
                 user_id: userId
-            }
+            },
+            attributes: ['id', 'name', 'amount']
         })
         res.status(200).json(accountsOfUser); // Send accounts as a response (if in a route handler)
     } catch (err) {
