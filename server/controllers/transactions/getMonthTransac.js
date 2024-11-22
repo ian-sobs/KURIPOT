@@ -37,8 +37,9 @@ exports.getMonthTransac = async (req, res) => {
     }
 
     // add a query parameter that identifies if you want income or expense
-
+    // add query parameter to determine the max # of records to fetch at a time
     try {
+        // return array of records in descending order of date
         const monthTransac = await Transaction.findAll({
             where: whereClause
         });
