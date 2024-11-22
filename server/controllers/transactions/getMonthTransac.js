@@ -5,7 +5,7 @@ const {Op, Sequelize, where} = require('sequelize')
 
 exports.getMonthTransac = async (req, res) => {
     const { usrId } = req.user;
-    let {month, year} = req.query; // Use Object.keys to get the query parameters
+    let {month, year} = req.query; 
     
     // Validate month and year are provided
     if (!month || !year) {
@@ -35,6 +35,8 @@ exports.getMonthTransac = async (req, res) => {
     if(req.query.categoryId){
         whereClause.category_id = parseInt(req.query.categoryId, 10)
     }
+
+    // add a query parameter that identifies if you want income or expense
 
     try {
         const monthTransac = await Transaction.findAll({
