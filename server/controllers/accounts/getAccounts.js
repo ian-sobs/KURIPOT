@@ -9,24 +9,22 @@ exports.getAccounts = async (req, res)=>{
         return res.status(400).json({ message: 'User ID is required' });
     }
 
-    let accountsOfUser
-
     try{
-        accountsOfUser = await Account.findAll({
+        const accountsOfUser = await Account.findAll({
             where: {
                 user_id: userId
             },
             attributes: ['id', 'name', 'amount']
         })
-        res.status(200).json(accountsOfUser); // Send accounts as a response (if in a route handler)
+    
+        if(accountsOfUser.length === 0){
+            res.status(404).json({message: "Could not find any account"})
+        }
+    
+        return res.status(200).json(accountsOfUser)
     } catch (err) {
         console.error('Error fetching accounts:', err.message); // Log the error
-        res.status(500).json({ message: 'Failed to fetch accounts' }); // Respond with an error
+        return res.status(500).json({ message: 'Failed to fetch accounts' }); // Respond with an error
     }
 
-    if(!accountsOfUser){
-        res.status(404).json({message: "Could not find any account"})
-    }
-
-    return res.status(200).json(accountsOfUser)
 }

@@ -12,10 +12,8 @@ exports.getMonthBudget = async (req, res)=>{
         return res.status(400).json({ message: 'User ID is required' });
     }
 
-    let monthBudget
-
     try{
-        monthBudget = await Budget.findOne({
+        const monthBudget = await Budget.findOne({
             where: {
                 [Op.and]: [
                     { user_id: userId },  // user_id condition
@@ -32,15 +30,16 @@ exports.getMonthBudget = async (req, res)=>{
                 through: { attributes: ['categoryLimit'] } // Optional: Exclude attributes of the through table C
             }
         })
+
+        if(!monthBudget){
+            res.status(404).json({message: 'No such budget exists'})
+        }
+    
+        return res.status(200).json(monthBudget)
+    
     } catch (err) {
         console.error('Error fetching budget of a month:', err.message); // Log the error
-        res.status(500).json({ message: 'Failed to fetch budget of a month' }); // Respond with an error
+        return res.status(500).json({ message: 'Failed to fetch budget of a month' }); // Respond with an error
     }
-
-    if(!monthBudget){
-        res.status(404).json({message: 'No such budget exists'})
-    }
-
-    return res.status(200).json(monthBudget)
 
 }

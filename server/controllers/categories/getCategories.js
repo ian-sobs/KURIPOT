@@ -18,15 +18,16 @@ exports.getCategories = async (req, res)=>{
             },
             attributes: ['id', 'name', 'isIncome']
         })
-        res.status(200).json(categoriesOfUser); // Send accounts as a response (if in a route handler)
+
+        if(!categoriesOfUser){
+            res.status(404).json({message: "Could not find any account"})
+        }
+    
+        return res.status(200).json(categoriesOfUser)
     } catch (err) {
         console.error('Error fetching categories:', err.message); // Log the error
-        res.status(500).json({ message: 'Failed to fetch categories' }); // Respond with an error
+        return res.status(500).json({ message: 'Failed to fetch categories' }); // Respond with an error
     }
 
-    if(!categoriesOfUser){
-        res.status(404).json({message: "Could not find any account"})
-    }
 
-    return res.status(200).json(categoriesOfUser)
 }
