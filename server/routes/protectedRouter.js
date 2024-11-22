@@ -13,6 +13,6 @@ protectedRouter.get('/dashboard', (req, res) => {
   res.json({ message: 'Welcome to your dashboard', user: req.user });
 });
 
-protectedRouter.get('/accounts', )
+protectedRouter.get('/accounts', getAccounts)
 
 module.exports = protectedRouter;
