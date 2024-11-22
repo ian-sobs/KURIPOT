@@ -1,4 +1,4 @@
-const db = require('../models/index')
+const db = require('../../models/index')
 const sequelize = db.sequelize
 const {Account} = sequelize.models 
 
@@ -24,4 +24,9 @@ exports.getAccounts = async (req, res)=>{
         res.status(500).json({ message: 'Failed to fetch accounts' }); // Respond with an error
     }
 
+    if(!accountsOfUser){
+        res.status(404).json({message: "Could not find any account"})
+    }
+
+    return res.status(200).json(accountsOfUser)
 }
