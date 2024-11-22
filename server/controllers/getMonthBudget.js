@@ -41,9 +41,6 @@ exports.getMonthBudget = async (req, res)=>{
         res.status(404).json({message: 'No such budget exists'})
     }
 
-    return res.status(200).json({
-        message: "Budget and its categories fetched successfully",
-        monthBudget: monthBudget
-    })
+    return res.status(200).json(monthBudget)
 
 }

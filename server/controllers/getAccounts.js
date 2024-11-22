@@ -28,8 +28,5 @@ exports.getAccounts = async (req, res)=>{
         res.status(404).json({message: "Could not find any account"})
     }
 
-    return res.status(200).json({
-        message: `Accounts of user ${userId} found`,
-        accounts: accountsOfUser
-    })
+    return res.status(200).json(accountsOfUser)
 }
