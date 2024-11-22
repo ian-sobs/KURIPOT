@@ -27,6 +27,13 @@ module.exports = (sequelize, DataTypes) => {
           },
           onDelete: 'CASCADE'
       })
+
+      Category.belongsToMany(models.Budget, {
+        through: models.BudgetCategory,
+        unique: false,
+        foreignKey: 'category_id',
+        otherKey: 'budget_id'       
+      })
     }
   }
 

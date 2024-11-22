@@ -15,7 +15,8 @@ exports.getCategories = async (req, res)=>{
         categoriesOfUser = await Category.findAll({
             where: {
                 user_id: userId
-            }
+            },
+            attributes: ['id', 'name', 'isIncome']
         })
         res.status(200).json(categoriesOfUser); // Send accounts as a response (if in a route handler)
     } catch (err) {
