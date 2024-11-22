@@ -17,8 +17,8 @@ exports.getMonthBudget = async (req, res)=>{
             where: {
                 [Op.and]: [
                     { user_id: userId },  // user_id condition
-                    Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('date')), { [Op.eq]: month }),  // Match the month
-                    Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), { [Op.eq]: year })   // Match the year
+                    Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('MONTH FROM "date"')), { [Op.eq]: month }),  // Match the month using EXTRACT
+                    Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('YEAR FROM "date"')), { [Op.eq]: year })   // Match the year using EXTRACT
                 ]
             },
 
