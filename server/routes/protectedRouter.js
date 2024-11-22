@@ -4,6 +4,7 @@ const getAccounts = require('../controllers/accounts/getAccounts')
 const getCategories = require('../controllers/categories/getCategories')
 const getMonthBudget = require('../controllers/budgets/getMonthBudget')
 const makeAccount = require('../controllers/accounts/makeAccount')
+const getMonthTransac = require('../controllers/transactions/getMonthTransac')
 
 // Example of a protected route that only authenticated users can access
 protectedRouter.get('/profile', (req, res) => {
@@ -21,5 +22,7 @@ protectedRouter.post('/makeAccount', makeAccount)
 
 protectedRouter.get('/getCategories', getCategories)
 protectedRouter.get('/getMonthBudget', getMonthBudget)
+
+protectedRouter.get('/getMonthTransac', getMonthTransac)
 
 module.exports = protectedRouter;
