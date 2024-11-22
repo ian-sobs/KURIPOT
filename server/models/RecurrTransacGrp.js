@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       RecurrTransacGrp.hasMany(models.Transaction,{
         foreignKey: {
             name: 'recurr_id',
-
+            onDelete: 'SET NULL',
             allowNull: true
         }
       })    
