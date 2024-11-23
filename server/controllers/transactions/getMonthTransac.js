@@ -39,7 +39,7 @@ exports.getMonthTransac = async (req, res) => {
         whereClause.account_id = parseInt(req.query.accountId, 10)
     }
 
-    if(req.query.categoryId && !isNaN(parseInt(req.query.category_id, 10))){
+    if(req.query.categoryId && !isNaN(parseInt(req.query.categoryId, 10))){
         whereClause.category_id = parseInt(req.query.categoryId, 10)
     }
 
@@ -73,7 +73,7 @@ exports.getMonthTransac = async (req, res) => {
         // }
 
 
-        return res.status(200).json(monthTransac.length ? monthTransac : []);
+        return res.status(200).json(monthTransac);
     } catch (err) {
         console.error('Error fetching transactions:', err); // Log the error
         return res.status(500).json({ message: 'Failed to fetch transactions' });
