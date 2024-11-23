@@ -14,6 +14,7 @@ exports.getrangeTransac = async (req, res) => {
         return res.status(400).json({ message: 'start and end dates are required' });
     }
 
+    // Parse the dates to ensure they are in the correct format
     const parsedStartDate = new Date(startDate);
     const parsedEndDate = new Date(endDate);
 
@@ -21,18 +22,15 @@ exports.getrangeTransac = async (req, res) => {
         return res.status(400).json({ message: 'Invalid date format' });
     }
 
-    // if (month < 1 || month > 12) {
-    //     return res.status(400).json({ message: 'Month must be between 1 and 12' });
-    // }
+    if (parsedStartDate > parsedEndDate) {
+        return res.status(400).json({ message: 'Start date cannot be later than end date' });
+    }
 
-    // if (year <= 0) {
-    //     return res.status(400).json({ message: 'Year must be a positive number' });
-    // }
-
+    // Build where clause to filter by the date range
     let whereClause = {
         user_id: usrId,
         date: {
-            [Op.between]: [parsedStartDate, parsedEndDate] // Use Op.between to filter dates within the range
+            [Op.between]: [parsedStartDate.toISOString(), parsedEndDate.toISOString()] // Use ISO format, ensuring correct time zone handling
         }
     };
 
@@ -40,7 +38,7 @@ exports.getrangeTransac = async (req, res) => {
         whereClause.account_id = parseInt(req.query.accountId, 10)
     }
 
-    if(req.query.categoryId && !isNaN(parseInt(req.query.category_id, 10))){
+    if(req.query.categoryId && !isNaN(parseInt(req.query.categoryId, 10))){
         whereClause.category_id = parseInt(req.query.categoryId, 10)
     }
 
@@ -68,13 +66,7 @@ exports.getrangeTransac = async (req, res) => {
         // return array of records in descending order of date
         const rangeTransac = await Transaction.findAll(options);
 
-        // Return the found transactions
-        // if (!rangeTransac.length) {
-        //     return res.status(404).json({ message: 'No transactions found' });
-        // }
-
-
-        return res.status(200).json(rangeTransac.length ? rangeTransac : []);
+        return res.status(200).json(rangeTransac);
     } catch (err) {
         console.error('Error fetching transactions:', err); // Log the error
         return res.status(500).json({ message: 'Failed to fetch transactions' });
