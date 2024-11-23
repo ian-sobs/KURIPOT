@@ -1,11 +1,11 @@
 const express = require('express');
 const protectedRouter = express.Router();
-const getAccounts = require('../controllers/accounts/getAccounts')
-const getCategories = require('../controllers/categories/getCategories')
-const getMonthBudget = require('../controllers/budgets/getMonthBudget')
-const makeAccount = require('../controllers/accounts/makeAccount')
-const getMonthTransac = require('../controllers/transactions/getMonthTransac')
-const getRangeTransac = require('../controllers/transactions/getRangeTransac')
+const {getAccounts} = require('../controllers/accounts/getAccounts')
+const {getCategories} = require('../controllers/categories/getCategories')
+const {getMonthBudget} = require('../controllers/budgets/getMonthBudget')
+const {makeAccount} = require('../controllers/accounts/makeAccount')
+const {getMonthTransac} = require('../controllers/transactions/getMonthTransac')
+const {getRangeTransac} = require('../controllers/transactions/getRangeTransac')
 
 // Example of a protected route that only authenticated users can access
 protectedRouter.get('/profile', (req, res) => {
