@@ -1,5 +1,9 @@
 //just to start things up
-require('dotenv').config();
+const path = require('path');
+
+const dotenv = require('dotenv');
+const envFile = `.env.${process.env.NODE_ENV || 'development'}`;  // default to 'development' if NODE_ENV is not set
+dotenv.config({ path: path.resolve(__dirname, envFile) });
 
 const express = require("express");
 const app = express();
