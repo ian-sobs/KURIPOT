@@ -3,7 +3,7 @@ const {sequelize} = db
 const {Transaction} = sequelize.models
 const {Op, Sequelize, where} = require('sequelize')
 
-exports.getrangeTransac = async (req, res) => {
+exports.getRangeTransac = async (req, res) => {
     const { usrId } = req.user;
     let {startDate, endDate} = req.query
     let options = {order: [['date', 'DESC']]};
