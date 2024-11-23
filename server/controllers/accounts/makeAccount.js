@@ -2,7 +2,7 @@ const db = require('../../models/index')
 const sequelize = db.sequelize
 const {Account} = sequelize.models 
 
-exports.makeAccounts = async (req, res)=>{
+exports.makeAccount = async (req, res)=>{
     const {userId, usrname, email} = req.user
     const {name, amount} = req.body
 
