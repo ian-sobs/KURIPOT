@@ -2,6 +2,7 @@ const db = require('../../models/index')
 const {sequelize} = db
 const {Transaction} = sequelize.models
 const {Op, Sequelize, where} = require('sequelize')
+const {retTransac} = require('./helper/retTransac')
 
 exports.getMonthTransac = async (req, res) => {
     const { usrId } = req.user;
@@ -30,8 +31,14 @@ exports.getMonthTransac = async (req, res) => {
     let whereClause = {
         user_id: usrId,
         [Op.and]: [
-            Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.col('date'), 'MONTH'), { [Op.eq]: month}),  // Match the month using EXTRACT
-            Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.col('date'), 'YEAR'), { [Op.eq]: year })   // Match the year using EXTRACT
+            Sequelize.where(
+                Sequelize.fn('EXTRACT', Sequelize.literal('MONTH FROM'), Sequelize.col('date')),
+                { [Op.eq]: month }
+            ),
+            Sequelize.where(
+                Sequelize.fn('EXTRACT', Sequelize.literal('YEAR FROM'), Sequelize.col('date')),
+                { [Op.eq]: year }
+            ),
         ]
     };
 
@@ -45,10 +52,14 @@ exports.getMonthTransac = async (req, res) => {
 
     if(req.query.type === "income"){
         whereClause.amount = {[Op.gt] : 0}
+        whereClause.from_account_id = {[Op.eq] : null}
+        whereClause.to_account_id = {[Op.eq] : null}
     }
 
     if(req.query.type === "expense"){
         whereClause.amount = {[Op.lt] : 0}
+        whereClause.from_account_id = {[Op.eq] : null}
+        whereClause.to_account_id = {[Op.eq] : null}
     }
 
     if(req.query.limit && req.query.page){
@@ -71,9 +82,9 @@ exports.getMonthTransac = async (req, res) => {
         // if (!monthTransac.length) {
         //     return res.status(404).json({ message: 'No transactions found' });
         // }
+        const retMonthTransac = monthTransac.map(retTransac)
 
-
-        return res.status(200).json(monthTransac);
+        return res.status(200).json(retMonthTransac);
     } catch (err) {
         console.error('Error fetching transactions:', err); // Log the error
         return res.status(500).json({ message: 'Failed to fetch transactions' });
