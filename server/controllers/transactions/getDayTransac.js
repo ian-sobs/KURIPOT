@@ -6,17 +6,18 @@ const {retTransac} = require('./helper/retTransac')
 
 exports.getMonthTransac = async (req, res) => {
     const { usrId } = req.user;
+    let day = parseInt(req.query.day, 10)
     let month = parseInt(req.query.month, 10)
     let year = parseInt(req.query.year, 10)
     let options = {order: [['date', 'DESC']]};
     let limit, page;
 
     // Validate month and year are provided
-    if (!month || !year) {
+    if (!month || !year || !day) {
         return res.status(400).json({ message: 'Month and year are required' });
     }
 
-    if (isNaN(month) || isNaN(year)) {
+    if (isNaN(month) || isNaN(year) || isNaN(day)) {
         return res.status(400).json({ message: 'Invalid month or year format' });
     }
 
@@ -26,6 +27,15 @@ exports.getMonthTransac = async (req, res) => {
 
     if (year <= 0) {
         return res.status(400).json({ message: 'Year must be a positive number' });
+    }
+
+    const date = new Date(year, month - 1, day); // JavaScript months are 0-based
+    if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+    ) {
+        return res.status(400).json({ error: "Invalid day for the given month and year." });
     }
 
     let whereClause = {
@@ -39,6 +49,10 @@ exports.getMonthTransac = async (req, res) => {
                 Sequelize.fn('EXTRACT', Sequelize.literal('YEAR FROM'), Sequelize.col('date')),
                 { [Op.eq]: year }
             ),
+            Sequelize.where(
+                Sequelize.fn('EXTRACT', Sequelize.literal('DAY FROM'), Sequelize.col('date')),
+                { [Op.eq]: day }
+            )
         ]
     };
 
@@ -76,15 +90,10 @@ exports.getMonthTransac = async (req, res) => {
 
     try {
         // return array of records in descending order of date
-        const monthTransac = await Transaction.findAll(options);
+        let dayTransac = await Transaction.findAll(options);
+        const retDayTransac = dayTransac.map(retTransac)
 
-        // Return the found transactions
-        // if (!monthTransac.length) {
-        //     return res.status(404).json({ message: 'No transactions found' });
-        // }
-        const retMonthTransac = monthTransac.map(retTransac)
-
-        return res.status(200).json(retMonthTransac);
+        return res.status(200).json(retDayTransac);
     } catch (err) {
         console.error('Error fetching transactions:', err); // Log the error
         return res.status(500).json({ message: 'Failed to fetch transactions' });
