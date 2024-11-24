@@ -2,6 +2,7 @@ const db = require('../../models/index')
 const {sequelize} = db
 const {Transaction} = sequelize.models
 const {Op, Sequelize, where} = require('sequelize')
+const {retTransac} = require('./helper/retTransac')
 
 exports.getRangeTransac = async (req, res) => {
     const { usrId } = req.user;
@@ -44,10 +45,14 @@ exports.getRangeTransac = async (req, res) => {
 
     if(req.query.type === "income"){
         whereClause.amount = {[Op.gt] : 0}
+        whereClause.from_account_id = {[Op.eq] : null}
+        whereClause.to_account_id = {[Op.eq] : null}
     }
 
     if(req.query.type === "expense"){
         whereClause.amount = {[Op.lt] : 0}
+        whereClause.from_account_id = {[Op.eq] : null}
+        whereClause.to_account_id = {[Op.eq] : null}
     }
 
     if(req.query.limit && req.query.page){
@@ -65,8 +70,9 @@ exports.getRangeTransac = async (req, res) => {
     try {
         // return array of records in descending order of date
         const rangeTransac = await Transaction.findAll(options);
+        const retRangeTransac = rangeTransac.map(retTransac)
 
-        return res.status(200).json(rangeTransac);
+        return res.status(200).json(retRangeTransac);
     } catch (err) {
         console.error('Error fetching transactions:', err); // Log the error
         return res.status(500).json({ message: 'Failed to fetch transactions' });
