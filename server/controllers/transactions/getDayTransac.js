@@ -4,7 +4,7 @@ const {Transaction} = sequelize.models
 const {Op, Sequelize, where} = require('sequelize')
 const {retTransac} = require('./helper/retTransac')
 
-exports.getMonthTransac = async (req, res) => {
+exports.getDayTransac = async (req, res) => {
     const { usrId } = req.user;
     let day = parseInt(req.query.day, 10)
     let month = parseInt(req.query.month, 10)
