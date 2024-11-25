@@ -3,7 +3,7 @@ const sequelize = db.sequelize
 const {Account} = sequelize.models 
 
 exports.makeAccount = async (req, res)=>{
-    const {userId, usrname, email} = req.user
+    const {usrId, usrname, email} = req.user
     const {name, amount} = req.body
 
     if (!name || !userId) {
