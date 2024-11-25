@@ -4,24 +4,35 @@ const {Category} = sequelize.models
 
 exports.getCategories = async (req, res)=>{
     const {usrId, usrname, email} = req.user
+    let {isIncome} = req.query
+    let whereClause = {
+        user_id: usrId
+    }
 
     if (!usrId) {
         return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    if(isIncome === 'true'){
+        isIncome = true
+        whereClause.isIncome = isIncome
+    }
+    else if(isIncome === 'false'){
+        isIncome = false
+        whereClause.isIncome = isIncome
     }
 
     let categoriesOfUser
 
     try{
         categoriesOfUser = await Category.findAll({
-            where: {
-                user_id: usrId
-            },
+            where: whereClause,
             attributes: ['id', 'name', 'isIncome']
         })
 
-        if(!categoriesOfUser){
-            res.status(404).json({message: "Could not find any account"})
-        }
+        // if(!categoriesOfUser){
+        //     res.status(404).json({message: "Could not find any account"})
+        // }
     
         return res.status(200).json(categoriesOfUser)
     } catch (err) {
