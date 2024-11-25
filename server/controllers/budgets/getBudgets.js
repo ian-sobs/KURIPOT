@@ -3,17 +3,23 @@ const sequelize = db.sequelize
 const {Budget} = sequelize.models 
 
 exports.getBudgets = async (req, res)=>{
-    const {userId, usrname, email} = req.user
+    const {usrId, usrname, email} = req.user
+    const {type} = req.query
+    let whereClause = {
+        user_id: usrId
+    }
 
-    if (!userId) {
+    if (!usrId) {
         return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    if(type){
+        whereClause.type = type
     }
 
     try{
         const budgetsOfUser = await Budget.findAll({
-            where: {
-                user_id: userId
-            },
+            where: whereClause,
             attributes: ['id', 'date', 'budgetLimit', 'type']
         })
     
