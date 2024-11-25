@@ -6,7 +6,7 @@ const { Op, Sequelize } = require('sequelize');
 
 exports.getMonthBudget = async (req, res)=>{
     const {userId, usrname, email} = req.user
-    const {month, year} = req.query
+    const {budgetId} = req.query
 
     if (!userId) {
         return res.status(400).json({ message: 'User ID is required' });
@@ -15,11 +15,8 @@ exports.getMonthBudget = async (req, res)=>{
     try{
         const monthBudget = await Budget.findOne({
             where: {
-                [Op.and]: [
-                    { user_id: userId },  // user_id condition
-                    Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('MONTH FROM "date"')), { [Op.eq]: month }),  // Match the month using EXTRACT
-                    Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('YEAR FROM "date"')), { [Op.eq]: year })   // Match the year using EXTRACT
-                ]
+                id: budgetId,
+                user_id: userId  // user_id condition
             },
 
             attributes: ['id', 'date', 'budgetLimit', 'type'],
