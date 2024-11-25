@@ -2,7 +2,7 @@ const db = require('../../models/index')
 const sequelize = db.sequelize
 const {Budget} = sequelize.models 
 
-exports.getAccounts = async (req, res)=>{
+exports.getBudgets = async (req, res)=>{
     const {userId, usrname, email} = req.user
 
     if (!userId) {

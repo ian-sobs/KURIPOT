@@ -4,7 +4,7 @@ const {Budget, Category} = sequelize.models
 const { Op, Sequelize } = require('sequelize');
 
 
-exports.getMonthBudget = async (req, res)=>{
+exports.getBudgetCategories = async (req, res)=>{
     const {userId, usrname, email} = req.user
     const {budgetId} = req.query
 
