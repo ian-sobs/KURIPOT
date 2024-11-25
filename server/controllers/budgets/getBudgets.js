@@ -1,10 +1,12 @@
 const db = require('../../models/index')
 const sequelize = db.sequelize
 const {Budget} = sequelize.models 
+const {Op} = require('sequelize')
 
 exports.getBudgets = async (req, res)=>{
     const {usrId, usrname, email} = req.user
-    const {type} = req.query
+    const {type, startDate, endDate} = req.query
+
     let whereClause = {
         user_id: usrId
     }
@@ -15,6 +17,18 @@ exports.getBudgets = async (req, res)=>{
 
     if(type){
         whereClause.type = type
+    }
+
+    let parsedStartDate
+    let parsedEndDate
+
+    if(startDate && endDate){
+        parsedStartDate = new Date(startDate)
+        parsedEndDate = new Date(endDate)
+
+        whereClause.date = {
+            [Op.between]: [parsedStartDate, parsedEndDate]
+        }
     }
 
     try{
