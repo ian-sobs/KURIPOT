@@ -3,7 +3,7 @@ const sequelize = db.sequelize
 const {Category} = sequelize.models 
 
 exports.getCategories = async (req, res)=>{
-    const {userId, usrname, email} = req.user
+    const {usrId, usrname, email} = req.user
 
     if (!userId) {
         return res.status(400).json({ message: 'User ID is required' });
