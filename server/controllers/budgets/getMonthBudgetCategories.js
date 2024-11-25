@@ -5,22 +5,35 @@ const { Op, Sequelize } = require('sequelize');
 
 
 exports.getMonthBudgetCategories = async (req, res)=>{
-    const {userId, usrname, email} = req.user
-    const {month, year} = req.query
+    const {usrId, usrname, email} = req.user
+    const {month, year, type} = req.query
 
-    if (!userId) {
+    let whereClause = {
+        [Op.and]: [
+            { user_id: usrId },  // user_id condition
+            Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('MONTH FROM "date"')), { [Op.eq]: month }),  // Match the month using EXTRACT
+            Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('YEAR FROM "date"')), { [Op.eq]: year })   // Match the year using EXTRACT
+        ]       
+    }
+
+    if(type){
+        whereClause.type = type
+    }
+
+    if (!usrId) {
         return res.status(400).json({ message: 'User ID is required' });
     }
 
     try{
         const monthBudget = await Budget.findOne({
-            where: {
-                [Op.and]: [
-                    { user_id: userId },  // user_id condition
-                    Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('MONTH FROM "date"')), { [Op.eq]: month }),  // Match the month using EXTRACT
-                    Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('YEAR FROM "date"')), { [Op.eq]: year })   // Match the year using EXTRACT
-                ]
-            },
+            where: whereClause,
+            // {
+            //     [Op.and]: [
+            //         { user_id: usrId },  // user_id condition
+            //         Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('MONTH FROM "date"')), { [Op.eq]: month }),  // Match the month using EXTRACT
+            //         Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('YEAR FROM "date"')), { [Op.eq]: year })   // Match the year using EXTRACT
+            //     ]
+            // },
 
             attributes: ['id', 'date', 'budgetLimit', 'type'],
             
