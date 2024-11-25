@@ -4,7 +4,7 @@ const {Category} = sequelize.models
 
 exports.getCategories = async (req, res)=>{
     const {usrId, usrname, email} = req.user
-    let {isIncome} = req.query
+    let {isIncome, sortIn} = req.query
     let whereClause = {
         user_id: usrId
     }
