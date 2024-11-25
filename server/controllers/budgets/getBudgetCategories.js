@@ -4,22 +4,20 @@ const {Budget, Category} = sequelize.models
 const { Op, Sequelize } = require('sequelize');
 
 
-exports.getMonthBudget = async (req, res)=>{
-    const {userId, usrname, email} = req.user
-    const {month, year} = req.query
+exports.getBudgetCategories = async (req, res)=>{
+    const {usrId, usrname, email} = req.user
+    const {budgetId, type} = req.query
+    const parsedBudgetId = parseInt(budgetId, 10)
 
-    if (!userId) {
+    if (!usrId) {
         return res.status(400).json({ message: 'User ID is required' });
     }
 
     try{
         const monthBudget = await Budget.findOne({
             where: {
-                [Op.and]: [
-                    { user_id: userId },  // user_id condition
-                    Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('MONTH FROM "date"')), { [Op.eq]: month }),  // Match the month using EXTRACT
-                    Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('YEAR FROM "date"')), { [Op.eq]: year })   // Match the year using EXTRACT
-                ]
+                id: parsedBudgetId,
+                user_id: usrId  // user_id condition
             },
 
             attributes: ['id', 'date', 'budgetLimit', 'type'],
@@ -31,11 +29,11 @@ exports.getMonthBudget = async (req, res)=>{
             }
         })
 
-        if(!monthBudget){
-            res.status(404).json({message: 'No such budget exists'})
-        }
+        // if(!monthBudget){
+        //     res.status(404).json({message: 'No such budget exists'})
+        // }
     
-        return res.status(200).json(monthBudget)
+        return res.status(200).json(monthBudget.categories)
     
     } catch (err) {
         console.error('Error fetching budget of a month:', err.message); // Log the error

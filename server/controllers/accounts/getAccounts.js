@@ -3,16 +3,16 @@ const sequelize = db.sequelize
 const {Account} = sequelize.models 
 
 exports.getAccounts = async (req, res)=>{
-    const {userId, usrname, email} = req.user
+    const {usrId, usrname, email} = req.user
 
-    if (!userId) {
+    if (!usrId) {
         return res.status(400).json({ message: 'User ID is required' });
     }
 
     try{
         const accountsOfUser = await Account.findAll({
             where: {
-                user_id: userId
+                user_id: usrId
             },
             attributes: ['id', 'name', 'amount']
         })

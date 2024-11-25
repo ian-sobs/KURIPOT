@@ -3,9 +3,9 @@ const sequelize = db.sequelize
 const {Category} = sequelize.models 
 
 exports.getCategories = async (req, res)=>{
-    const {userId, usrname, email} = req.user
+    const {usrId, usrname, email} = req.user
 
-    if (!userId) {
+    if (!usrId) {
         return res.status(400).json({ message: 'User ID is required' });
     }
 
@@ -14,7 +14,7 @@ exports.getCategories = async (req, res)=>{
     try{
         categoriesOfUser = await Category.findAll({
             where: {
-                user_id: userId
+                user_id: usrId
             },
             attributes: ['id', 'name', 'isIncome']
         })

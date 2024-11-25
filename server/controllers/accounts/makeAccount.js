@@ -3,10 +3,10 @@ const sequelize = db.sequelize
 const {Account} = sequelize.models 
 
 exports.makeAccount = async (req, res)=>{
-    const {userId, usrname, email} = req.user
+    const {usrId, usrname, email} = req.user
     const {name, amount} = req.body
 
-    if (!name || !userId) {
+    if (!name || !usrId) {
         return res.status(400).json({ message: 'User ID is required' });
     }
 
@@ -14,7 +14,7 @@ exports.makeAccount = async (req, res)=>{
         const accountOfUser = await Account.create(
             {
                 name: name, 
-                user_id: userId, 
+                user_id: usrId, 
                 amount: amount || 0
             }); 
 

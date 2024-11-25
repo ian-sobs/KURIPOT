@@ -2,7 +2,7 @@ const express = require('express');
 const protectedRouter = express.Router();
 const {getAccounts} = require('../controllers/accounts/getAccounts')
 const {getCategories} = require('../controllers/categories/getCategories')
-const {getMonthBudget} = require('../controllers/budgets/getMonthBudget')
+const {getMonthBudgetCategories} = require('../controllers/budgets/getMonthBudgetCategories')
 const {makeAccount} = require('../controllers/accounts/makeAccount')
 const {getMonthTransac} = require('../controllers/transactions/getMonthTransac')
 const {getRangeTransac} = require('../controllers/transactions/getRangeTransac')
@@ -24,7 +24,7 @@ protectedRouter.get('/getAccounts', getAccounts)
 protectedRouter.post('/makeAccount', makeAccount)
 
 protectedRouter.get('/getCategories', getCategories)
-protectedRouter.get('/getMonthBudget', getMonthBudget)
+protectedRouter.get('/getMonthBudgetCategories', getMonthBudgetCategories)
 
 protectedRouter.get('/getMonthTransac', getMonthTransac)
 protectedRouter.get('/getRangeTransac', getRangeTransac)
