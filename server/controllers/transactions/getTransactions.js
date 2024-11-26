@@ -6,9 +6,18 @@ const {retTransac} = require('./helper/retTransac')
 const {valQueryParamDate} = require('../utility/valQueryParamDate')
 
 exports.getDayTransac = async (req, res) => {
-    const { usrId } = req.user;
+    const {sortIn, sortBy } = req.user;
+    let usrId = parseInt(req.user.usrId, 10)
 
-    let options = {order: [['date', 'DESC']]};
+    let options = {};
+
+    if(sortIn && sortBy){
+        options.order = [[sortBy, sortIn]]
+    }
+    else{
+        options.order = [['date', 'DESC']]
+    }
+
     let limit, page;
 
     let whereClause = valQueryParamDate(req.query, res, 'date')
