@@ -5,7 +5,7 @@ const {Op, Sequelize, where} = require('sequelize')
 const {retTransac} = require('./helper/retTransac')
 const {valQueryParamDate} = require('../utility/valQueryParamDate')
 
-exports.getDayTransac = async (req, res) => {
+exports.getTransac = async (req, res) => {
     const {sortIn, sortBy } = req.user;
     let usrId = parseInt(req.user.usrId, 10)
 

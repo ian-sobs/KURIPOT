@@ -16,9 +16,9 @@ exports.getMonthBudgetCategories = async (req, res)=>{
         ]       
     }
 
-    if(type){
-        whereClause.type = type
-    }
+
+    whereClause.type = (type) ? type : 'expense'
+    
 
     if (!usrId) {
         return res.status(400).json({ message: 'User ID is required' });
