@@ -7,40 +7,19 @@ const {valQueryParamDate} = require('../utility/valQueryParamDate')
 exports.getTopSpending = async (req, res) => {
     const {usrId} = req.user
     let sortIn = req.query.sortIn
+
     let whereClause = valQueryParamDate(req.query, res, 'date')
     whereClause.user_id = usrId
 
-    // const {month, year} = req.query
-
-    // if(!month || !year){
-    //     return res.status(400).json({ message: 'Month and year required' }); 
-    // }
-
-    // const parsedMonth = parseInt(month, 10)
-    // const parsedYear = parseInt(year, 10)
-
-    // if(isNaN(parsedMonth) || isNaN(parsedYear)){
-    //     return res.status(400).json({message: 'month and year are not numbers'})
-    // }
-
-    // if(parsedMonth < 1 || parsedMonth > 12){
-    //     return res.status(400).json({message: 'invalid month'})
-    // }
-
-    // if(parsedYear < 0){
-    //     return res.status(400).json({message: 'invalid year'})
-    // }
+    whereClause.amount = {
+        [Op.lt]: 0
+    }
+    whereClause.from_account_id = null
+    whereClause.to_account_id = null
 
     try{
         const totalSpent = await Transaction.sum('amount', {
-            where: {
-                ...whereClause,
-                amount: {
-                    [Op.lt]: 0
-                },
-                from_account_id: null, // from_account_id is null
-                to_account_id: null, // to_account_id is null
-            }
+            where: whereClause
             // {
             //     user_id: usrId,
             //     amount: {
@@ -73,7 +52,7 @@ exports.getTopSpending = async (req, res) => {
             order: [sequelize.literal('spent '+ sortIn)], // Use a literal for ordering by the alias
         })
 
-        let catMonthSpend = categorySpending.map((catDetails) => {
+        let catSpent = categorySpending.map((catDetails) => {
             return {
                 categoryId: catDetails.category_id,
                 categoryName: catDetails.categoryName,
@@ -84,7 +63,7 @@ exports.getTopSpending = async (req, res) => {
 
         return res.status(200).json({
             totalSpent: totalSpent,
-            categories: catMonthSpend
+            categories: catSpent
         })
     } catch(err){
         console.error('Error fetching categories:', err); // Log the error
