@@ -3,7 +3,7 @@ const {sequelize} = db
 const {Transaction} = sequelize.models
 const {Op, Sequelize, where} = require('sequelize')
 
-exports.topMonthSpending = async (req, res) => {
+exports.getTopMonthSpending = async (req, res) => {
     const {usrId} = req.user
     const {month, year} = req.query
 

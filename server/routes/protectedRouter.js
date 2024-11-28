@@ -7,12 +7,12 @@ const {makeAccount} = require('../controllers/accounts/makeAccount')
 const {getMonthTransac} = require('../controllers/transactions/getMonthTransac')
 const {getRangeTransac} = require('../controllers/transactions/getRangeTransac')
 const {getDayTransac} = require('../controllers/transactions/getDayTransac')
-const {topMonthSpending} = require('../controllers/transactions/topMonthSpending')
+const {topMonthSpending} = require('../controllers/transactions/getTopMonthSpending')
 const {getTransac} = require('../controllers/transactions/getTransactions')
 const {getTotalExpense} = require('../controllers/transactions/getTotalExpense')
 const {getTotalIncome} = require('../controllers/transactions/getTotalIncome')
-const {getTopSpending} = require('../controllers/transactions/topSpending')
-const {getTopIncome} = require('../controllers/transactions/topIncome')
+const {getTopSpending} = require('../controllers/transactions/getTopSpending')
+const {getTopIncome} = require('../controllers/transactions/getTopIncome')
 // Example of a protected route that only authenticated users can access
 protectedRouter.get('/profile', (req, res) => {
   // You can access user data from `req.user` because it's set by the `authenticateToken` middleware
