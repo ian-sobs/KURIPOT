@@ -85,7 +85,11 @@ module.exports = (sequelize, DataTypes) => {
 
       date:{
           type: DataTypes.DATE,
-          allowNull: false
+          allowNull: false,
+          set(dateString){
+            const parsedDate = new Date(dateString)
+            this.setDataValue('date', parsedDate)
+          }
       },
       
       category_id: {
