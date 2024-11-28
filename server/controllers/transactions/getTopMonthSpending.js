@@ -66,7 +66,12 @@ exports.getTopMonthSpending = async (req, res) => {
                         Sequelize.fn('EXTRACT', Sequelize.literal('YEAR FROM'), Sequelize.col('date')),
                         { [Op.eq]: parsedYear }
                     ),
-                ]
+                ],
+                amount: {
+                    [Op.lt]: 0
+                },
+                from_account_id: null, // from_account_id is null
+                to_account_id: null, // to_account_id is null
             },
             group: ['category_id'], // Group by 'category'
             order: [sequelize.literal('spent DESC')], // Use a literal for ordering by the alias
