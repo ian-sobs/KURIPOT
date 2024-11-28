@@ -36,8 +36,7 @@ exports.getTransac = async (req, res) => {
         whereClause.from_account_id = {[Op.eq] : null}
         whereClause.to_account_id = {[Op.eq] : null}
     }
-
-    if(req.query.type === "expense"){
+    else if(req.query.type === "expense"){
         whereClause.amount = {[Op.lt] : 0}
         whereClause.from_account_id = {[Op.eq] : null}
         whereClause.to_account_id = {[Op.eq] : null}
