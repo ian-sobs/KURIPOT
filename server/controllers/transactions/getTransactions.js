@@ -6,7 +6,7 @@ const {retTransac} = require('./helper/retTransac')
 const {valQueryParamDate} = require('../utility/valQueryParamDate')
 
 exports.getTransac = async (req, res) => {
-    const {sortIn, sortBy } = req.user;
+    const {sortIn, sortBy } = req.query;
     let usrId = parseInt(req.user.usrId, 10)
 
     let options = {};
