@@ -53,13 +53,13 @@ exports.makeBudget = async (req, res)=>{
 
         newBudgetCategories = await BudgetCategory.bulkCreate(budgetCategories)
 
-        return res.status(200).json({
+        return res.status(201).json({
             budget: newBudget,
             budgetCategories: newBudgetCategories
         })
     } catch (err) {
-        console.error('Error fetching accounts:', err.message); // Log the error
-        return res.status(500).json({ message: 'Failed to fetch accounts' }); // Respond with an error
+        console.error('Error to make a new budget:', err.message); // Log the error
+        return res.status(500).json({ message: 'Failed to to make a new budget' }); // Respond with an error
     }
 
 }
