@@ -36,7 +36,7 @@ exports.getMonthBudgetCategories = async (req, res)=>{
             // },
 
             attributes: ['id', 'date', 'budgetLimit', 'type'],
-            
+
             include: {
                 model: Category, // Include the associated B records
                 attributes: ['id', 'name', 'isIncome'],
@@ -44,12 +44,12 @@ exports.getMonthBudgetCategories = async (req, res)=>{
             }
         })
 
-        if(!monthBudget){
-            res.status(404).json({message: 'No such budget exists'})
-        }
-    
+        // if(!monthBudget){
+        //     res.status(404).json({message: 'No such budget exists'})
+        // }
+
         return res.status(200).json(monthBudget)
-    
+
     } catch (err) {
         console.error('Error fetching budget of a month:', err.message); // Log the error
         return res.status(500).json({ message: 'Failed to fetch budget of a month' }); // Respond with an error
