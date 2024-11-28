@@ -4,7 +4,7 @@ const {Transaction} = sequelize.models
 const {Op, Sequelize, where} = require('sequelize')
 const {valQueryParamDate} = require('../utility/valQueryParamDate')
 
-exports.topMonthSpending = async (req, res) => {
+exports.getTopSpending = async (req, res) => {
     const {usrId} = req.user
     let sortIn = req.query.sortIn
     let whereClause = valQueryParamDate(req.query, res, 'date')
