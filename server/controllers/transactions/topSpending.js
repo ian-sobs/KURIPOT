@@ -6,8 +6,10 @@ const {valQueryParamDate} = require('../utility/valQueryParamDate')
 
 exports.topMonthSpending = async (req, res) => {
     const {usrId} = req.user
+    let sortIn = req.query.sortIn
     let whereClause = valQueryParamDate(req.query, res, 'date')
     whereClause.user_id = usrId
+
     // const {month, year} = req.query
 
     // if(!month || !year){
@@ -66,21 +68,9 @@ exports.topMonthSpending = async (req, res) => {
                 'categoryName', // Group by 'category'
                 [sequelize.fn('sum', sequelize.col('amount')), 'spent'], // Sum of 'amount' for each category
             ],
-            where: {
-                user_id: usrId, // Filter by userId
-                [Op.and]: [
-                    Sequelize.where(
-                        Sequelize.fn('EXTRACT', Sequelize.literal('MONTH FROM'), Sequelize.col('date')),
-                        { [Op.eq]: parsedMonth }
-                    ),
-                    Sequelize.where(
-                        Sequelize.fn('EXTRACT', Sequelize.literal('YEAR FROM'), Sequelize.col('date')),
-                        { [Op.eq]: parsedYear }
-                    ),
-                ]
-            },
+            where: whereClause,
             group: ['category_id'], // Group by 'category'
-            order: [sequelize.literal('spent DESC')], // Use a literal for ordering by the alias
+            order: [sequelize.literal('spent '+ sortIn)], // Use a literal for ordering by the alias
         })
 
         let catMonthSpend = categorySpending.map((catDetails) => {
@@ -97,8 +87,8 @@ exports.topMonthSpending = async (req, res) => {
             categories: catMonthSpend
         })
     } catch(err){
-        console.error('Error fetching transactions:', err); // Log the error
-        return res.status(500).json({ message: 'Failed to fetch top spending categories in a given month of a year' });
+        console.error('Error fetching categories:', err); // Log the error
+        return res.status(500).json({ message: 'Failed to fetch top spending categories in the given date or date range' });
     }
 
 }
