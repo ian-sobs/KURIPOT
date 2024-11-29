@@ -17,7 +17,8 @@ exports.updateAccount = async (req, res) => {
     });
 
     try {
-        // Change everyone without a last name to "Doe"
+        let oldAccount = await Account.findByPk(req.body.id)
+
         let [affectedRowsNum, affectedRows] = await Account.update(
             updateObj,
             {
@@ -45,8 +46,40 @@ exports.updateAccount = async (req, res) => {
             }
         )
 
+        let diffTransac
+
+        if(oldAccount.amount !== updatedAccount.amount){
+            let transacType
+            if(oldAccount.amount > updatedAccount.amount){
+                transacType = 'expense'
+            }
+            else{
+                transacType = 'income'
+            }
+
+            diffTransac = await Transaction.create({
+                user_id: usrId,
+                amount: (updatedAccount.amount - oldAccount.amount).toFixed(2),
+                account_id: updatedAccount.id,
+                accountName: updatedAccount.name,
+                date: updatedAccount.updatedAt,
+                category_id: null,
+                categoryName: 'Other',
+                from_account_id: null,
+                from_accountName: null,
+                to_accountId: null,
+                to_accountName: null,
+                note: note,
+                recurrId: null,
+                type: transacType
+            })
+        }
+
+
+
         res.status(200).json({
             updatedAccount: updatedAccount,
+            diffTransac: diffTransac,
             numTransacAffected: numTransacAffected
         })
     } catch (error) {
