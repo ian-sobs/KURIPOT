@@ -15,8 +15,8 @@ exports.getTopSpending = async (req, res) => {
         [Op.lt]: 0
     }
     whereClause.type = 'expense'
-    whereClause.from_account_id = null
-    whereClause.to_account_id = null
+    // whereClause.from_account_id = null
+    // whereClause.to_account_id = null
 
     try{
         const totalSpent = await Transaction.sum('amount', {
