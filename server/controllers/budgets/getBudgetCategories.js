@@ -33,7 +33,7 @@ exports.getBudgetCategories = async (req, res)=>{
         //     res.status(404).json({message: 'No such budget exists'})
         // }
     
-        return res.status(200).json(monthBudget.categories)
+        return res.status(200).json(monthBudget)
     
     } catch (err) {
         console.error('Error fetching budget of a month:', err.message); // Log the error
