@@ -48,7 +48,8 @@ exports.makeIncome = async function makeIncome(req, res){
             to_accountId: null,
             to_accountName: null,
             note: note,
-            recurrId: recurrId
+            recurrId: recurrId,
+            type: 'income'
         })
 
         // Change everyone without a last name to "Doe"

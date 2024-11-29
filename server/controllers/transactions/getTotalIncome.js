@@ -14,8 +14,9 @@ exports.getTotalIncome = async (req, res) => {
     whereClause.amount = {
         [Op.gt]: 0
     }
-    whereClause.from_account_id = null
-    whereClause.to_account_id = null
+    whereClause.type = 'income'
+    // whereClause.from_account_id = null
+    // whereClause.to_account_id = null
 
     try{
         const totalEarned = await Transaction.sum('amount', {

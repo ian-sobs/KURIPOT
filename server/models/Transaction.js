@@ -132,6 +132,10 @@ module.exports = (sequelize, DataTypes) => {
         //   model: RecurrTransacGrp,
         //   key: 'id'
         // }
+      },
+
+      type: {
+        type: DataTypes.ENUM('income', 'expense', 'transfer')
       }
     },
     {

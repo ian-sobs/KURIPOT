@@ -48,7 +48,8 @@ exports.makeExpense = async function makeExpense(req, res){
             to_accountId: null,
             to_accountName: null,
             note: note,
-            recurrId: recurrId
+            recurrId: recurrId,
+            type: 'expense'
         })
 
         // Change everyone without a last name to "Doe"
