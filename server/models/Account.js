@@ -9,8 +9,10 @@ module.exports = (sequelize, DataTypes) =>{
         foreignKey:{ 
           name: 'user_id',
           allowNull: false
-      }
-    })
+        }
+      })
+      //One-to-Many relationships between sequelize models defautls to CASCADE ON UPDATE
+      // one-to-many relationships in sequelize default to SET NULL ON DELETE
       Account.hasMany(models.Transaction,{
           foreignKey: {
               name: 'from_account_id',
