@@ -32,7 +32,7 @@ exports.getTransac = async (req, res) => {
     }
 
     if(['income', 'expense', 'transfer'].includes(req.query.type)){
-        whereClause.type = type
+        whereClause.type = req.query.type
         if(req.query.type === 'income'){
             whereClause.amount = {[Op.gt] : 0}
             // whereClause.from_account_id = {[Op.eq] : null}
