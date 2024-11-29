@@ -53,10 +53,10 @@ const startServer = async () => {
   app.use('/api/entry', entryRouter) // signing-in and signing-up API
   app.use('/api/token', tokenRouter) // for getting a new access token if it expires
 
-  app.use('api/accounts', authAccessToken, accountsRouter)
-  app.use('api/budgets', authAccessToken, budgetsRouter)
-  app.use('api/categories', authAccessToken, categoriesRouter)
-  app.use('api/transactions', authAccessToken, transactionsRouter)
+  app.use('/api/accounts', authAccessToken, accountsRouter)
+  app.use('/api/budgets', authAccessToken, budgetsRouter)
+  app.use('/api/categories', authAccessToken, categoriesRouter)
+  app.use('/api/transactions', authAccessToken, transactionsRouter)
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
