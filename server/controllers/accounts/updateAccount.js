@@ -1,6 +1,6 @@
 const db = require('../../models/index')
 const sequelize = db.sequelize
-const {Account} = sequelize.models 
+const {Account, Transaction} = sequelize.models
 
 exports.updateAccount = async (req, res) => {
     if(!req.body.id){
@@ -35,7 +35,20 @@ exports.updateAccount = async (req, res) => {
 
         let [updatedAccount] = affectedRows
 
-        res.status(200).json(updatedAccount)
+        let [numTransacAffected, transacAffected] = await Transaction.update(
+            {accountName: updatedAccount.name},
+            {
+                where: {
+                    account_id: updatedAccount.id,
+                    user_id: usrId
+                }
+            }
+        )
+
+        res.status(200).json({
+            updatedAccount: updatedAccount,
+            numTransacAffected: numTransacAffected
+        })
     } catch (error) {
         console.error('Error updating the account:', error); // Log the error
         return res.status(500).json({ message: 'Failed to update account' }); // Respond with an error        

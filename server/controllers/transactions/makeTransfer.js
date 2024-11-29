@@ -46,7 +46,8 @@ exports.makeTransfer = async function makeTransfer(req, res){
             to_accountId: toAccountInfo.id,
             to_accountName: toAccountInfo.name,
             note: note,
-            recurrId: null
+            recurrId: null,
+            type: 'transfer'
         })
 
         await Account.update(

@@ -31,16 +31,21 @@ exports.getTransac = async (req, res) => {
         whereClause.category_id = parseInt(req.query.categoryId, 10)
     }
 
-    if(req.query.type === "income"){
-        whereClause.amount = {[Op.gt] : 0}
-        whereClause.from_account_id = {[Op.eq] : null}
-        whereClause.to_account_id = {[Op.eq] : null}
+    if(['income', 'expense', 'transfer'].includes(req.query.type)){
+        whereClause.type = type
+        if(req.query.type === 'income'){
+            whereClause.amount = {[Op.gt] : 0}
+            // whereClause.from_account_id = {[Op.eq] : null}
+            // whereClause.to_account_id = {[Op.eq] : null}
+            
+        }
+        else if(req.query.type === 'expense'){
+            whereClause.amount = {[Op.lt] : 0}
+            // whereClause.from_account_id = {[Op.eq] : null}
+            // whereClause.to_account_id = {[Op.eq] : null}
+        }
     }
-    else if(req.query.type === "expense"){
-        whereClause.amount = {[Op.lt] : 0}
-        whereClause.from_account_id = {[Op.eq] : null}
-        whereClause.to_account_id = {[Op.eq] : null}
-    }
+
 
     if(req.query.limit && req.query.page){
         limit = parseInt(req.query.limit, 10)

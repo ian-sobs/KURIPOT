@@ -14,6 +14,7 @@ exports.getTotalExpense = async (req, res) => {
     whereClause.amount = {
         [Op.lt]: 0
     }
+    whereClause.type = 'expense'
     whereClause.from_account_id = null
     whereClause.to_account_id = null
 

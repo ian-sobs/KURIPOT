@@ -14,6 +14,7 @@ exports.getTotalIncome = async (req, res) => {
     whereClause.amount = {
         [Op.gt]: 0
     }
+    whereClause.type = 'income'
     whereClause.from_account_id = null
     whereClause.to_account_id = null
 
