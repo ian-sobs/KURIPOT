@@ -10,6 +10,7 @@ const {getTotalExpense} = require('../controllers/transactions/getTotalExpense')
 const {getTotalIncome} = require('../controllers/transactions/getTotalIncome')
 const {getTopSpending} = require('../controllers/transactions/getTopSpending')
 const {getTopIncome} = require('../controllers/transactions/getTopIncome')
+const {makeTransac} = require('../controllers/transactions/makeTransac')
 
 transactionsRouter.get('/getMonthTransac', getMonthTransac)
 transactionsRouter.get('/getRangeTransac', getRangeTransac)
@@ -20,5 +21,7 @@ transactionsRouter.get('/getTotalExpense', getTotalExpense)
 transactionsRouter.get('/getTotalIncome', getTotalIncome)
 transactionsRouter.get('/getTopSpending', getTopSpending)
 transactionsRouter.get('/getTopIncome', getTopIncome)
+
+transactionsRouter.post('/makeTransaction', makeTransac)
 
 module.exports = transactionsRouter;
