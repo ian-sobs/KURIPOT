@@ -2,6 +2,7 @@ const db = require('../../models/index')
 const {Sequelize} = require('sequelize')
 const {sequelize} = db
 const {Transaction, Account, Category} = sequelize.models
+const {retTransac} = require('./helper/retTransac')
 // const {matchAmountToType} = require('./helper/matchAmountToType')
 
 async function getAccountInfo(id, user_id){
@@ -101,31 +102,64 @@ async function toIncome(req, res, oldTransacInfo){
             }
         );
 
-        if(affectedCount > 0){ // consider the case when the transaction was initially a transfer
-            let [updatedTransacInfo] = affectedRows
+        if(affectedCount <= 0){
+            return res.status(204).json({message: 'No changes were made'})
+        }
+
+        // consider the case when the transaction was initially a transfer
+        let [updatedTransacInfo] = affectedRows
+        if(oldTransacInfo.type !== 'transfer'){
             await Account.update(
                 {
                     amount: Sequelize.literal(`amount - ${oldTransacInfo.amount}`)
                 },
                 {
                     where: {
-                        id: oldTransacInfo.account_id || oldTransacInfo.to_account_id,
+                        id: oldTransacInfo.account_id,
+                        user_id: usrId
+                    }
+                }
+            );
+        }
+        else{
+            await Account.update(
+                {
+                    amount: Sequelize.literal(`amount - ${oldTransacInfo.amount}`)
+                },
+                {
+                    where: {
+                        id: oldTransacInfo.to_account_id,
                         user_id: usrId
                     }
                 }
             );
             await Account.update(
                 {
-                    amount: Sequelize.literal(`amount + ${updatedTransacInfo.amount}`)
+                    amount: Sequelize.literal(`amount + ${oldTransacInfo.amount}`)
                 },
                 {
                     where: {
-                        id: updatedTransacInfo.account_id,
+                        id: oldTransacInfo.from_account_id,
                         user_id: usrId
                     }
                 }
             );
+
         }
+
+        await Account.update(
+            {
+                amount: Sequelize.literal(`amount + ${updatedTransacInfo.amount}`)
+            },
+            {
+                where: {
+                    id: updatedTransacInfo.account_id,
+                    user_id: usrId
+                }
+            }
+        );
+
+        return res.status(200).json(retTransac(updatedTransacInfo))
     } catch (error) {
         console.error('Error updating transaction:', err); // Log the error
         return res.status(500).json({ message: 'Failed to update the transaction' });
@@ -164,8 +198,8 @@ exports.updateTransac = async (req, res) => {
 
     switch(type){
         case 'income':
-            toIncome(req, res, oldTransacInfo)
-            break;
+            await toIncome(req, res, oldTransacInfo)
+            return;
         case 'expense':
             break;
         case 'transfer':
