@@ -6,7 +6,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('/public/images/kuripot-background-bigger.png');
+  background-image: url("/public/images/kuripot-background-bigger.png");
   background-size: auto;
   /* Ensure the background is displayed at its original size */
   background-position: center center;
@@ -14,8 +14,8 @@ body {
   /* Keeps the background fixed while content scrolls */
   height: auto;
   /* Allow content to define height instead of fixing it to 100vh */
+  color: white;
 }
-
 
 .carousel-container::-webkit-scrollbar {
   display: none;

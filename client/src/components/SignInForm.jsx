@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const SignUpForm = () => {
+const SignInForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -72,11 +72,10 @@ const SignUpForm = () => {
           </div>
         </div>
         <button className="signup-submit w-[80%] bg-[#9747FF] text-white text-sm font-medium rounded-md p-2">
-          SIGN UP
+          SIGN IN
         </button>
       </form>
 
-      {/* Social Sign-In Section */}
       <div className="social-signin space-y-3 mt-16 flex flex-col text-sm text-gray-500 font font-medium justify-center items-center w-full">
         <button className="connect-google w-[80%] pl-5 bg-white rounded-md p-2 flex items-center justify-start space-x-2">
           <svg
@@ -106,13 +105,16 @@ const SignUpForm = () => {
         </button>
       </div>
 
-      <div className="signin-menu mt-6 text-xxs underline">
-        <Link to="/signin" className="">
-          Already have an account?
+      <div className="signin-menu mt-6 text-xxs underline flex justify-between w-full">
+        <Link to="/signup" className="">
+          Don't have an account?
         </Link>
+        <a className="" href="">
+          Forgot password?
+        </a>
       </div>
     </div>
   );
 };
 
-export default SignUpForm;
+export default SignInForm;
