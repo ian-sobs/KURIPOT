@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const PageHeader = () => {
+const PageHeader = ({ title, subtitle }) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -27,11 +27,10 @@ const PageHeader = () => {
         }`}
       >
         <div className="nav-start flex items-center">
-          <a href="#" className="flex items-center space-x-2">
-            {/* place holder for logo */}
-            <div className="logo text-xl font-bold">LOGO</div>
-            <div className="logo-font text-lg font-extrabold">Kuripot</div>
-          </a>
+          <div className="text-2xl">
+            {title}
+            <div className="text-xs text-gray-400">{subtitle}</div>
+          </div>
         </div>
         <div className="nav-end">
           <button className="font-normal">Notif??</button>

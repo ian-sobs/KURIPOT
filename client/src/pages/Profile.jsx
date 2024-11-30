@@ -5,13 +5,19 @@ import PageHeader from "../components/PageHeader";
 const Profile = () => {
     return (
         <div className="flex flex-col h-screen">
-            <PageHeader />
             <TaskBar />
-            <div className="flex items-center justify-center h-screen bg-gray-100">
-                <h1 className="text-2xl font-bold text-gray-800">test Profile page</h1>
+            <div className="md:ml-[20%] lg:ml-[16.666%]">
+                <PageHeader 
+                    title="Profile"
+                    subtitle="Manage Your Personal Information and Preferences"/>
+                <div className="flex items-center justify-center">
+                    <h1 className="text-2xl font-bold text-gray-800">Test Profile</h1>
+                </div>
             </div>
         </div>
     );
 };
+
+
 
 export default Profile;
