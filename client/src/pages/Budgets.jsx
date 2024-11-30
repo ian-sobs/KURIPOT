@@ -7,7 +7,7 @@ const Budgets = () => {
     return (
         <div className="flex flex-col h-screen">
             <TaskBar />
-            <div className="md:ml-[20%] lg:ml-[16.666%]">
+            <div className="flex-1 md:ml-[20%] lg:ml-[16.666%] pt-[70px]">
                 <PageHeader
                     title="Budgets"
                     subtitle="Set a Budget and Stay on Track" />

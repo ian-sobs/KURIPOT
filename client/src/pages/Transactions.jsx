@@ -6,12 +6,12 @@ const Transactions = () => {
     return (
         <div className="flex flex-col h-screen">
             <TaskBar />
-            <div className="p-0 md:ml-[20%] lg:ml-[16.666%]">
-                <PageHeader 
-                title="Transactions"
-                subtitle="View and Manage All Your Financial Activities"/>
+            <div className="flex-1 md:ml-[20%] lg:ml-[16.666%] pt-[70px]">
+                <PageHeader
+                    title="Transactions"
+                    subtitle="View and Manage All Your Financial Activities" />
                 <div className="flex items-center justify-center">
-                    <h1 className="text-2xl font-bold text-gray-800">Test Trans</h1>
+                    <h1 className="text-2xl font-bold text-white">Test Transactions</h1>
                 </div>
             </div>
         </div>
