@@ -6,10 +6,14 @@ import SignUpPage from "./pages/SignUpPage";
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-      </Routes>
+      <div className="app-container pt-6 sm:pt-8 md:pt-10">
+        {" "}
+        {/* Adjust this value to match your navbar height */}
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+        </Routes>
+      </div>
     </Router>
   );
 };
