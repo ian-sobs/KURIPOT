@@ -1,27 +1,35 @@
 exports.retTransac = (transac) => {
-    if(!(transac.from_account_id || transac.to_account_id)){ //is not a transfer
+    if(transac.type !== 'transfer'){ //is not a transfer
         return {
-            isTransfer: false,
-            details: {
-                id: transac.id,
-                date: transac.date,
-                amount: transac.amount,
-                account: transac.accountName,
-                category: transac.categoryName,
-                note: transac.note
-            }
+            type: transac.type,
+            id: transac.id,
+            date: transac.date,
+            amount: transac.amount,
+            account: {
+                id: transac.account_id,
+                name: transac.accountName
+            },
+            category: {
+                id: transac.category_id,
+                name: transac.categoryName
+            },
+            note: transac.note
         }
     }
 
     return {
-        isTransfer: true,
-        details: {
-            id: transac.id,
-            date: transac.date,
-            amount: transac.amount,
-            fromAccount: transac.from_accountName,
-            toAccount: transac.to_accountName,
-            note: transac.note
-        }
+        type: transac.type,
+        id: transac.id,
+        date: transac.date,
+        amount: transac.amount,
+        fromAccount: {
+            id: transac.from_account_id,
+            name: transac.from_accountName
+        },
+        toAccount: {
+            id: transac.to_account_id,
+            name: transac.to_accountName
+        },
+        note: transac.note
     }
 }

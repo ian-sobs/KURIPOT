@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
-        //lesser = smaller scroll
         setScrolled(true);
       } else {
         setScrolled(false);
@@ -20,24 +22,41 @@ const Navbar = () => {
     };
   }, []);
 
+  const isLandingPage = location.pathname === "/";
+
+  const handleSignInClick = () => {
+    navigate("/signup");
+  };
+
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
   return (
-    <>
+    <div
+      className={`navbar fixed top-0 left-0 w-full flex justify-between items-center px-6 sm:px-8 md:px-10 text-[#FAFAFA] z-10 transition-all duration-300 ${
+        scrolled ? "bg-[#15172E]" : "bg-transparent"
+      }`}
+    >
       <div
-        className={`navbar sticky top-0 w-full flex justify-between items-center px-6 sm:px-8 md:px-10 text-[#FAFAFA] z-10 transition-all duration-300 ${
-          scrolled ? "bg-[#15172E]" : "bg-transparent"
-        }`}
+        className="nav-start flex items-center cursor-pointer"
+        onClick={handleLogoClick}
       >
-        <div className="nav-start flex items-center">
-          <a href="#" className="flex items-center space-x-2">
-            {/* place holder for logo */}
-            <img src="/images/logo-kuripot.png" alt="Logo" class="h-16 object-contain"/>
-          </a>
-        </div>
-        <div className="nav-end">
-          <button className="font-normal">Login</button>
-        </div>
+        <img
+          src="/images/kuripot-logo.png"
+          alt="kuripot-logo"
+          className="h-10"
+        />
+        <div className="logo-font text-xl font-extrabold">Kuripot</div>
       </div>
-    </>
+      <div className="nav-end">
+        {isLandingPage && (
+          <button className="font-normal" onClick={handleSignInClick}>
+            Sign Up
+          </button>
+        )}
+      </div>
+    </div>
   );
 };
 

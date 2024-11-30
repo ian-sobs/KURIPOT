@@ -3,7 +3,7 @@ const sequelize = db.sequelize
 const {Category} = sequelize.models 
 
 exports.getCategories = async (req, res)=>{
-    const {usrId, usrname, email} = req.user
+    const {usrId} = req.user
     let {isIncome, sortIn} = req.query
     let whereClause = {
         user_id: usrId
@@ -14,12 +14,10 @@ exports.getCategories = async (req, res)=>{
     }
 
     if(isIncome === 'true'){
-        isIncome = true
-        whereClause.isIncome = isIncome
+        whereClause.isIncome = true
     }
     else if(isIncome === 'false'){
-        isIncome = false
-        whereClause.isIncome = isIncome
+        whereClause.isIncome = false
     }
 
     let categoriesOfUser

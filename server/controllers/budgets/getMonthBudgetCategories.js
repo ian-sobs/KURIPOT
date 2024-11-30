@@ -1,6 +1,6 @@
 const db = require('../../models/index')
 const sequelize = db.sequelize
-const {Budget, Category} = sequelize.models 
+const {Budget, Category} = sequelize.models
 const { Op, Sequelize } = require('sequelize');
 
 
@@ -13,12 +13,12 @@ exports.getMonthBudgetCategories = async (req, res)=>{
             { user_id: usrId },  // user_id condition
             Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('MONTH FROM "date"')), { [Op.eq]: month }),  // Match the month using EXTRACT
             Sequelize.where(Sequelize.fn('EXTRACT', Sequelize.literal('YEAR FROM "date"')), { [Op.eq]: year })   // Match the year using EXTRACT
-        ]       
+        ]
     }
 
 
     whereClause.type = (type) ? type : 'expense'
-    
+
 
     if (!usrId) {
         return res.status(400).json({ message: 'User ID is required' });

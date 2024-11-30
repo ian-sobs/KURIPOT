@@ -31,7 +31,7 @@ const LandingPage = () => {
     <>
       <Navbar />
 
-      <div className="landing-container w-full flex-col justify-center items-center overflow-hidden">
+      <div className="landing-container pt-12 backdrop:w-full flex-col justify-center items-center overflow-hidden">
         <div className="slogan-container w-full bg-center-vertical p-6">
           <div className="slogan-container-content h-[250px] w-full flex items-center justify-between">
             <div className="slogan-container-slogan text-2xl text-[#FAFAFA]">
