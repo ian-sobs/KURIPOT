@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom"; // Import useLocation and useNavigate
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation(); // Get the current location
-  const navigate = useNavigate(); // Initialize the navigate function
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,12 +22,14 @@ const Navbar = () => {
     };
   }, []);
 
-  // Check if the current route is the landing page
   const isLandingPage = location.pathname === "/";
 
-  // Handle Sign In button click
   const handleSignInClick = () => {
-    navigate("/signup"); // Navigate to the Sign Up page
+    navigate("/signup");
+  };
+
+  const handleLogoClick = () => {
+    navigate("/");
   };
 
   return (
@@ -36,15 +38,18 @@ const Navbar = () => {
         scrolled ? "bg-[#15172E]" : "bg-transparent"
       }`}
     >
-      <div className="nav-start flex items-center">
-        <a href="/" className="flex items-center space-x-2">
-          {/* place holder for logo */}
-          <div className="logo text-xl font-bold">LOGO</div>
-          <div className="logo-font text-lg font-extrabold">Kuripot</div>
-        </a>
+      <div
+        className="nav-start flex items-center cursor-pointer"
+        onClick={handleLogoClick}
+      >
+        <img
+          src="/images/kuripot-logo.png"
+          alt="kuripot-logo"
+          className="h-10"
+        />
+        <div className="logo-font text-xl font-extrabold">Kuripot</div>
       </div>
       <div className="nav-end">
-        {/* Conditionally render the "Sign In" button */}
         {isLandingPage && (
           <button className="font-normal" onClick={handleSignInClick}>
             Sign Up
