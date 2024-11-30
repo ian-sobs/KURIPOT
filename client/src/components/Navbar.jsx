@@ -30,8 +30,7 @@ const Navbar = () => {
         <div className="nav-start flex items-center">
           <a href="#" className="flex items-center space-x-2">
             {/* place holder for logo */}
-            <div className="logo text-xl font-bold">LOGO</div>
-            <div className="logo-font text-lg font-extrabold">Kuripot</div>
+            <img src="/images/logo-kuripot.png" alt="Logo" class="h-16 object-contain"/>
           </a>
         </div>
         <div className="nav-end">
