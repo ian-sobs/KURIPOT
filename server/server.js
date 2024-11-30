@@ -1,17 +1,26 @@
 //just to start things up
-require('dotenv').config();
+const path = require('path');
+
+const dotenv = require('dotenv');
+const envFile = `.env.${process.env.NODE_ENV || 'development'}`;  // default to 'development' if NODE_ENV is not set
+dotenv.config({ path: path.resolve(__dirname, envFile) });
 
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const {connectDB } = require("./config/connection");
 const db = require("./models/index")
-const userRouter = require('./routes/userRouter')
+const entryRouter = require('./routes/entryRouter')
 const {authAccessToken} = require('./controllers/authentication/authAccessToken')
-const protectedRouter = require('./routes/protectedRouter')
+
 const tokenRouter = require('./routes/tokenRouter')
 const loggingMiddleware = require('./logging')
 const cookieParser = require('cookie-parser');
+
+const accountsRouter = require('./routes/accountsRouter')
+const budgetsRouter = require('./routes/budgetsRouter')
+const categoriesRouter = require('./routes/categoriesRouter')
+const transactionsRouter = require('./routes/transactionsRouter')
 
 // Start the server and connect to the database
 const startServer = async () => {
@@ -41,11 +50,13 @@ const startServer = async () => {
   app.use(express.json());  // Parses JSON body and adds it to req.body
   app.use(express.urlencoded({ extended: true }));  // Parses form data and adds it to req.body
 
-  app.use('/api/user', userRouter) // signing-in and signing-up API
+  app.use('/api/entry', entryRouter) // signing-in and signing-up API
   app.use('/api/token', tokenRouter) // for getting a new access token if it expires
 
-  app.use('/', authAccessToken, protectedRouter); // Apply to routes that need protection
-
+  app.use('/api/accounts', authAccessToken, accountsRouter)
+  app.use('/api/budgets', authAccessToken, budgetsRouter)
+  app.use('/api/categories', authAccessToken, categoriesRouter)
+  app.use('/api/transactions', authAccessToken, transactionsRouter)
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

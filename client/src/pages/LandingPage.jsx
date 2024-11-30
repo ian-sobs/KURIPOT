@@ -6,6 +6,27 @@ const LandingPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const itemRefs = useRef([]);
 
+  const reviews = [
+    {
+      name: "Katrina Ventura on AppStore",
+      stars: 5,
+      description:
+        "Great app! Definitely helped me with my Valorant skills. I went from Iron 1 to Iron 31.6! GG Guys! Yawa yawa yawa!! Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    },
+    {
+      name: "Ian Sobrecaray on AppStore",
+      stars: 4,
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae facere ut consequuntur eos eius dolorum possimus aliquid hic vero dolorem optio, vitae totam illum. Quod, cumque. Id nobis autem eum?",
+    },
+    {
+      name: "Christian Abay-abay on AppStore",
+      stars: 5,
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae facere ut consequuntur eos eius dolorum possimus aliquid hic vero dolorem optio, vitae totam illum. Quod, cumque. Id nobis autem eum?",
+    },
+  ];
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -17,33 +38,40 @@ const LandingPage = () => {
         });
       },
       {
-        root: document.querySelector(".carousel-container"), // Only observe within the carousel container
-        threshold: 0.5, // At least 50% of the item should be visible
+        root: document.querySelector(".carousel-container"),
+        threshold: 0.5,
       }
     );
 
     itemRefs.current.forEach((item) => observer.observe(item));
 
-    return () => observer.disconnect(); // Cleanup observer on unmount
+    return () => observer.disconnect();
   }, []);
 
   return (
     <>
       <Navbar />
 
-      <div className="landing-container w-full flex-col justify-center items-center overflow-hidden">
-        <div className="slogan-container w-full bg-center-vertical p-6">
-          <div className="slogan-container-content h-[250px] w-full flex items-center justify-between">
-            <div className="slogan-container-slogan text-2xl text-[#FAFAFA]">
+      <div className="landing-container pt-12 backdrop:w-full flex-col justify-center items-center overflow-hidden">
+        <div className="slogan-container w-full bg-center-vertical h-[250px] pl-6 pr-2 flex items-center justify-between">
+          <div className="slogan-container-left">
+            <h1 className="text-xl text-white">
               "It's not the amount, <br /> but the habit."
-            </div>
-            <div className="slogan-container-media w-56">
-              <img src="/images/landing-iphones.png" alt="" />
-            </div>
+            </h1>
+            <button className="mt-4 px-4 py-2 bg-[#9747FF] text-white text-sm font-semibold rounded-lg">
+              Get Started
+            </button>
+          </div>
+          <div className="slogan-container-right max-w-56">
+            <img
+              src="/images/landing-iphones.png"
+              alt=""
+              className="min-h-48"
+            />
           </div>
         </div>
 
-        <div className="carousel-container mt-4 w-full flex justify-start overflow-x-auto snap-x snap-mandatory px-[22%] scrollbar-hide">
+        <div className="carousel-container mt-14 w-full flex justify-start overflow-x-auto snap-x snap-mandatory px-[22%] scrollbar-hide">
           {[0, 1, 2, 3].map((_, index) => (
             <div
               key={index}
@@ -53,7 +81,7 @@ const LandingPage = () => {
             >
               <img
                 src={`/images/Carousel-${index + 1}.png`}
-                className="rounded-box object-contain w-[250px] h-[350]px"
+                className="rounded-box object-contain w-[250px] h-[350px]"
                 alt={`carousel-item-${index}`}
               />
             </div>
@@ -78,9 +106,26 @@ const LandingPage = () => {
           ))}
         </div>
 
-        <div className="description-container items-center text-center p-16 text-xl text-[#9747FF] font-bold">
-          Your Personal Finance
-          <br /> Tracker Application
+        <div className="review-container flex flex-col justify-center items-center pt-10 bg-gradient-to-r from-[#442D8F] via-[#180655] to-[#442D8F] bg-opacity-25 text-white rounded-lg shadow-lg mt-12">
+          <h2 className="text-2xl font-semibold">Feedback that matters.</h2>
+          <div className="review-content flex flex-col justify-center items-center space-y-4">
+            {reviews.map((review, index) => (
+              <div
+                key={index}
+                className="review flex flex-col justify-center items-center pt-2 px-12"
+              >
+                <div className="stars pt-4">
+                  {"★".repeat(review.stars)} {"☆".repeat(5 - review.stars)}{" "}
+                </div>
+                <div className="reviewer-name text-sm text-slate-400">
+                  {review.name}
+                </div>
+                <div className="reviewer-desc text-center pt-6 pb-6">
+                  {review.description}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       account_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
 
         // references: {
         //   model: Account,
@@ -85,12 +85,16 @@ module.exports = (sequelize, DataTypes) => {
 
       date:{
           type: DataTypes.DATE,
-          allowNull: false
+          allowNull: false,
+          set(dateString){
+            const parsedDate = new Date(dateString)
+            this.setDataValue('date', parsedDate)
+          }
       },
       
       category_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
 
         // references: {
         //   model: Category,
@@ -99,7 +103,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       categoryName:{
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       from_account_id: {
         type: DataTypes.INTEGER,
@@ -128,6 +132,10 @@ module.exports = (sequelize, DataTypes) => {
         //   model: RecurrTransacGrp,
         //   key: 'id'
         // }
+      },
+
+      type: {
+        type: DataTypes.ENUM('income', 'expense', 'transfer')
       }
     },
     {

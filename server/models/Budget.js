@@ -19,6 +19,13 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         onDelete: 'CASCADE'      
+      }),
+
+      Budget.belongsToMany(models.Category, {
+        through: models.BudgetCategory,
+        unique: false,
+        foreignKey: 'budget_id',
+        otherKey: 'category_id'
       })
     }
   }
@@ -43,11 +50,19 @@ module.exports = (sequelize, DataTypes) => {
       date:{
         type: DataTypes.DATEONLY,
         allowNull: false,
+        set(dateString){
+          const parsedDate = new Date(dateString)
+          this.setDataValue('date', parsedDate)
+        }
       },
       budgetLimit:{
         type: DataTypes.DECIMAL(18,2),
         allowNull: false,
         defaultValue: 0,
+        set(amount){
+          const parsedAmount = parseFloat(amount).toFixed(2)
+          this.setDataValue('budgetLimit', parsedAmount)
+        }
       },
       type:{
         type: DataTypes.ENUM('expense', 'income'),

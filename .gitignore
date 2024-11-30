@@ -18,6 +18,9 @@ npm-debug.log*
 
 # Environment variables
 .env
+.env.development
+.env.test
+.env.production
 
 # Build files
 build/
