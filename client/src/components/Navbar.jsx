@@ -25,7 +25,7 @@ const Navbar = () => {
   const isLandingPage = location.pathname === "/";
 
   const handleSignInClick = () => {
-    navigate("/signup");
+    navigate("/signin");
   };
 
   const handleLogoClick = () => {
@@ -52,7 +52,7 @@ const Navbar = () => {
       <div className="nav-end">
         {isLandingPage && (
           <button className="font-normal" onClick={handleSignInClick}>
-            Sign Up
+            Sign In
           </button>
         )}
       </div>
