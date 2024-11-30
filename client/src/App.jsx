@@ -9,7 +9,7 @@ const App = () => {
   return (
     <Router>
       {/* padding-top to take into account size of navbar */}
-      <div className="app-container pt-16 sm:pt-8 md:pt-10">
+      <div className="app-container pt-16 sm:pt-8 md:pt-10 min-h-screen">
         {" "}
         <Routes>
           <Route path="/" element={<LandingPage />} />
