@@ -22,25 +22,7 @@ exports.getTopIncome = async (req, res) => {
     try{
         const totalEarned = await Transaction.sum('amount', {
             where: whereClause
-            // {
-            //     user_id: usrId,
-            //     amount: {
-            //         [Op.lt]: 0
-            //     },
-            //     from_account_id: null, // from_account_id is null
-            //     to_account_id: null, // to_account_id is null
-            //     [Op.and]: [
-            //         Sequelize.where(
-            //             Sequelize.fn('EXTRACT', Sequelize.literal('MONTH FROM'), Sequelize.col('date')),
-            //             { [Op.eq]: parsedMonth }
-            //         ),
-            //         Sequelize.where(
-            //             Sequelize.fn('EXTRACT', Sequelize.literal('YEAR FROM'), Sequelize.col('date')),
-            //             { [Op.eq]: parsedYear }
-            //         ),
-            //     ]
 
-            // }
         })
 
         const categoryEarnings = await Transaction.findAll({
