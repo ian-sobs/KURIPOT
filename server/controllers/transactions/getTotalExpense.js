@@ -7,9 +7,17 @@ const {valQueryParamDate} = require('../utility/valQueryParamDate')
 
 exports.getTotalExpense = async (req, res) => {
     const {usrId} = req.user
+    const {categoryId, accountId} = req.query
 
     let whereClause = valQueryParamDate(req.query, res, 'date')
 
+    // filters the total expense by category and account
+    if(categoryId){
+        whereClause.category_id = parseInt(categoryId, 10)
+    }
+    if(accountId){
+        whereClause.account_id = parseInt(accountId, 10)
+    }
     whereClause.user_id = usrId
     whereClause.amount = {
         [Op.lt]: 0
