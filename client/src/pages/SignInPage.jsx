@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import SignUpForm from "../components/SignUpForm";
-import SignUpLayout from "../components/SignInUpLayout";
+import SignInForm from "../components/SignInForm";
+import SignInUpLayout from "../components/SignInUpLayout";
 import Navbar from "../components/Navbar";
 
-const SignUpPage = () => {
+const SignInPage = () => {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
@@ -14,7 +14,7 @@ const SignUpPage = () => {
   return (
     <>
       <Navbar />
-      <SignUpLayout>
+      <SignInUpLayout>
         <button
           onClick={handleBackClick}
           className="text-white flex items-center space-x-2"
@@ -32,12 +32,12 @@ const SignUpPage = () => {
           </svg>
         </button>
         <h2 className="text-center text-3xl font-bold text-white mb-4 mt-6">
-          Sign Up
+          Sign In
         </h2>
-        <SignUpForm />
-      </SignUpLayout>
+        <SignInForm />
+      </SignInUpLayout>
     </>
   );
 };
 
-export default SignUpPage;
+export default SignInPage;
