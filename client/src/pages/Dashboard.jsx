@@ -39,12 +39,12 @@ const Dashboard = () => {
         </div>
 
         <div className="income-expenses-container items-center flex w-full text-lg text-white p-10 pt-0 rounded-full">
-          <div className="income-container p-4 flex-1 bg-[#9747FF] border border-white rounded-lg">
+          <div className="income-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-lg">
             <i className="fs-4 bi-arrow-down-circle pr-2"></i>
             Income
             <div className="income-amount text-md font-bold">Php {data.income}</div>
           </div>
-          <div className="expenses-container p-4 flex-1 bg-[#9747FF] border border-white rounded-lg ml-4">
+          <div className="expenses-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-lg ml-4">
             <i className="fs-4 bi-arrow-up-circle pr-2"></i>
             Expenses
             <div className="expenses-amount text-md font-bold">Php {data.expenses}</div>
@@ -53,7 +53,7 @@ const Dashboard = () => {
 
         {/* Accounts and Top Spending Section */}
         <div className="p-10 pb-5 pt-0">
-          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 backdrop-blur-md bg-white/10">
+          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg">
             <input type="radio" name="my-accordion-2" defaultChecked />
             <div className="collapse-title text-xl font-medium border-b border-white pb-2">
               My Accounts
@@ -70,7 +70,7 @@ const Dashboard = () => {
               )}
             </div>
           </div>
-          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 backdrop-blur-md bg-white/10">
+          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg">
             <input type="radio" name="my-accordion-2" />
             <div className="collapse-title text-xl font-medium border-b border-white pb-2">
               Top Spending
@@ -89,7 +89,7 @@ const Dashboard = () => {
               )}
             </div>
           </div>
-          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 backdrop-blur-md bg-white/10">
+          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg">
             <input type="radio" name="my-accordion-2" />
             <div className="collapse-title text-xl font-medium border-b border-white pb-2">
               Recent Transactions
