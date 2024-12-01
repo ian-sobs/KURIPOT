@@ -7,13 +7,17 @@ const Budgets = () => {
     return (
         <div className="flex flex-col h-screen">
             <TaskBar />
-            <div className="flex-1 md:ml-[20%] lg:ml-[16.666%] pt-[70px]">
+            <div className="flex-1 md:ml-[20%] lg:ml-[16.666%]">
                 <PageHeader
                     title="Budgets"
                     subtitle="Set a Budget and Stay on Track" />
 
                 <div className="flex flex-col items-center justify-center h-full text-center p-10">
-                    <i className="fs-1 bi-inboxes-fill text-white text-7xl mb-4" />
+                    <img
+                        src="/images/budget-box.png"
+                        alt=""
+                        className="min-h-10"
+                    />
                     <div className="text-white text-xl mb-2">
                         You currently have no budget.
                     </div>

@@ -6,7 +6,7 @@ const Transactions = () => {
     return (
         <div className="flex flex-col h-screen">
             <TaskBar />
-            <div className="flex-1 md:ml-[20%] lg:ml-[16.666%] pt-[70px]">
+            <div className="flex-1 md:ml-[20%] lg:ml-[16.666%]">
                 <PageHeader
                     title="Transactions"
                     subtitle="View and Manage All Your Financial Activities" />
