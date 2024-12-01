@@ -65,12 +65,9 @@ exports.updateBudget = async (req, res)=>{
 
         let [updatedBudget] = rows
 
-        return res.status(200).json({
-            message: 'Budget updated successfully',
-            data: updatedBudget
-        })
+        return res.status(200).json(updatedBudget)
     } catch (err) {
-        console.error('Error to make a new budget:', err.message); // Log the error
+        console.error('Error making a new budget:', err.message); // Log the error
         return res.status(500).json({ message: 'Failed to to make a new budget' }); // Respond with an error
     }
 
