@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import {apiClient} from "../apiClient/axiosInstance.js"; 
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -36,6 +37,25 @@ const SignUpForm = () => {
 
     console.log("Form Submitted:", formData);
     // API logic here
+    apiClient.post('/entry/signUp', formData, { withCredentials: true })
+      .then((response) => {
+        if (response.status === 201) {
+          let {message, user, accessToken} = response.data
+          console.log("access token: ", accessToken);
+          console.log("message: ", message);
+          console.log("user: ", user)
+          // Handle successful form submission
+        } else {
+          console.error("Failed to submit form");
+          
+          // Handle server response error
+        }
+      })
+      .catch((err) => {
+        console.error("Error during submission:", err);
+        // Handle network or request error
+      });
+
   };
 
   return (
