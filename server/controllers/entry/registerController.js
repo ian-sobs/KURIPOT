@@ -5,6 +5,7 @@ const {User} = sequelize.models
 const checkIfUserExists = require('../utility/checkIfUserExists')
 const makeAccessToken = require('../utility/makeAccessToken')
 const makeRefreshToken = require('../utility/makeRefreshToken')
+const {userSignUpSchema} = require('../../validationSchema/userSchema')
 
 exports.registerUser = async (req,res) =>{
     const {username, birthDate, password} = req.body
@@ -15,7 +16,7 @@ exports.registerUser = async (req,res) =>{
         const userExists = await checkIfUserExists(email)
         if (userExists) {
             // User already exists, return a conflict response
-            return res.status(409).json({ message: "User already exists, sign-up failed" });
+            return res.status(409).json({ message: "Email is taken." });
         }
     }
     catch(error){
@@ -26,8 +27,8 @@ exports.registerUser = async (req,res) =>{
     try{
         newUser = await User.create(
             {
-                username: username, 
-                birthDate: birthDate, 
+                // username: username, 
+                // birthDate: birthDate, 
                 email: email, 
                 password: password
             })
