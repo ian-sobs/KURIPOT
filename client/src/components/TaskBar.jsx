@@ -23,7 +23,7 @@ const TaskBar = () => {
                             }`}
                     >
                         <i className={`fs-5 bi-house ${isActive("/dashboard") ? 'text-[#9747FF]' : ''}`}></i>
-                        <span className={`text-md ${isActive("/dashboard") ? 'text-[#9747FF]' : ''}`}>Home</span>
+                        {/* <span className={`text-md ${isActive("/dashboard") ? 'text-[#9747FF]' : ''}`}>Home</span> */}
                     </Link>
 
                     <Link
@@ -33,8 +33,8 @@ const TaskBar = () => {
                     >
                         <i className={`fs-5 bi-arrow-left-right ${isActive("/dashboard/transactions") ? 'text-[#9747FF]' : ''
                             }`}></i>
-                        <span className={`text-md ${isActive("/dashboard/transactions") ? 'text-[#9747FF]' : ''
-                            }`}>Transactions</span>
+                        {/* <span className={`text-md ${isActive("/dashboard/transactions") ? 'text-[#9747FF]' : ''
+                            }`}>Transactions</span> */}
                     </Link>
 
                     <Link
@@ -53,8 +53,8 @@ const TaskBar = () => {
                     >
                         <i className={`fs-5 bi-wallet2 ${isActive("/dashboard/budgets") ? 'text-[#9747FF]' : ''
                             }`}></i>
-                        <span className={`text-md ${isActive("/dashboard/budgets") ? 'text-[#9747FF]' : ''
-                            }`}>Budgets</span>
+                        {/* <span className={`text-md ${isActive("/dashboard/budgets") ? 'text-[#9747FF]' : ''
+                            }`}>Budgets</span> */}
                     </Link>
 
                     <Link
@@ -64,8 +64,8 @@ const TaskBar = () => {
                     >
                         <i className={`fs-5 bi-person-circle ${isActive("/dashboard/profile") ? 'text-[#9747FF]' : ''
                             }`}></i>
-                        <span className={`text-md ${isActive("/dashboard/profile") ? 'text-[#9747FF]' : ''
-                            }`}>Profile</span>
+                        {/* <span className={`text-md ${isActive("/dashboard/profile") ? 'text-[#9747FF]' : ''
+                            }`}>Profile</span> */}
                     </Link>
                 </div>
                 <Outlet />
