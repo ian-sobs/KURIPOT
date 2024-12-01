@@ -25,10 +25,16 @@ const PageHeader = ({ title, subtitle }) => {
         scrolled ? "bg-[#15172E]" : "bg-transparent"
       }`}
     >
-      <div>
-        <div className="text-2xl">
+      <div className="flex items-center">
+        <i className="bi bi-arrow-left text-xl cursor-pointer"></i>
+      </div>
+
+      {/* Centered Title */}
+      <div className="flex items-center justify-center w-full">
+        <div className="text-2xl font-bold text-center">
           {title}
-          <div className="text-xs text-gray-400">{subtitle}</div>
+          {/* if w subtitle */}
+          {/* <div className="text-xs text-gray-400">{subtitle}</div> */}
         </div>
       </div>
     </div>
