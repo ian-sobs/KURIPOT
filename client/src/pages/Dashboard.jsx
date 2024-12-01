@@ -11,7 +11,7 @@ const Dashboard = () => {
       <TaskBar />
       <div className="flex-1 md:ml-[20%] lg:ml-[16.666%]">
         <PageHeader title="Dashboard" />
-        <div className="amount-container w-full p-0">
+        <div className="mt-[4rem] amount-container w-full p-0">
           <div className="amount-container-content w-full flex items-center justify-between p-10 pb-5">
             <div className="balance-container items-start text-left text-lg text-white">
               Total Balance

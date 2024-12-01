@@ -12,7 +12,7 @@ const Budgets = () => {
                     title="Budgets"
                     subtitle="Set a Budget and Stay on Track" />
 
-                <div className="flex flex-col items-center justify-center h-full text-center p-10">
+                <div className="mt-[4rem] flex flex-col items-center justify-center h-full text-center p-10">
                     <img
                         src="/images/budget-box.png"
                         alt=""
