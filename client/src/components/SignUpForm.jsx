@@ -37,7 +37,7 @@ const SignUpForm = () => {
 
     console.log("Form Submitted:", formData);
     // API logic here
-    apiClient.post('/entry/signUp', formData)
+    apiClient.post('/entry/signUp', formData, { withCredentials: true })
       .then((response) => {
         if (response.status === 201) {
           let {message, user, accessToken} = response.data
@@ -47,6 +47,7 @@ const SignUpForm = () => {
           // Handle successful form submission
         } else {
           console.error("Failed to submit form");
+          
           // Handle server response error
         }
       })
