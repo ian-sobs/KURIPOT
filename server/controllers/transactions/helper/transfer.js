@@ -8,6 +8,9 @@ exports.transfer = async (toTransfer, usrId) => {
     if(toTransfer.type !== 'transfer'){
         return null
     }
+
+    toTransfer.amount = Math.abs(toTransfer.amount)
+
     const [affectedToAccountsNum, affectedToAccounts] = await Account.update(
         {
             amount: Sequelize.literal(`amount + ${toTransfer.amount}`)

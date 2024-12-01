@@ -10,6 +10,8 @@ exports.untransfer = async (toUntransfer, usrId) => {
         return null
     }
 
+    toUntransfer.amount = Math.abs(toUntransfer.amount)
+
     const [affectedToAccountsNum, affectedToAccounts] = await Account.update(
         {
             amount: Sequelize.literal(`amount - ${toUntransfer.amount}`)
