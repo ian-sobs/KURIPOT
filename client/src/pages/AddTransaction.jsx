@@ -6,11 +6,11 @@ const AddTransaction = () => {
     return (
         <div className="flex flex-col h-screen">
             <TaskBar />
-            <div className="flex-1 md:ml-[20%] lg:ml-[16.666%] pt-[70px]">
+            <div className="flex-1 md:ml-[20%] lg:ml-[16.666%]">
                 <PageHeader 
-                    title="Profile"
-                    subtitle="Manage Your Personal Information and Preferences"/>
-                <div className="flex items-center justify-center">
+                    title="Add Transaction"
+                    subtitle="Record and Categorize Your Income and Expenses"/>
+                <div className="mt-[4rem] flex items-center justify-center">
                     <h1 className="text-2xl font-bold text-white">Test Add transactionssssssszzzz</h1>
                 </div>
             </div>
