@@ -4,6 +4,10 @@ const {sequelize} = db
 const {Transaction, Account, Category} = sequelize.models
 const {retTransac} = require('./helper/retTransac')
 // const {matchAmountToType} = require('./helper/matchAmountToType')
+const {untransfer} = require('./helper/untransfer')
+const {transfer} = require('./helper/transfer')
+const {unspendUnearn} = require('./helper/unspendUnearn')
+const {spendEarn} = require('./helper/spendEarn')
 
 async function getAccountInfo(id, user_id){
     let accountInfo = await Account.findOne({
@@ -109,55 +113,58 @@ async function toIncomeOrExpense(req, res, oldTransacInfo){
         // consider the case when the transaction was initially a transfer
         let [updatedTransacInfo] = affectedRows
         if(oldTransacInfo.type !== 'transfer'){
-            await Account.update(
-                {
-                    amount: Sequelize.literal(`amount - ${oldTransacInfo.amount}`)
-                },
-                {
-                    where: {
-                        id: oldTransacInfo.account_id,
-                        user_id: usrId
-                    }
-                }
-            );
+            // await Account.update(
+            //     {
+            //         amount: Sequelize.literal(`amount - ${oldTransacInfo.amount}`)
+            //     },
+            //     {
+            //         where: {
+            //             id: oldTransacInfo.account_id,
+            //             user_id: usrId
+            //         }
+            //     }
+            // );
+            unspendUnearn(oldTransacInfo, usrId)
         }
         else{
-            await Account.update(
-                {
-                    amount: Sequelize.literal(`amount - ${oldTransacInfo.amount}`)
-                },
-                {
-                    where: {
-                        id: oldTransacInfo.to_account_id,
-                        user_id: usrId
-                    }
-                }
-            );
-            await Account.update(
-                {
-                    amount: Sequelize.literal(`amount + ${oldTransacInfo.amount}`)
-                },
-                {
-                    where: {
-                        id: oldTransacInfo.from_account_id,
-                        user_id: usrId
-                    }
-                }
-            );
-
+            // await Account.update(
+            //     {
+            //         amount: Sequelize.literal(`amount - ${oldTransacInfo.amount}`)
+            //     },
+            //     {
+            //         where: {
+            //             id: oldTransacInfo.to_account_id,
+            //             user_id: usrId
+            //         }
+            //     }
+            // );
+            // await Account.update(
+            //     {
+            //         amount: Sequelize.literal(`amount + ${oldTransacInfo.amount}`)
+            //     },
+            //     {
+            //         where: {
+            //             id: oldTransacInfo.from_account_id,
+            //             user_id: usrId
+            //         }
+            //     }
+            // );
+            untransfer(oldTransacInfo, usrId)
         }
 
-        await Account.update(
-            {
-                amount: Sequelize.literal(`amount + ${updatedTransacInfo.amount}`)
-            },
-            {
-                where: {
-                    id: updatedTransacInfo.account_id,
-                    user_id: usrId
-                }
-            }
-        );
+        spendEarn(updatedTransacInfo, usrId)
+
+        // await Account.update(
+        //     {
+        //         amount: Sequelize.literal(`amount + ${updatedTransacInfo.amount}`)
+        //     },
+        //     {
+        //         where: {
+        //             id: updatedTransacInfo.account_id,
+        //             user_id: usrId
+        //         }
+        //     }
+        // );
 
         return res.status(200).json(retTransac(updatedTransacInfo))
     } catch (error) {
@@ -247,67 +254,70 @@ async function toTransfer(req, res, oldTransacInfo){
         // consider the case when the transaction was initially a transfer
         let [updatedTransacInfo] = affectedRows
         if(oldTransacInfo.type !== 'transfer'){
-            await Account.update(
-                {
-                    amount: Sequelize.literal(`amount - ${oldTransacInfo.amount}`)
-                },
-                {
-                    where: {
-                        id: oldTransacInfo.account_id,
-                        user_id: usrId
-                    }
-                }
-            );
+            // await Account.update(
+            //     {
+            //         amount: Sequelize.literal(`amount - ${oldTransacInfo.amount}`)
+            //     },
+            //     {
+            //         where: {
+            //             id: oldTransacInfo.account_id,
+            //             user_id: usrId
+            //         }
+            //     }
+            // );
+            unspendUnearn(oldTransacInfo, usrId)
         }
         else{
-            await Account.update(
-                {
-                    amount: Sequelize.literal(`amount - ${oldTransacInfo.amount}`)
-                },
-                {
-                    where: {
-                        id: oldTransacInfo.to_account_id,
-                        user_id: usrId
-                    }
-                }
-            );
-            await Account.update(
-                {
-                    amount: Sequelize.literal(`amount + ${oldTransacInfo.amount}`)
-                },
-                {
-                    where: {
-                        id: oldTransacInfo.from_account_id,
-                        user_id: usrId
-                    }
-                }
-            );
+            // await Account.update(
+            //     {
+            //         amount: Sequelize.literal(`amount - ${oldTransacInfo.amount}`)
+            //     },
+            //     {
+            //         where: {
+            //             id: oldTransacInfo.to_account_id,
+            //             user_id: usrId
+            //         }
+            //     }
+            // );
+            // await Account.update(
+            //     {
+            //         amount: Sequelize.literal(`amount + ${oldTransacInfo.amount}`)
+            //     },
+            //     {
+            //         where: {
+            //             id: oldTransacInfo.from_account_id,
+            //             user_id: usrId
+            //         }
+            //     }
+            // );
+            untransfer(oldTransacInfo, usrId)
 
         }
 
-        await Account.update(
-            {
-                amount: Sequelize.literal(`amount + ${updatedTransacInfo.amount}`)
-            },
-            {
-                where: {
-                    id: updatedTransacInfo.to_account_id,
-                    user_id: usrId
-                }
-            }
-        );
+        transfer(updatedTransacInfo, usrId)
+        // await Account.update(
+        //     {
+        //         amount: Sequelize.literal(`amount + ${updatedTransacInfo.amount}`)
+        //     },
+        //     {
+        //         where: {
+        //             id: updatedTransacInfo.to_account_id,
+        //             user_id: usrId
+        //         }
+        //     }
+        // );
 
-        await Account.update(
-            {
-                amount: Sequelize.literal(`amount - ${updatedTransacInfo.amount}`)
-            },
-            {
-                where: {
-                    id: updatedTransacInfo.from_account_id,
-                    user_id: usrId
-                }
-            }
-        );
+        // await Account.update(
+        //     {
+        //         amount: Sequelize.literal(`amount - ${updatedTransacInfo.amount}`)
+        //     },
+        //     {
+        //         where: {
+        //             id: updatedTransacInfo.from_account_id,
+        //             user_id: usrId
+        //         }
+        //     }
+        // );
 
         return res.status(200).json(retTransac(updatedTransacInfo))
     } catch (error) {
