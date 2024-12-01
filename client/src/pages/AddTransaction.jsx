@@ -82,7 +82,7 @@ const AddTransaction = () => {
                                 <input
                                     type="number"
                                     id="amount"
-                                    placeholder="00.00"
+                                    placeholder="0.00"
                                     value={amount}
                                     onChange={(e) => setAmount(e.target.value)}
                                     required
