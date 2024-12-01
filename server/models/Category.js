@@ -14,9 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       Category.hasMany(models.Transaction,{
           foreignKey: {
               name: 'category_id',
-
+              
               allowNull: true
-          }
+          },
+          onDelete: 'CASCADE',
       })
 
       Category.hasMany(models.BudgetCategory,{

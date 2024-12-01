@@ -16,18 +16,19 @@ module.exports = (sequelize, DataTypes) =>{
       Account.hasMany(models.Transaction,{
           foreignKey: {
               name: 'from_account_id',
-
+              
               allowNull: true,
           },
+          onDelete: 'CASCADE',
       })
 
-      Account.hasMany(models.Transaction,{
-          foreignKey: {
-              name: 'to_account_id',
+      // Account.hasMany(models.Transaction,{
+      //     foreignKey: {
+      //         name: 'to_account_id',
 
-              allowNull: true,
-          },
-      })
+      //         allowNull: true,
+      //     },
+      // })
     }
   }
 

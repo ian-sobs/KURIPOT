@@ -55,6 +55,7 @@ exports.makeTransfer = async function makeTransfer(req, res){
             {
                 where: {
                     id: fromAccountInfo.id,
+                    user_id: usrId
                 },
             },
         );
@@ -64,6 +65,7 @@ exports.makeTransfer = async function makeTransfer(req, res){
             {
                 where: {
                     id: toAccountInfo.id,
+                    user_id: usrId
                 },
             },
         );
