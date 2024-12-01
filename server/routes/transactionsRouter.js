@@ -15,7 +15,7 @@ const {makeIncome} = require('../controllers/transactions/makeIncome')
 const {makeExpense} = require('../controllers/transactions/makeExpense')
 const {makeTransfer} = require('../controllers/transactions/makeTransfer')
 const {updateTransac} = require('../controllers/transactions/updateTransac')
-const {deleteTransacs} = require('../controllers/transactions/deleteTransacs')
+const {deleteTransac} = require('../controllers/transactions/deleteTransac')
 // transactionsRouter.get('/getMonthTransac', getMonthTransac)
 // transactionsRouter.get('/getRangeTransac', getRangeTransac)
 // transactionsRouter.get('/getDayTransac', getDayTransac)
@@ -31,6 +31,6 @@ transactionsRouter.post('/makeExpense', makeExpense)
 transactionsRouter.post('/makeTransfer', makeTransfer)
 
 transactionsRouter.patch('/updateTransaction', updateTransac)
-transactionsRouter.patch('/deleteTransactions', deleteTransacs)
+transactionsRouter.delete('/deleteTransaction', deleteTransac)
 
 module.exports = transactionsRouter;
