@@ -345,6 +345,8 @@ exports.updateTransac = async (req, res) => {
         case 'transfer':
             await toTransfer(req, res, oldTransacInfo)
             return;
+        default:
+            return res.status(400).json({message: 'Invalid type specified'})
     }
 
 }
