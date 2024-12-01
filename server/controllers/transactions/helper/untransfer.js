@@ -3,7 +3,6 @@ const db = require('../../../models/index')
 const {Sequelize} = require('sequelize')
 const {sequelize} = db
 const {Account} = sequelize.models
-const {retTransac} = require('./helper/retTransac')
 
 exports.untransfer = async (toUntransfer, usrId) => {
     if(toUntransfer.type !== 'transfer'){

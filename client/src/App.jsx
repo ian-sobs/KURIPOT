@@ -9,7 +9,7 @@ import AddTransaction from "./pages/AddTransaction";
 import AddBudget from "./pages/AddBudget";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
-import GettingStarted from "./pages/GettingStarted";
+import GettingStarted from "./pages/GettingStartedPage";
 
 const App = () => {
   return (

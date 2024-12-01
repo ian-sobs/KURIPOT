@@ -2,7 +2,6 @@ const db = require('../../../models/index')
 const {Sequelize} = require('sequelize')
 const {sequelize} = db
 const {Account} = sequelize.models
-const {retTransac} = require('./helper/retTransac')
 
 exports.transfer = async (toTransfer, usrId) => {
     if(toTransfer.type !== 'transfer'){
