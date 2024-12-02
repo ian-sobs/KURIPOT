@@ -58,14 +58,15 @@ const Dashboard = () => {
 
         {/* Accounts and Top Spending Section */}
         <div className="p-10 pb-5 pt-0">
-          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg">
-            <div className="flex justify-center items-center">
+          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg border-2 border-white border-opacity-20">
+            <div className="flex justify-end items-center">
               <Link to="/dashboard/viewAccounts">
                 <button className="text-white text-xs hover:underline transition-all">
                   Manage Accounts
                 </button>
               </Link>
             </div>
+
 
             <input type="radio" name="my-accordion-2" defaultChecked />
             <div className="collapse-title text-xl font-medium border-b border-white pb-2">
@@ -83,7 +84,7 @@ const Dashboard = () => {
               )}
             </div>
           </div>
-          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg">
+          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg border-2 border-white border-opacity-20">
             <input type="radio" name="my-accordion-2" />
             <div className="collapse-title text-xl font-medium border-b border-white pb-2">
               Top Spending
@@ -102,7 +103,7 @@ const Dashboard = () => {
               )}
             </div>
           </div>
-          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg">
+          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg border-2 border-white border-opacity-20">
             <input type="radio" name="my-accordion-2" />
             <div className="collapse-title text-xl font-medium border-b border-white pb-2">
               Recent Transactions
