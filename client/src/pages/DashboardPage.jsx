@@ -44,12 +44,12 @@ const Dashboard = () => {
         </div>
 
         <div className="income-expenses-container items-center flex w-full text-lg text-white p-10 pt-0 rounded-full">
-          <div className="income-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-lg">
+          <div className="income-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-lg shadow-lg">
             <i className="fs-4 bi-arrow-down-circle pr-2"></i>
             Income
             <div className="income-amount text-md font-bold">Php {data.income}</div>
           </div>
-          <div className="expenses-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-lg ml-4">
+          <div className="expenses-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-lg ml-4 shadow-lg">
             <i className="fs-4 bi-arrow-up-circle pr-2"></i>
             Expenses
             <div className="expenses-amount text-md font-bold">Php {data.expenses}</div>
