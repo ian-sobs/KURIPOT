@@ -44,7 +44,7 @@ const TaskBar = () => {
                     </Link>
                     
                     <Link
-                        to="/dashboard/addTransaction"
+                        to="#" //replace with /dashboard/addTransaction
                         className={`flex flex-col items-center text-gray-400 no-underline p-2 rounded relative -top-10 flex justify-center items-center`}
                     >
                         <div className="bg-[#9747FF] rounded-full w-12 h-12 flex justify-center items-center">
@@ -129,7 +129,7 @@ const TaskBar = () => {
                             }`}>Reports</span>
                     </Link>
                     <Link
-                        to="/dashboard/addTransaction"
+                        to="#" //replace with /dashboard/addTransaction
                         className={`flex items-center text-gray-400 no-underline pt-10 rounded ${isActive("/dashboard/addTransaction") ? 'glow-effect' : ''
                             }`}
                     >
