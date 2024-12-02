@@ -15,12 +15,18 @@ exports.refAccessToken = (req, res) => {
         }
 
         // Generate a new access token only
-        const newAccessToken = makeAccessToken({
-            id: decoded.usrId,
-            username: decoded.usrname,
-            email: decoded.email,
-        });
-    
-        res.status(200).json({ accessToken: newAccessToken });
+        try {
+            const newAccessToken = makeAccessToken({
+                id: decoded.usrId,
+                username: decoded.usrname,
+                email: decoded.email,
+            });
+        
+            res.status(200).json({ accessToken: newAccessToken });            
+        } catch (error) {
+            console.error('Error generating access token:', error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
+
     });
 }
