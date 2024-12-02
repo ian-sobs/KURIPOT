@@ -13,7 +13,7 @@ const TaskBar = () => {
         <div>
             {/* MOBILE */}
             <div
-                className="fixed bottom-0 left-0 w-full p-4 md:hidden rounded-tl-xl rounded-tr-xl"
+                className="taskbar-mobile fixed bottom-0 left-0 w-full p-4 md:hidden rounded-tl-xl rounded-tr-xl"
                 style={{
                     backgroundColor: '#010827',
                 }}
