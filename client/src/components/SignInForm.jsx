@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { TokenContext } from "../token/TokenContext"; 
-import { apiClient } from "../apiClient/axiosInstance";
+import { entry } from "../apiClient/axiosInstance";
 
 
 const SignInForm = () => {
@@ -44,7 +44,7 @@ const SignInForm = () => {
 
     console.log("Form Submitted:", formData);
     // API logic here
-    apiClient.post('/entry/signIn', formData, { withCredentials: true })
+    entry.post('/entry/signIn', formData)
       .then((response) => {
         if (response.status === 200) {
           let {message, accessToken} = response.data
