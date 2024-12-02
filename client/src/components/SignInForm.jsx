@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { TokenContext } from "../token/TokenContext"; 
-import { entry } from "../apiClient/axiosInstance";
+import { unprotectedRoute } from "../apiClient/axiosInstance";
+import { decodeJWT } from "../token/decodeJWT";
 
 
 const SignInForm = () => {
@@ -44,12 +45,13 @@ const SignInForm = () => {
 
     console.log("Form Submitted:", formData);
     // API logic here
-    entry.post('/entry/signIn', formData)
+    unprotectedRoute.post('/entry/signIn', formData)
       .then((response) => {
         if (response.status === 200) {
           let {message, accessToken} = response.data
           console.log("message: ", message);
           console.log("Access token: ", accessToken)
+          decodeJWT(accessToken)
           setAccessToken(accessToken)
         } else {
           console.log(response)

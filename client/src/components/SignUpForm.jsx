@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {entry} from "../apiClient/axiosInstance.js";
+import {unprotectedRoute} from "../apiClient/axiosInstance.js";
 import {TokenContext} from "../token/TokenContext.jsx"
 
 const SignUpForm = () => {
@@ -42,7 +42,7 @@ const SignUpForm = () => {
 
     console.log("Form Submitted:", formData);
     // API logic here
-    entry.post('/entry/signUp', formData)
+    unprotectedRoute.post('/entry/signUp', formData)
       .then((response) => {
         if (response.status === 201) {
           let {message, user, accessToken} = response.data

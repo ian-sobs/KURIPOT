@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const entry = axios.create({
+const unprotectedRoute = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
         'Content-Type': 'application/json'
@@ -17,4 +17,4 @@ const protectedRoute = axios.create({
     ,withCredentials: true 
 })
 
-export {entry, protectedRoute}
+export {unprotectedRoute, protectedRoute}
