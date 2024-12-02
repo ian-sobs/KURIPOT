@@ -76,7 +76,7 @@ const AddBudget = () => {
 
                             <div>
                                 <div className="flex items-center text-white">
-                                    <label htmlFor="budgetLimit" className="block text-white mr-2">Budget Limit (PHP)</label>
+                                    <label htmlFor="budgetLimit" className="block text-white mr-2 font-bold">Budget Limit (PHP)</label>
                                 </div>
                                 <div className="flex items-center justify-center">
                                     <i className="bi bi-cash-coin pt-3 pr-3 text-2xl items-center" />
@@ -93,7 +93,7 @@ const AddBudget = () => {
                             </div>
 
                             <div>
-                                <label htmlFor="date" className="block text-white">Month and Year</label>
+                                <label htmlFor="date" className="block text-white font-bold">Month and Year</label>
                                 <div className="flex items-center justify-center">
                                     <i className="bi bi-calendar-event pt-3 pr-3 text-2xl items-center" />
                                     <input
@@ -108,7 +108,7 @@ const AddBudget = () => {
                             </div>
 
                             <div>
-                                <label htmlFor="categories" className="block text-white">Budget Categories</label>
+                                <label htmlFor="categories" className="block text-white font-bold">Budget Categories</label>
                                 <div className="space-y-2 mt-2 pl-5">
                                     {allCategories.map((category, index) => (
                                         <div key={index} className="flex items-center">
@@ -129,7 +129,7 @@ const AddBudget = () => {
                             </div>
 
                             <div>
-                                <label htmlFor="account" className="block text-white">Account</label>
+                                <label htmlFor="account" className="block text-white font-bold">Account</label>
                                 <div className="flex items-center justify-center">
                                     <i className="bi bi-wallet pt-3 pr-3 text-2xl items-center" />
                                     <select
