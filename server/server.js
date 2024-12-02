@@ -13,6 +13,8 @@ const db = require("./models/index")
 const entryRouter = require('./routes/entryRouter')
 const {authAccessToken} = require('./controllers/authentication/authAccessToken')
 
+const cors = require('cors');
+
 const tokenRouter = require('./routes/tokenRouter')
 const loggingMiddleware = require('./logging')
 const cookieParser = require('cookie-parser');
@@ -24,6 +26,11 @@ const transactionsRouter = require('./routes/transactionsRouter')
 
 // Start the server and connect to the database
 const startServer = async () => {
+  app.use(cors({
+    origin: process.env.CORS_ORIGIN, // Allow your frontend's origin
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'], // Allow specific methods
+    credentials: true // If using cookies or authentication
+}));
 
   try {
     await connectDB(); // Initialize the database connection
@@ -43,7 +50,7 @@ const startServer = async () => {
     console.error("Failed to start server:", error);
     process.exit(1);
   }
-  
+  console.log(process.env.ACCESS_TOKEN_JWT_SECRET)
   app.use(cookieParser())
   app.use(loggingMiddleware);  // Use the logging middleware for all routes
   

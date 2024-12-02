@@ -1,5 +1,6 @@
 const { Model } = require('sequelize');
 const bcrypt = require('bcrypt')
+const moment = require('moment')
 //const {sequelize, connectDB} = require('../config/connection');
 
 
@@ -74,11 +75,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       username: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: null
       },
       birthDate:{
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: null
       },
       email:{
         type: DataTypes.STRING,

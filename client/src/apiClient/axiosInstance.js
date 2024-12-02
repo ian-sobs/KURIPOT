@@ -1,11 +1,11 @@
-const axios = require('axios')
+import axios from 'axios';
 
-const unprotected = axios.create({
+
+const apiClient = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+        'Content-Type': 'application/json'
+    }
 });
 
-const protected = axios.create({
-    baseURL: process.env.REACT_APP_API_URL + "/protected",
-});
-
-module.exports = {unprotected, protected}
+export {apiClient}
