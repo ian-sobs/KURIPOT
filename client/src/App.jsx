@@ -10,6 +10,7 @@ import AddBudget from "./components/AddBudget";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import GettingStarted from "./pages/GettingStartedPage";
+import ViewAccounts from "./components/ViewAccounts";
 
 const App = () => {
   return (
@@ -24,6 +25,8 @@ const App = () => {
         <Route path="/dashboard/reports" element={<Reports />} />{" "}
         <Route path="/dashboard/addTransaction" element={<AddTransaction />} />{" "}
         <Route path="/dashboard/budgets/addBudget" element={<AddBudget />} />{" "}
+        <Route path="/dashboard/viewAccounts" element={<ViewAccounts />} />{" "}
+
       </Routes>
       {/* padding-top to take into account size of navbar */}
       <div className="app-container pt-16 sm:pt-8 md:pt-10 min-h-screen">
