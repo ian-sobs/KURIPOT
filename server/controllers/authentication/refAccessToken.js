@@ -21,6 +21,6 @@ exports.refAccessToken = (req, res) => {
             email: decoded.email,
         });
     
-        res.json({ accessToken: newAccessToken });
+        res.status(200).json({ accessToken: newAccessToken });
     });
 }
