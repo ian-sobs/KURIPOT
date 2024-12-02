@@ -1,7 +1,7 @@
 // TokenContext.js
 import React, { createContext, useContext, useState } from 'react';
 
-const TokenContext = createContext();
+export const TokenContext = createContext();
 
 export const TokenProvider = ({ children }) => {
     const [accessToken, setAccessToken] = useState(null);
