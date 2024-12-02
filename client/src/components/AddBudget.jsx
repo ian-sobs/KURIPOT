@@ -1,37 +1,39 @@
 import React, { useState } from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
+import axios from "axios"; // Import axios
 
 const AddBudget = () => {
-    // State to hold form data
+ 
     const [date, setDate] = useState("");
     const [budgetLimit, setBudgetLimit] = useState("");
-    const [type, setType] = useState("");
-    
+    const [categories, setCategories] = useState([]);
+    const [account, setAccount] = useState("");
+
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
 
-    const types = ["Income", "Expenses", "Transfer"]; // STATIC CATEGORIES
+    const allCategories = ["Shopping", "Food", "Entertainment", "Transportation", "Bills"]; // STATIC CATEGORIES
 
-    // Form submission
+    const accounts = ["Savings", "Checking", "Emergency Fund"]; // STATIC ACCOUNTS
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const budgetData = {
             date,
             budgetLimit,
-            type
+            categories,
+            account
         };
 
         try {
-            const response = await fetch("/api/budgets", { //insert api call 
-                method: "POST",
+            const response = await axios.post("/api/budgets", budgetData, {
                 headers: {
                     "Content-Type": "application/json"
-                },
-                body: JSON.stringify(budgetData)
+                }
             });
 
-            if (response.ok) {
+            if (response.status === 200) {
                 setSuccess(true);
                 setError(null);
             } else {
@@ -40,6 +42,17 @@ const AddBudget = () => {
         } catch (err) {
             setError("Budget creation failed!");
             setSuccess(false);
+        }
+    };
+
+
+    const handleCategoryChange = (e) => {
+        const { value, checked } = e.target;
+
+        if (checked) {
+            setCategories((prevCategories) => [...prevCategories, value]);
+        } else {
+            setCategories((prevCategories) => prevCategories.filter((category) => category !== value));
         }
     };
 
@@ -52,7 +65,7 @@ const AddBudget = () => {
                     subtitle="Manage Your Expenses with Ease — Add a Budget"
                     onBackClick={() => window.history.back()}
                 />
-                
+
                 <div className="mt-[4rem] flex items-center justify-center">
                     <div className="items-center w-full max-w-md p-6 rounded-lg shadow-md m-10 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg">
 
@@ -60,17 +73,6 @@ const AddBudget = () => {
                         {success && <div className="text-green-500 text-center mb-4">Budget added successfully!</div>}
 
                         <form onSubmit={handleSubmit} className="space-y-4">
-                            <div>
-                                <label htmlFor="date" className="block text-white">Date</label>
-                                <input
-                                    type="date"
-                                    id="date"
-                                    value={date}
-                                    onChange={(e) => setDate(e.target.value)}
-                                    required
-                                    className="w-full p-2 pr-5 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
-                                />
-                            </div>
 
                             <div>
                                 <label htmlFor="budgetLimit" className="block text-white">Budget Limit (PHP)</label>
@@ -84,19 +86,50 @@ const AddBudget = () => {
                                     className="w-full p-2 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
                                 />
                             </div>
+                            <div>
+                                <label htmlFor="date" className="block text-white">Month and Year</label>
+                                <input
+                                    type="month"
+                                    id="date"
+                                    value={date}
+                                    onChange={(e) => setDate(e.target.value)}
+                                    required
+                                    className="w-full p-2 pr-5 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
+                                />
+                            </div>
 
                             <div>
-                                <label htmlFor="type" className="block text-white">Type</label>
+                                <label htmlFor="categories" className="block text-white">Budget Categories</label>
+                                <div className="space-y-2 mt-2">
+                                    {allCategories.map((category, index) => (
+                                        <div key={index} className="flex items-center">
+                                            <input
+                                                type="checkbox"
+                                                id={`category-${category}`}
+                                                value={category}
+                                                checked={categories.includes(category)} 
+                                                onChange={handleCategoryChange}
+                                                className="mr-2"
+                                            />
+                                            <label htmlFor={`category-${category}`} className="text-white">{category}</label>
+                                        </div>
+                                    ))}
+                                </div>
+                                <p className="text-white text-xs mt-2">Select multiple categories</p>
+                            </div>
+
+                            <div>
+                                <label htmlFor="account" className="block text-white">From Account</label>
                                 <select
-                                    id="type"
-                                    value={type}
-                                    onChange={(e) => setType(e.target.value)}
+                                    id="account"
+                                    value={account}
+                                    onChange={(e) => setAccount(e.target.value)}
                                     required
                                     className="w-full p-2 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
                                 >
-                                    <option value="">Select Type</option>
-                                    {types.map((type, index) => (
-                                        <option key={index} value={type}>{type}</option>
+                                    <option value="">Select Account</option>
+                                    {accounts.map((acc, index) => (
+                                        <option key={index} value={acc}>{acc}</option>
                                     ))}
                                 </select>
                             </div>
@@ -106,7 +139,7 @@ const AddBudget = () => {
                                     type="submit"
                                     className="px-10 py-2 bg-[#9747FF] text-white rounded-md"
                                 >
-                                    Add
+                                    Add Budget
                                 </button>
                             </div>
                         </form>
