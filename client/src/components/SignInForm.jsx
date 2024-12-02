@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { TokenContext } from "../token/TokenContext"; 
+import { apiClient } from "../apiClient/axiosInstance";
+
 
 const SignInForm = () => {
+  const {accessToken, setAccessToken} = useContext(TokenContext)
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -9,6 +13,10 @@ const SignInForm = () => {
   const [errors, setErrors] = useState({
     email: "",
   });
+
+  useEffect(() => {
+    console.log('React-context access token updated:', accessToken);
+  }, [accessToken]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,6 +44,25 @@ const SignInForm = () => {
 
     console.log("Form Submitted:", formData);
     // API logic here
+    apiClient.post('/entry/signIn', formData, { withCredentials: true })
+      .then((response) => {
+        if (response.status === 200) {
+          let {message, accessToken} = response.data
+          console.log("message: ", message);
+          console.log("Access token: ", accessToken)
+          setAccessToken(accessToken)
+        } else {
+          console.log(response)
+          console.error("Failed to submit form");
+          
+          // Handle server response error
+        }
+      })
+      .catch((err) => {
+        console.error("Error during submission:", err);
+        // Handle network or request error
+      });
+
   };
 
   return (

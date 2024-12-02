@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {apiClient} from "../apiClient/axiosInstance.js";
 import {TokenContext} from "../token/TokenContext.jsx"
@@ -12,6 +12,9 @@ const SignUpForm = () => {
     email: "",
   });
   const {accessToken, setAccessToken} = useContext(TokenContext)
+  useEffect(() => {
+    console.log('React-context access token updated:', accessToken);
+  }, [accessToken]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,11 +45,11 @@ const SignUpForm = () => {
     apiClient.post('/entry/signUp', formData, { withCredentials: true })
       .then((response) => {
         if (response.status === 201) {
-          let {message, user, accToken} = response.data
+          let {message, user, accessToken} = response.data
           console.log("message: ", message);
           console.log("user: ", user)
-          setAccessToken(accToken)
-          console.log('React-context access token: ', accessToken)
+          console.log("Access token: ", accessToken)
+          setAccessToken(accessToken)
         } else {
           console.log(response)
           console.error("Failed to submit form");
