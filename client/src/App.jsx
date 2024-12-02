@@ -4,7 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import Budgets from "./pages/Budgets";
-import Profile from "./pages/Profile";
+import Reports from "./pages/Reports";
 import AddTransaction from "./pages/AddTransaction";
 import AddBudget from "./pages/AddBudget";
 import SignUpPage from "./pages/SignUpPage";
@@ -21,7 +21,7 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />{" "}
         <Route path="/dashboard/transactions" element={<Transactions />} />{" "}
         <Route path="/dashboard/budgets" element={<Budgets />} />{" "}
-        <Route path="/dashboard/profile" element={<Profile />} />{" "}
+        <Route path="/dashboard/reports" element={<Reports />} />{" "}
         <Route path="/dashboard/addTransaction" element={<AddTransaction />} />{" "}
         <Route path="/dashboard/budgets/addBudget" element={<AddBudget />} />{" "}
       </Routes>

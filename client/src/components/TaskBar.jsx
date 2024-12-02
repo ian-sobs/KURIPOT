@@ -2,6 +2,8 @@ import React from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
+//uncomment if taskbar with labels
+
 const TaskBar = () => {
     const location = useLocation();
 
@@ -22,7 +24,11 @@ const TaskBar = () => {
                         className={`flex flex-col items-center text-gray-400 no-underline p-2 rounded ${isActive("/dashboard") ? 'glow-effect' : ''
                             }`}
                     >
-                        <i className={`fs-5 bi-house ${isActive("/dashboard") ? 'text-[#9747FF]' : ''}`}></i>
+                        <i
+                            className={`bi-house flex justify-center items-center ${isActive("/dashboard") ? 'text-[#9747FF]' : ''}`}
+                            style={{ fontSize: '1.5rem' }}
+                        ></i>
+
                         {/* <span className={`text-md ${isActive("/dashboard") ? 'text-[#9747FF]' : ''}`}>Home</span> */}
                     </Link>
 
@@ -31,15 +37,15 @@ const TaskBar = () => {
                         className={`flex flex-col items-center text-gray-400 no-underline p-2 rounded ${isActive("/dashboard/transactions") ? 'glow-effect' : ''
                             }`}
                     >
-                        <i className={`fs-5 bi-arrow-left-right ${isActive("/dashboard/transactions") ? 'text-[#9747FF]' : ''
-                            }`}></i>
+                        <i className={`fs-5 bi-arrow-left-right flex justify-center items-center r ${isActive("/dashboard/transactions") ? 'text-[#9747FF]' : ''}`}
+                            style={{ fontSize: '1.5rem' }}></i>
                         {/* <span className={`text-md ${isActive("/dashboard/transactions") ? 'text-[#9747FF]' : ''
                             }`}>Transactions</span> */}
                     </Link>
-
+                    
                     <Link
                         to="/dashboard/addTransaction"
-                        className={`flex flex-col items-center text-gray-400 no-underline p-2 rounded relative -top-10 w-16 h-16 flex justify-center items-center`}
+                        className={`flex flex-col items-center text-gray-400 no-underline p-2 rounded relative -top-10 flex justify-center items-center`}
                     >
                         <div className="bg-[#9747FF] rounded-full w-12 h-12 flex justify-center items-center">
                             <i className="fs-1 bi-plus text-white text-4xl"></i>
@@ -51,19 +57,19 @@ const TaskBar = () => {
                         className={`flex flex-col items-center text-gray-400 no-underline p-2 rounded ${isActive("/dashboard/budgets") ? 'glow-effect' : ''
                             }`}
                     >
-                        <i className={`fs-5 bi-wallet2 ${isActive("/dashboard/budgets") ? 'text-[#9747FF]' : ''
-                            }`}></i>
+                        <i className={`fs-5 bi-wallet2 ${isActive("/dashboard/budgets") ? 'text-[#9747FF]' : ''}`}
+                            style={{ fontSize: '1.5rem' }}></i>
                         {/* <span className={`text-md ${isActive("/dashboard/budgets") ? 'text-[#9747FF]' : ''
                             }`}>Budgets</span> */}
                     </Link>
 
                     <Link
-                        to="/dashboard/profile"
+                        to="/dashboard/reports"
                         className={`flex flex-col items-center text-gray-400 no-underline p-2 rounded ${isActive("/dashboard/profile") ? 'glow-effect' : ''
                             }`}
                     >
-                        <i className={`fs-5 bi-person-circle ${isActive("/dashboard/profile") ? 'text-[#9747FF]' : ''
-                            }`}></i>
+                        <i className={`fs-5 bi-clipboard2-data ${isActive("/dashboard/reports") ? 'text-[#9747FF]' : ''}`}
+                            style={{ fontSize: '1.5rem' }}></i>
                         {/* <span className={`text-md ${isActive("/dashboard/profile") ? 'text-[#9747FF]' : ''
                             }`}>Profile</span> */}
                     </Link>
@@ -113,14 +119,14 @@ const TaskBar = () => {
                     </Link>
 
                     <Link
-                        to="/dashboard/profile"
+                        to="/dashboard/reports"
                         className={`flex items-center text-gray-400 no-underline p-2 rounded ${isActive("/dashboard/profile") ? 'glow-effect' : ''
                             }`}
                     >
-                        <i className={`fs-5 bi-person-circle ${isActive("/dashboard/profile") ? 'text-[#9747FF]' : ''
+                        <i className={`fs-5 bi-clipboard2-data ${isActive("/dashboard/reports") ? 'text-[#9747FF]' : ''
                             }`}></i>
-                        <span className={`text-xs ml-2 ${isActive("/dashboard/profile") ? 'text-[#9747FF]' : ''
-                            }`}>Profile</span>
+                        <span className={`text-xs ml-2 ${isActive("/dashboard/reports") ? 'text-[#9747FF]' : ''
+                            }`}>Reports</span>
                     </Link>
                     <Link
                         to="/dashboard/addTransaction"
