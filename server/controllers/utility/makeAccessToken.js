@@ -8,14 +8,15 @@ function makeAccessToken(user){
     }
 
     // jwt automatically adds an 'issuedAt' attribute to the token
-    const hour = 1;
-    const minutes = 30;
+    const hour = 0;
+    const minutes = 3;
+    const seconds = 25;
     const token = jwt.sign({
         usrId: user.id,                   // User's unique ID
         usrname: user.username,         // Username
         email: user.email,               // Email (optional)
     }, process.env.ACCESS_TOKEN_JWT_SECRET, {
-        expiresIn: (hour * 60 + minutes) * 60 //1 hour and 30 minutes
+        expiresIn: (hour * 60 + minutes) * 60 + seconds//1 hour and 30 minutes
     });
 
     return token
