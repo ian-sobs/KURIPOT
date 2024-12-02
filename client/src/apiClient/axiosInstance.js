@@ -1,11 +1,20 @@
 import axios from 'axios';
 
 
-const apiClient = axios.create({
+const entry = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
         'Content-Type': 'application/json'
     }
+    ,withCredentials: true 
 });
 
-export {apiClient}
+const protectedRoute = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+        'Content-Type': 'application/json'
+    }
+    ,withCredentials: true 
+})
+
+export {entry, protectedRoute}
