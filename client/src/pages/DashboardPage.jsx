@@ -9,16 +9,26 @@ const Dashboard = () => {
     totalBalance: 0,
     income: 0,
     expenses: 0,
-    accounts: [],
-    topSpending: [],
-    recentTransactions: [],
+    //static data, feel free to remove when testing with the backend
+    accounts: [
+      { name: "Savings", amount: 15000 },
+      { name: "Checking", amount: 5000 },
+      { name: "Emergency Fund", amount: 3000 },
+    ],
+    topSpending: [
+      { category: "Shopping", amount: 5000 },
+      { category: "Food", amount: 2000 },
+    ],
+    recentTransactions: [
+      { date: "2024-12-01", amount: 1500, description: "Salary Payment", type: "income" },
+      { date: "2024-11-25", amount: 200, description: "Grocery Shopping", type: "expense" },
+    ],
   });
 
   useEffect(() => {
-    //fetch data
     const fetchData = async () => {
       try {
-        const response = await axios.get("#"); // API call using axios
+        const response = await axios.get("#"); // Replace with actual API endpoint
         setData(response.data); // Assuming the API returns data in the required format
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
@@ -27,6 +37,11 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
+
+  const calculatePercentage = (amount) => {
+    if (data.expenses === 0) return 0;
+    return ((amount / data.expenses) * 100).toFixed(2);
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -44,12 +59,12 @@ const Dashboard = () => {
         </div>
 
         <div className="income-expenses-container items-center flex w-full text-lg text-white p-10 pt-0 rounded-full">
-          <div className="income-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-lg shadow-lg">
+          <div className="income-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-badge shadow-lg">
             <i className="fs-4 bi-arrow-down-circle pr-2"></i>
             Income
             <div className="income-amount text-md font-bold">Php {data.income}</div>
           </div>
-          <div className="expenses-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-lg ml-4 shadow-lg">
+          <div className="expenses-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-badge ml-4 shadow-lg">
             <i className="fs-4 bi-arrow-up-circle pr-2"></i>
             Expenses
             <div className="expenses-amount text-md font-bold">Php {data.expenses}</div>
@@ -58,8 +73,8 @@ const Dashboard = () => {
 
         {/* Accounts and Top Spending Section */}
         <div className="p-10 pb-5 pt-0">
-          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg border-2 border-white border-opacity-20">
-            <div className="flex justify-end items-center">
+          <div className="collapse collapse-arrow max-w-2xl w-full p-3 shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-badge shadow-lg border-2 border-white border-opacity-20">
+            <div className="flex justify-center items-center">
               <Link to="/dashboard/viewAccounts">
                 <button className="text-white text-xs hover:underline transition-all">
                   Manage Accounts
@@ -67,16 +82,20 @@ const Dashboard = () => {
               </Link>
             </div>
 
-
             <input type="radio" name="my-accordion-2" defaultChecked />
-            <div className="collapse-title text-xl font-medium border-b border-white pb-2">
+            <div className="collapse-title text-xl font-medium pb-2">
               My Accounts
             </div>
             <div className="collapse-content">
               {data.accounts.length > 0 ? (
                 <ul>
                   {data.accounts.map((account, index) => (
-                    <li key={index}>{account}</li>
+                    <li key={index} className="py-2">
+                      <div className="flex justify-between">
+                        <span>{account.name}</span>
+                        <span className="font-bold">Php {account.amount}</span>
+                      </div>
+                    </li>
                   ))}
                 </ul>
               ) : (
@@ -84,17 +103,22 @@ const Dashboard = () => {
               )}
             </div>
           </div>
-          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg border-2 border-white border-opacity-20">
+          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-badge shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white shadow-lg border-2 border-white border-opacity-20">
             <input type="radio" name="my-accordion-2" />
-            <div className="collapse-title text-xl font-medium border-b border-white pb-2">
+            <div className="collapse-title text-xl font-medium pb-2">
               Top Spending
             </div>
             <div className="collapse-content">
               {data.topSpending.length > 0 ? (
                 <ul>
                   {data.topSpending.map((spending, index) => (
-                    <li key={index}>
-                      {spending.category}: Php {spending.amount}
+                    <li key={index} className="py-2">
+                      <div className="flex justify-between">
+                        <span>{spending.category}</span>
+                        <span className="font-bold">
+                          Php {spending.amount} ({calculatePercentage(spending.amount)}%)
+                        </span>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -103,9 +127,9 @@ const Dashboard = () => {
               )}
             </div>
           </div>
-          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg border-2 border-white border-opacity-20">
+          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-badge shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white shadow-lg border-2 border-white border-opacity-20">
             <input type="radio" name="my-accordion-2" />
-            <div className="collapse-title text-xl font-medium border-b border-white pb-2">
+            <div className="collapse-title text-xl font-medium pb-2">
               Recent Transactions
             </div>
             <div className="collapse-content">
