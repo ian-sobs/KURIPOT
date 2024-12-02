@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const PageHeader = ({ title, subtitle }) => {
+const PageHeader = ({ title, subtitle, onBackClick }) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -26,15 +26,20 @@ const PageHeader = ({ title, subtitle }) => {
       }`}
     >
       <div className="flex items-center">
-        <i className="bi bi-arrow-left text-xl cursor-pointer"></i>
+        {onBackClick && (
+          <button
+            onClick={onBackClick}
+            className="text-xl cursor-pointer focus:outline-none"
+          >
+            <i className="bi bi-arrow-left"></i>
+          </button>
+        )}
       </div>
 
-      {/* Centered Title */}
       <div className="flex items-center justify-center w-full">
         <div className="text-2xl font-bold text-center">
           {title}
-          {/* if w subtitle */}
-          {/* <div className="text-xs text-gray-400">{subtitle}</div> */}
+          {/* {subtitle && <div className="text-xs text-gray-400">{subtitle}</div>} */}
         </div>
       </div>
     </div>

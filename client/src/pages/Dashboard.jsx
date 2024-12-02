@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
+import axios from "axios";
 
 const Dashboard = () => {
   const [data, setData] = useState({
@@ -13,11 +14,14 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    // data fetching
+    //fetch data
     const fetchData = async () => {
-      const response = await fetch("/api/dashboard-data"); //api call
-      const result = await response.json();
-      setData(result);
+      try {
+        const response = await axios.get("#"); // API call using axios
+        setData(response.data); // Assuming the API returns data in the required format
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      }
     };
 
     fetchData();

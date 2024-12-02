@@ -50,6 +50,7 @@ const AddBudget = () => {
                 <PageHeader
                     title="Add Budget"
                     subtitle="Manage Your Expenses with Ease — Add a Budget"
+                    onBackClick={() => window.history.back()}
                 />
                 
                 <div className="mt-[4rem] flex items-center justify-center">
@@ -105,7 +106,7 @@ const AddBudget = () => {
                                     type="submit"
                                     className="px-10 py-2 bg-[#9747FF] text-white rounded-md"
                                 >
-                                    Save
+                                    Add
                                 </button>
                             </div>
                         </form>

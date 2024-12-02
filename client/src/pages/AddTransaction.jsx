@@ -68,6 +68,7 @@ const AddTransaction = () => {
                 <PageHeader
                     title="Add Transaction"
                     subtitle="Record and Categorize Your Income and Expenses"
+                    onBackClick={() => window.history.back()}
                 />
                 
                 <div className="mt-[4rem] flex items-center justify-center">

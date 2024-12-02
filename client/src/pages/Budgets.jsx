@@ -10,7 +10,8 @@ const Budgets = () => {
             <div className="flex-1 md:ml-[20%] lg:ml-[16.666%]">
                 <PageHeader
                     title="Budgets"
-                    subtitle="Set a Budget and Stay on Track" />
+                    subtitle="Set a Budget and Stay on Track" 
+                    onBackClick={() => window.history.back()}/>
 
                 <div className="mt-[4rem] flex flex-col items-center justify-center text-center p-10">
                     <img
