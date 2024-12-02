@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
 import axios from "axios";
@@ -58,6 +59,14 @@ const Dashboard = () => {
         {/* Accounts and Top Spending Section */}
         <div className="p-10 pb-5 pt-0">
           <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-lg shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg">
+            <div className="flex justify-center items-center">
+              <Link to="/dashboard/viewAccounts">
+                <button className="text-white text-xs hover:underline transition-all">
+                  Manage Accounts
+                </button>
+              </Link>
+            </div>
+
             <input type="radio" name="my-accordion-2" defaultChecked />
             <div className="collapse-title text-xl font-medium border-b border-white pb-2">
               My Accounts
