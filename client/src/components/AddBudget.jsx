@@ -4,7 +4,7 @@ import PageHeader from "../components/PageHeader";
 import axios from "axios"; // Import axios
 
 const AddBudget = () => {
- 
+
     const [date, setDate] = useState("");
     const [budgetLimit, setBudgetLimit] = useState("");
     const [categories, setCategories] = useState([]);
@@ -67,7 +67,7 @@ const AddBudget = () => {
                 />
 
                 <div className="mt-[4rem] flex items-center justify-center">
-                    <div className="items-center w-full max-w-md p-6 rounded-lg shadow-md m-10 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-lg shadow-lg">
+                    <div className="items-center w-full max-w-md p-6 rounded-badge shadow-md m-10 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white shadow-lg">
 
                         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
                         {success && <div className="text-green-500 text-center mb-4">Budget added successfully!</div>}
@@ -75,39 +75,49 @@ const AddBudget = () => {
                         <form onSubmit={handleSubmit} className="space-y-4">
 
                             <div>
-                                <label htmlFor="budgetLimit" className="block text-white">Budget Limit (PHP)</label>
-                                <input
-                                    type="number"
-                                    id="budgetLimit"
-                                    placeholder="0.00"
-                                    value={budgetLimit}
-                                    onChange={(e) => setBudgetLimit(e.target.value)}
-                                    required
-                                    className="w-full p-2 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
-                                />
+                                <div className="flex items-center text-white">
+                                    <label htmlFor="budgetLimit" className="block text-white mr-2">Budget Limit (PHP)</label>
+                                </div>
+                                <div className="flex items-center justify-center">
+                                    <i className="bi bi-cash-coin pt-3 pr-3 text-2xl items-center" />
+                                    <input
+                                        type="number"
+                                        id="budgetLimit"
+                                        placeholder="0.00"
+                                        value={budgetLimit}
+                                        onChange={(e) => setBudgetLimit(e.target.value)}
+                                        required
+                                        className="w-full p-2 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
+                                    />
+                                </div>
                             </div>
+
                             <div>
                                 <label htmlFor="date" className="block text-white">Month and Year</label>
-                                <input
-                                    type="month"
-                                    id="date"
-                                    value={date}
-                                    onChange={(e) => setDate(e.target.value)}
-                                    required
-                                    className="w-full p-2 pr-5 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
-                                />
+                                <div className="flex items-center justify-center">
+                                    <i className="bi bi-calendar-event pt-3 pr-3 text-2xl items-center" />
+                                    <input
+                                        type="month"
+                                        id="date"
+                                        value={date}
+                                        onChange={(e) => setDate(e.target.value)}
+                                        required
+                                        className="w-full p-2 pr-5 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
+                                    />
+                                </div>
                             </div>
 
                             <div>
                                 <label htmlFor="categories" className="block text-white">Budget Categories</label>
-                                <div className="space-y-2 mt-2">
+                                <div className="space-y-2 mt-2 pl-5">
                                     {allCategories.map((category, index) => (
                                         <div key={index} className="flex items-center">
+
                                             <input
                                                 type="checkbox"
                                                 id={`category-${category}`}
                                                 value={category}
-                                                checked={categories.includes(category)} 
+                                                checked={categories.includes(category)}
                                                 onChange={handleCategoryChange}
                                                 className="mr-2"
                                             />
@@ -119,19 +129,22 @@ const AddBudget = () => {
                             </div>
 
                             <div>
-                                <label htmlFor="account" className="block text-white">From Account</label>
-                                <select
-                                    id="account"
-                                    value={account}
-                                    onChange={(e) => setAccount(e.target.value)}
-                                    required
-                                    className="w-full p-2 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
-                                >
-                                    <option value="">Select Account</option>
-                                    {accounts.map((acc, index) => (
-                                        <option key={index} value={acc}>{acc}</option>
-                                    ))}
-                                </select>
+                                <label htmlFor="account" className="block text-white">Account</label>
+                                <div className="flex items-center justify-center">
+                                    <i className="bi bi-wallet pt-3 pr-3 text-2xl items-center" />
+                                    <select
+                                        id="account"
+                                        value={account}
+                                        onChange={(e) => setAccount(e.target.value)}
+                                        required
+                                        className="w-full p-2 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
+                                    >
+                                        <option value="">Select Account</option>
+                                        {accounts.map((acc, index) => (
+                                            <option key={index} value={acc}>{acc}</option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
 
                             <div className="text-center mt-6">
