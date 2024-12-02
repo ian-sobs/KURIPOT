@@ -13,7 +13,7 @@ const TaskBar = () => {
         <div>
             {/* MOBILE */}
             <div
-                className="taskbar-mobile fixed bottom-0 left-0 w-full p-4 md:hidden rounded-tl-xl rounded-tr-xl"
+                className="taskbar-mobile fixed bottom-0 left-0 w-full p-4 md:hidden rounded-tl-badge rounded-tr-badge"
                 style={{
                     backgroundColor: '#010827',
                 }}
@@ -26,7 +26,7 @@ const TaskBar = () => {
                     >
                         <i
                             className={`bi-house flex justify-center items-center ${isActive("/dashboard") ? 'text-[#9747FF]' : ''}`}
-                            style={{ fontSize: '1.5rem' }}
+                            style={{ fontSize: '1.50rem' }}
                         ></i>
 
                         {/* <span className={`text-md ${isActive("/dashboard") ? 'text-[#9747FF]' : ''}`}>Home</span> */}
@@ -38,7 +38,7 @@ const TaskBar = () => {
                             }`}
                     >
                         <i className={`fs-5 bi-arrow-left-right flex justify-center items-center r ${isActive("/dashboard/transactions") ? 'text-[#9747FF]' : ''}`}
-                            style={{ fontSize: '1.5rem' }}></i>
+                            style={{ fontSize: '1.50rem' }}></i>
                         {/* <span className={`text-md ${isActive("/dashboard/transactions") ? 'text-[#9747FF]' : ''
                             }`}>Transactions</span> */}
                     </Link>
@@ -58,7 +58,7 @@ const TaskBar = () => {
                             }`}
                     >
                         <i className={`fs-5 bi-wallet2 ${isActive("/dashboard/budgets") ? 'text-[#9747FF]' : ''}`}
-                            style={{ fontSize: '1.5rem' }}></i>
+                            style={{ fontSize: '1.50rem' }}></i>
                         {/* <span className={`text-md ${isActive("/dashboard/budgets") ? 'text-[#9747FF]' : ''
                             }`}>Budgets</span> */}
                     </Link>
@@ -69,7 +69,7 @@ const TaskBar = () => {
                             }`}
                     >
                         <i className={`fs-5 bi-clipboard2-data ${isActive("/dashboard/reports") ? 'text-[#9747FF]' : ''}`}
-                            style={{ fontSize: '1.5rem' }}></i>
+                            style={{ fontSize: '1.50rem' }}></i>
                         {/* <span className={`text-md ${isActive("/dashboard/profile") ? 'text-[#9747FF]' : ''
                             }`}>Profile</span> */}
                     </Link>
