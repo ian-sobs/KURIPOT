@@ -1,12 +1,10 @@
 import React, { useContext, useEffect } from 'react'
 import { protectedRoute, unprotectedRoute } from './axiosInstance';
 import { TokenContext } from '../token/TokenContext';
-import { useNavigate } from 'react-router-dom';
 import { isExpired, decodeToken } from "react-jwt";
 
 const AxiosRequestInterceptor = ({ children }) => {
     const { accessToken, setAccessToken } = useContext(TokenContext);
-    const navigate = useNavigate()
 
     useEffect(() => {
         console.log('Refreshed access token: ', accessToken)
@@ -30,8 +28,6 @@ const AxiosRequestInterceptor = ({ children }) => {
                     } catch (error) {
                         console.error('Failed to refresh token:', error);
 
-                        // Redirect to login page and reject request
-                        navigate('/signin'); 
                         return Promise.reject('Token refresh failed, redirecting to login.');
                     }
                 } else{
