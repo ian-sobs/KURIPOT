@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { TokenContext } from "../token/TokenContext"; 
 import { unprotectedRoute } from "../apiClient/axiosInstance";
-import { decodeJWT } from "../token/decodeJWT";
 
 
 const SignInForm = () => {
@@ -51,7 +50,6 @@ const SignInForm = () => {
           let {message, accessToken} = response.data
           console.log("message: ", message);
           console.log("Access token: ", accessToken)
-          decodeJWT(accessToken)
           setAccessToken(accessToken)
         } else {
           console.log(response)
