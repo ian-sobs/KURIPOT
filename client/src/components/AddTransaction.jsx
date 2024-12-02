@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import TaskBar from "../components/TaskBar";
-import PageHeader from "../components/PageHeader";
+import TaskBar from "./TaskBar";
+import PageHeader from "./PageHeader";
 
 const AddTransaction = () => {
     // State to hold form data
