@@ -29,6 +29,10 @@ body {
   /* Hides scrollbar for Firefox */
 }
 
+.taskbar-mobile {
+  z-index: 1000; /* makes sure the taskbar stays on top*/
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
