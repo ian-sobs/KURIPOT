@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const LandingPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const itemRefs = useRef([]);
+  const navigate = useNavigate();
 
   const reviews = [
     {
@@ -48,6 +50,10 @@ const LandingPage = () => {
     return () => observer.disconnect();
   }, []);
 
+  const handleSignUpClick = () => {
+    navigate("/signup");
+  };
+
   return (
     <>
       <Navbar />
@@ -58,7 +64,10 @@ const LandingPage = () => {
             <h1 className="text-xl text-white">
               "It's not the amount, <br /> but the habit."
             </h1>
-            <button className="mt-4 px-4 py-2 bg-[#9747FF] text-white text-sm font-semibold rounded-lg">
+            <button
+              onClick={handleSignUpClick}
+              className="mt-4 px-4 py-2 bg-[#9747FF] text-white text-sm font-semibold rounded-lg"
+            >
               Get Started
             </button>
           </div>
