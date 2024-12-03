@@ -34,21 +34,29 @@ const GettingStarted = () => {
       case 1:
         return (
           <div className="username-container pt-24 pb-32 flex flex-col justify-center items-center">
-            <h1 className="font-normal text-md text-center">
+            <h1 className="font-normal text-2xl text-center">
               Give us a nickname to call you by:
             </h1>
             <input
               type="text"
               name="username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                // Allow only letters, numbers, hyphens, and underscores, and limit to 15 characters
+                if (/^[A-Za-z0-9_-]*$/.test(value) && value.length <= 15) {
+                  setUsername(value);
+                }
+              }}
+              maxLength={15}
               required
               placeholder="Username"
-              className="p-2 mt-8 mb-2 w-52 focus:outline-none placeholder-white font-light text-sm text-white rounded-lg bg-slate-500 bg-opacity-90"
+              className="p-2 mt-6 mb-2 w-full focus:outline-none placeholder-white font-light text-md text-white rounded-lg bg-slate-500 bg-opacity-90"
             />
+
             <button
               onClick={handleNextClick}
-              className="signup-submit w-52 bg-[#9747FF] text-white text-sm font-medium rounded-md p-2"
+              className="signup-submit w-full bg-[#9747FF] text-white text-md font-semibold rounded-md p-2"
             >
               Next
             </button>
@@ -63,7 +71,7 @@ const GettingStarted = () => {
               name="currency"
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
-              className="p-2 mt-8 mb-2 w-52 focus:outline-none placeholder-white font-light text-sm text-white rounded-lg bg-slate-500 bg-opacity-90"
+              className="p-2 mt-6 mb-2 w-full focus:outline-none placeholder-white font-light text-md text-white rounded-lg bg-slate-500 bg-opacity-90"
             >
               <option value="">Select Currency</option>
 
@@ -71,7 +79,7 @@ const GettingStarted = () => {
             </select>
             <button
               onClick={handleNextClick}
-              className="signup-submit w-52 bg-[#9747FF] text-white text-sm font-medium rounded-md p-2"
+              className="signup-submit w-full bg-[#9747FF] text-white text-md font-semibold rounded-md p-2"
             >
               Next
             </button>
@@ -79,11 +87,10 @@ const GettingStarted = () => {
         );
       case 3:
         return (
-          <div className="confirmation-container pt-24 pb-32 flex flex-col justify-center items-center">
-            <h1 className="font-normal text-md">
-              Almost there! Confirm your details
-            </h1>
-            <div className="mt-8">
+          <div className="confirmation-container pt-24 pb-32 flex flex-col items-center">
+            <h1 className="font-bold text-4xl">Almost there!</h1>
+            <h2 className="mt-6 font-normal text-lg">Confirm your details:</h2>
+            <div className="input-summary mt-2 p-4 bg-slate-700 rounded-lg w-full max-w-md text-left">
               <p className="text-white">Username: {username}</p>
               <p className="text-white">
                 Currency: {currency ? currency.toUpperCase() : "Not Selected"}
@@ -91,12 +98,13 @@ const GettingStarted = () => {
             </div>
             <button
               onClick={handleBackClick}
-              className="signup-submit w-52 bg-[#9747FF] text-white text-sm font-medium rounded-md p-2 mt-8"
+              className="signup-submit mt-2 w-full bg-[#9747FF] text-white text-sm font-medium rounded-md p-2"
             >
               Finish
             </button>
           </div>
         );
+
       default:
         return <h1 className="text-center">Unexpected step</h1>;
     }
