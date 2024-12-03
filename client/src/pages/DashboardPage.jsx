@@ -131,7 +131,7 @@ const Dashboard = () => {
               </Link>
             </div>
 
-            <input type="radio" name="my-accordion-2" defaultChecked />
+            <input type="checkbox" name="my-accordion-2" defaultChecked />
             <div className="collapse-title text-xl font-medium pb-2">
               My Accounts
             </div>
@@ -153,7 +153,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-badge shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white shadow-lg border-2 border-white border-opacity-20">
-            <input type="radio" name="my-accordion-2" />
+            <input type="checkbox" name="my-accordion-2" defaultChecked />
             <div className="collapse-title text-xl font-medium pb-2">
               Top Spending
             </div>
@@ -178,7 +178,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-badge shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white shadow-lg border-2 border-white border-opacity-20">
-            <input type="radio" name="my-accordion-2" />
+            <input type="checkbox" name="my-accordion-2" defaultChecked />
             <div className="collapse-title text-xl font-medium pb-2">
               Recent Transactions
             </div>
