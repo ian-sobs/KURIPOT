@@ -33,6 +33,15 @@ body {
   z-index: 1000; /* makes sure the taskbar stays on top*/
 }
 
+.page-with-navhead {
+  padding-top: 4rem;
+}
+
+/* take into account size of taskbar to avoid taskbar from hiding any content*/
+.page-with-taskbar {
+  padding-bottom: 6rem;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
