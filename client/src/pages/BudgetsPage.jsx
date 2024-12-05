@@ -3,6 +3,7 @@ import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import HowToBudget from "../components/HowToBudget";
 
 const Budgets = () => {
   const [budgets, setBudgets] = useState([]);
@@ -59,7 +60,7 @@ const Budgets = () => {
                 </button>
               </Link>
               <div className="text-gray-400 text-sm underline">
-                How to use a budget?
+                <HowToBudget/>
               </div>
             </div>
           ) : (
