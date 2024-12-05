@@ -23,7 +23,7 @@ const ViewAccounts = () => {
           subtitle="Manage Your Personal Information and Preferences"
           onBackClick={() => window.history.back()}
         />
-        <div className="page-with-navhead p-10">
+        <div className="page-with-navhead p-10 pl-5 pr-5">
           <div className="bg-bg-[#010827] p-5 rounded-badge shadow-lg">
             <ul>
               {accounts.map((account, index) => (
