@@ -11,6 +11,7 @@ import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import GettingStarted from "./pages/GettingStartedPage";
 import ViewAccounts from "./components/ViewAccounts";
+import AddAccount from "./components/AddAccount";
 
 const App = () => {
   return (
@@ -32,6 +33,8 @@ const App = () => {
           />
           <Route path="/dashboard/budgets/addBudget" element={<AddBudget />} />
           <Route path="/dashboard/viewAccounts" element={<ViewAccounts />} />
+          <Route path="/dashboard/addAccount" element={<AddAccount />} />
+          
         </Routes>
       </div>
     </Router>
