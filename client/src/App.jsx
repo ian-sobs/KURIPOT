@@ -11,6 +11,7 @@ import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import GettingStarted from "./pages/GettingStartedPage";
 import ViewAccounts from "./components/ViewAccounts";
+import PrivateRoutes from "./components/PrivateRoutes";
 
 const App = () => {
   return (
@@ -21,17 +22,20 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/signin" element={<SignInPage />} />
-          <Route path="/getting-started" element={<GettingStarted />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/transactions" element={<Transactions />} />
-          <Route path="/dashboard/budgets" element={<Budgets />} />
-          <Route path="/dashboard/reports" element={<Reports />} />
-          <Route
-            path="/dashboard/addTransaction"
-            element={<AddTransaction />}
-          />
-          <Route path="/dashboard/budgets/addBudget" element={<AddBudget />} />
-          <Route path="/dashboard/viewAccounts" element={<ViewAccounts />} />
+          
+          <Route element={<PrivateRoutes/>}>
+            <Route path="/getting-started" element={<GettingStarted />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/transactions" element={<Transactions />} />
+            <Route path="/dashboard/budgets" element={<Budgets />} />
+            <Route path="/dashboard/reports" element={<Reports />} />
+            <Route
+              path="/dashboard/addTransaction"
+              element={<AddTransaction />}
+            />
+            <Route path="/dashboard/budgets/addBudget" element={<AddBudget />} />
+            <Route path="/dashboard/viewAccounts" element={<ViewAccounts />} />
+          </Route>
         </Routes>
       </div>
     </Router>
