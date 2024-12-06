@@ -2,6 +2,7 @@ import React from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
 import { Link } from "react-router-dom";
+import AddAccount from "./AddAccount";
 
 const ViewAccounts = () => {
   // Static frontend data
@@ -41,13 +42,7 @@ const ViewAccounts = () => {
               ))}
             </ul>
           </div>
-          <div className="p-5 pb-0 flex justify-end">
-            <Link to="/dashboard/addAccount">
-              <button className="bg-[#9747FF] text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#7e3adf] transition-all">
-                <i className="bi-plus text-white text-xl"></i>
-              </button>
-            </Link>
-          </div>
+          <AddAccount/>
         </div>
       </div>
     </div>
