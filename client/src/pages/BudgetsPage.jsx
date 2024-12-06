@@ -4,6 +4,7 @@ import PageHeader from "../components/PageHeader";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import HowToBudget from "../components/HowToBudget";
+import AddBudget from "../components/AddBudget";
 
 const Budgets = () => {
   const [budgets, setBudgets] = useState([]);
@@ -54,13 +55,9 @@ const Budgets = () => {
                 Input a budget and we'll help you manage your daily income and
                 expenses.
               </div>
-              <Link to="/dashboard/budgets/addBudget">
-                <button className="bg-[#9747FF] text-white py-2 px-10 rounded-lg mt-5 mb-5 hover:bg-[#7e3adf] transition-all">
-                  Add a Budget
-                </button>
-              </Link>
+              <AddBudget />
               <div className="text-gray-400 text-sm underline">
-                <HowToBudget/>
+                <HowToBudget />
               </div>
             </div>
           ) : (
