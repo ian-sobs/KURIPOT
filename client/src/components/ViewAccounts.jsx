@@ -18,7 +18,7 @@ const ViewAccounts = () => {
   return (
     <div className="flex flex-col h-screen">
       <TaskBar />
-      <div className="flex-1 md:ml-[20%] lg:ml-[16.666%] page-with-taskbar">
+      <div className="page-with-taskbar flex-1 md:ml-[20%] lg:ml-[16.666%]">
         <PageHeader
           title="My Accounts"
           subtitle="Manage Your Personal Information and Preferences"
