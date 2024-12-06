@@ -43,7 +43,7 @@ const AddAccount = () => {
   };
 
   return (
-    <div className="relative">
+    <div>
       <div className="md:ml-[20%] lg:ml-[16.666%]">
         <div className="p-5 pb-0 flex justify-end">
         <button

@@ -67,7 +67,7 @@ const AddBudget = () => {
   };
 
   return (
-    <div className="relative">
+    <div>
       <button
         onClick={openPopup}
         className="bg-[#9747FF] text-white py-2 px-10 rounded-lg mt-5 mb-5 hover:bg-[#7e3adf] transition-all"
