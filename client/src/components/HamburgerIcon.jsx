@@ -68,7 +68,6 @@ const HamburgerIcon = () => {
           {/* User Info */}
           <div className="mt-6">
             <h2 className="text-sm text-slate-400">U S E R</h2>
-            <div className="footer-divider h-px w-full bg-slate-400 rounded-md mt-2 mb-2"></div>
             <p className="mt-4">
               Email: {user ? user.email : "Loading..."} {/* Dynamic Email */}
             </p>
