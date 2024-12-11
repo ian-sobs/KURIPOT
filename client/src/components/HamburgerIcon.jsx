@@ -30,7 +30,7 @@ const HamburgerIcon = () => {
     <>
       {/* Hamburger Icon */}
       <button
-        className="hamburger-icon fixed p-4 right-4 top-4 z-50"
+        className="hamburger-icon fixed right-4 top-4 pr-5 z-50"
         onClick={toggleSidebar}
         aria-label="Toggle Sidebar"
       >
