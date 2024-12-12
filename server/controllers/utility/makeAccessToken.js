@@ -9,7 +9,7 @@ function makeAccessToken(user){
 
     // jwt automatically adds an 'issuedAt' attribute to the token
     const hour = 0;
-    const minutes = 3;
+    const minutes = 10;
     const seconds = 25;
     const token = jwt.sign({
         usrId: user.id,                   // User's unique ID
