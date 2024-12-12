@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react';
 import { unprotectedRoute } from '../apiClient/axiosInstance';
 
 const PrivateRoutes = () => {
-    const { accessToken, setAccessToken, loading, setLoading, isAuthenticated, setIsAuthenticated } = useToken();
+    const { accessToken, setAccessToken, isAuthenticated, setIsAuthenticated } = useToken();
     const location = useLocation()
+    const [loading, setLoading] = useState(true); // Track loading state
+    // const [isAuthenticated, setIsAuthenticated] = useState(null)
 
     // useEffect(()=>{
     //     console.log('about to set isAuth')
@@ -23,8 +25,12 @@ const PrivateRoutes = () => {
     // , [accessToken])
 
     useEffect(() => {
-        setLoading(false)
-        console.log('loading now false')
+        if(isAuthenticated === true || isAuthenticated === false){
+            setLoading(false)
+            console.log('isAuthenticated === ', isAuthenticated)
+        }
+        
+        //console.log('isAuthenticated === null')
     }, [isAuthenticated])
     // useEffect(() => {
     //     const checkAuthentication = async () => {

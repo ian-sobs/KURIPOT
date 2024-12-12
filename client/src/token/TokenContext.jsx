@@ -7,25 +7,14 @@ export const TokenContext = createContext();
 
 export const TokenProvider = ({ children }) => {
     const [accessToken, setAccessToken] = useState(null);
-    const [loading, setLoading] = useState(true); // Track loading state
+    // const [loading, setLoading] = useState(true); // Track loading state
     const [isAuthenticated, setIsAuthenticated] = useState(null)
+    // const [isAuthenticated, setIsAuthenticated] = useState(null)
     // const [actualAccTok, setActualAccTok] = useState(null);
     const refreshTimeout = useRef(null); // Ref to store the timeout ID
 
     const decodedToken = decodeToken(accessToken);
 
-    if (!decodedToken) {
-        unprotectedRoute.post('/token/refresh')
-            .then(function(response){
-                const {data} = response
-                setAccessToken(data.accessToken)
-                console.log('access token has invalid structure. access token refreshed')
-            })
-            .catch(function(error){
-                console.error('No access token: ', error)
-                setIsAuthenticated(false)
-            })
-    }
 
     // useEffect(() => {
     //     const scheduleTokenRefresh = () => {
@@ -86,6 +75,7 @@ export const TokenProvider = ({ children }) => {
     // }, [accessToken]); // Re-run when the token changes
 
     useEffect(() => {
+        const decodedTokenNew = decodeToken(accessToken);
         const scheduleTokenRefresh = () => {
             //setLoading(false)
             if (refreshTimeout.current) {
@@ -98,6 +88,7 @@ export const TokenProvider = ({ children }) => {
 
             if (timeToRefresh > 0) {
                 // setLoading(false)
+                setIsAuthenticated(true)
                 refreshTimeout.current = setTimeout(async () => {
                     try {
                         const {data, status} = await unprotectedRoute.post('/token/refresh')
@@ -114,8 +105,8 @@ export const TokenProvider = ({ children }) => {
             }
             
         }
-        if(decodedToken) {
-            setIsAuthenticated(true)
+        if(decodedTokenNew) {
+            // setIsAuthenticated(true)
             scheduleTokenRefresh()
 
             return () => {
@@ -127,14 +118,27 @@ export const TokenProvider = ({ children }) => {
         }
     }, [accessToken])
 
-    useEffect(() => {
-        console.log('isAuthenticated === ', isAuthenticated)
-        setLoading(false)
-    }, [isAuthenticated])
+    if (!decodedToken) {
+        unprotectedRoute.post('/token/refresh')
+            .then(function(response){
+                const {data} = response
+                setAccessToken(data.accessToken)
+                console.log('access token has invalid structure. access token refreshed')
+            })
+            .catch(function(error){
+                console.error('No access token: ', error)
+                setIsAuthenticated(false)
+            })
+    }
+
+    // useEffect(() => {
+    //     console.log('isAuthenticated === ', isAuthenticated)
+    //     setLoading(false)
+    // }, [isAuthenticated])
 
 
     return (
-        <TokenContext.Provider value={{ accessToken, setAccessToken, loading, setLoading, isAuthenticated, setIsAuthenticated }}>
+        <TokenContext.Provider value={{ accessToken, setAccessToken, isAuthenticated, setIsAuthenticated }}>
             {children}
         </TokenContext.Provider>
     );
