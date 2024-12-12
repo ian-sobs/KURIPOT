@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const HamburgerIcon = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -17,7 +17,7 @@ const HamburgerIcon = () => {
           throw new Error("Failed to fetch user data");
         }
         const data = await response.json();
-        setUser(data)
+        setUser(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -47,13 +47,12 @@ const HamburgerIcon = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 h-full bg-[#15172E] text-white shadow-lg transform ${
-          isSidebarOpen ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 z-50`}
-        style={{ width: "250px" }}
+        className={`sidebar fixed top-0 right-0 h-full bg-[#15172E] text-white shadow-lg transition-transform duration-300 z-50 ${
+          isSidebarOpen ? "open" : ""
+        }`}
       >
-        <div className="p-6 flex flex-col h-full">
-          {/* Logo */}
+        <div className="p-6 flex flex-col min-h-full">
+          {/* Sidebar content */}
           <div className="flex">
             <img
               src="/images/kuripot-logo.png"
@@ -66,7 +65,7 @@ const HamburgerIcon = () => {
           </div>
 
           {/* User Info */}
-          <div className="mt-6">
+          <div className="mt-6 flex-grow">
             <h2 className="text-sm text-slate-400">U S E R</h2>
             <p className="mt-4">
               Email: {user ? user.email : "Loading..."} {/* Dynamic Email */}
@@ -74,7 +73,7 @@ const HamburgerIcon = () => {
           </div>
 
           {/* Logout Button and Footer */}
-          <div className="mt-auto pb-20">
+          <div className="mt-auto">
             <button
               className="mt-8 bg-red-900 p-2 rounded w-full text-white"
               onClick={toggleSidebar}
@@ -82,7 +81,7 @@ const HamburgerIcon = () => {
               Logout
             </button>
 
-            <footer className="footer bg-[#15172E]/50 text-base-content py-8 pt-3 block">
+            <footer className="footer text-base-content pt-3 block">
               <div className="footer-divider h-1 w-full bg-[#9747FF] rounded-md mt-4 mb-4"></div>
               <div className="text-slate-400 text-center">
                 <p>2024. All rights reserved.</p>
