@@ -61,7 +61,7 @@ const PrivateRoutes = () => {
     //     }
     //     checkAuthentication()
     // }, [refreshTokenEndpoint]);
-    if(loading && isAuthenticated === null) {
+    if(loading) {
         return <div>Loading...</div>;
     }
 

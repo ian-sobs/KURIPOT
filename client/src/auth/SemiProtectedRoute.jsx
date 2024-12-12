@@ -21,7 +21,7 @@ const SemiProtectedRoute = ({ children }) => {
         return children;
     }
 
-    if(loading && isAuthenticated === null) {
+    if(loading) {
         return <div>Loading...</div>;
     }
   // If accessed programmatically, render the children (the protected route)
