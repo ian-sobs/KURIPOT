@@ -6,11 +6,6 @@ import { isExpired, decodeToken } from "react-jwt";
 
 const AxiosRequestInterceptor = ({ children }) => {
     const { accessToken, setAccessToken } = useContext(TokenContext);
-    // const navigate = useNavigate();
-
-    useEffect(() => {
-        console.log('Refreshed access token: ', accessToken)
-    }, [accessToken])
 
     useEffect(() => {
         const requestInterceptor = protectedRoute.interceptors.request.use(
@@ -41,11 +36,14 @@ const AxiosRequestInterceptor = ({ children }) => {
                 // Do something with request error
                 return Promise.reject(error);
             });
+        
+        console.log("New request interceptor created")
 
         return () => {
+            console.log("Ejected previous request interceptor")
             protectedRoute.interceptors.request.eject(requestInterceptor);
         }
-    }, [setAccessToken])
+    }, [accessToken])
 
     return children
 }
