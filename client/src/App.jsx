@@ -6,7 +6,6 @@ import Transactions from "./pages/TransactionsPage";
 import Budgets from "./pages/BudgetsPage";
 import Reports from "./pages/ReportsPage";
 import AddTransaction from "./components/AddTransaction";
-import AddBudget from "./components/AddBudget";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import GettingStarted from "./pages/GettingStartedPage";
@@ -33,9 +32,9 @@ const App = () => {
               path="/dashboard/addTransaction"
               element={<AddTransaction />}
             />
-            <Route path="/dashboard/budgets/addBudget" element={<AddBudget />} />
-            <Route path="/dashboard/viewAccounts" element={<ViewAccounts />} />
+              <Route path="/dashboard/viewAccounts" element={<ViewAccounts />} />
           </Route>
+          
         </Routes>
       </div>
     </Router>
