@@ -7,72 +7,10 @@ export const TokenContext = createContext();
 
 export const TokenProvider = ({ children }) => {
     const [accessToken, setAccessToken] = useState(null);
-    // const [loading, setLoading] = useState(true); // Track loading state
     const [isAuthenticated, setIsAuthenticated] = useState(null)
-    // const [isAuthenticated, setIsAuthenticated] = useState(null)
-    // const [actualAccTok, setActualAccTok] = useState(null);
     const refreshTimeout = useRef(null); // Ref to store the timeout ID
-
+    const [isFirstLogin, setIsFirstLogin] = useState(true)
     const decodedToken = decodeToken(accessToken);
-
-
-    // useEffect(() => {
-    //     const scheduleTokenRefresh = () => {
-    //         if (refreshTimeout.current) {
-    //             clearTimeout(refreshTimeout.current); // Clear the previous timer
-    //         }
-
-    //         try {
-    //             const decodedToken = decodeToken(accessToken);
-
-    //             if (!decodedToken) {
-    //                 unprotectedRoute.post('/token/refresh')
-    //                     .then(function(response){
-    //                         const {data} = response
-    //                         setAccessToken(data.accessToken)
-    //                         console.log('access token has invalid structure. access token refreshed')
-    //                     })
-    //                     .catch(function(error){
-    //                         console.error('No access token: ', error)
-    //                     })
-    //                 return
-    //             }
-
-    //             const expirationTime = decodedToken.exp * 1000; // Convert to ms
-    //             const currentTime = Date.now();
-    //             const timeToRefresh = expirationTime - currentTime - 5 * 60 * 1000; // Refresh 5 minutes before expiry
-
-    //             if (timeToRefresh > 0) {
-    //                 // setLoading(false)
-    //                 refreshTimeout.current = setTimeout(async () => {
-    //                     try {
-    //                         const {data, status} = await unprotectedRoute.post('/token/refresh')
-
-    //                         if (!status === 200) throw new Error("Failed to refresh token");
-    //                         console.log('Access token refreshed')
-    //                         setAccessToken(data.accessToken); // Update token in state
-    //                     } catch (error) {
-    //                         console.error("Failed to refresh token:", error);
-    //                         setAccessToken(null)
-    //                     }
-    //                 }, timeToRefresh);
-    //                 console.log('refresh timeout set')
-    //             }
-    //         } catch (error) {
-    //             console.error("Failed to decode token:", error);
-    //         } finally {
-    //             setLoading(false); // Always stop loading after processing
-    //         }
-    //     };
-
-    //     scheduleTokenRefresh();
-
-    //     return () => {
-    //         if (refreshTimeout.current) {
-    //             clearTimeout(refreshTimeout.current); // Clear the timer on unmount
-    //         }
-    //     };
-    // }, [accessToken]); // Re-run when the token changes
 
     useEffect(() => {
         const decodedTokenNew = decodeToken(accessToken);
@@ -107,6 +45,9 @@ export const TokenProvider = ({ children }) => {
         }
         if(decodedTokenNew) {
             // setIsAuthenticated(true)
+            if(decodedTokenNew.fLgn !== null){
+                setIsFirstLogin(decodedTokenNew.fLgn)
+            }
             scheduleTokenRefresh()
 
             return () => {
@@ -131,14 +72,8 @@ export const TokenProvider = ({ children }) => {
             })
     }
 
-    // useEffect(() => {
-    //     console.log('isAuthenticated === ', isAuthenticated)
-    //     setLoading(false)
-    // }, [isAuthenticated])
-
-
     return (
-        <TokenContext.Provider value={{ accessToken, setAccessToken, isAuthenticated, setIsAuthenticated }}>
+        <TokenContext.Provider value={{ accessToken, setAccessToken, isAuthenticated, setIsAuthenticated, isFirstLogin, setIsFirstLogin }}>
             {children}
         </TokenContext.Provider>
     );
