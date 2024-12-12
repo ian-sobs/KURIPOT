@@ -20,7 +20,7 @@ const PublicRoutes = () => {
         //console.log('isAuthenticated === null')
     }, [isAuthenticated])
 
-    if(loading && isAuthenticated === null) {
+    if(loading) {
         return <div>Loading...</div>;
     }
     
