@@ -1,7 +1,6 @@
 import React from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
-import { Link } from "react-router-dom";
 import AddAccount from "./AddAccount";
 
 const ViewAccounts = () => {
