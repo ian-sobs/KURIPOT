@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { protectedRoute, unprotectedRoute } from './axiosInstance';
-import { TokenContext } from '../token/TokenContext';
+import { TokenContext } from '../auth/TokenContext';
 import { isExpired, decodeToken } from "react-jwt";
 // import { useNavigate } from 'react-router-dom';
 
