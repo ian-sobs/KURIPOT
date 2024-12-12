@@ -68,7 +68,7 @@ const Dashboard = () => {
         <HamburgerIcon />
 
         <div className="page-with-navhead amount-container w-full p-0">
-          <div className="amount-container-content w-full flex items-center justify-between p-10 pb-5">
+          <div className="amount-container-content w-full flex items-center justify-between p-5 pb-5">
             <div className="balance-container items-start text-left text-lg text-white">
               Total Balance
               <div className="amount text-4xl font-bold">
@@ -85,7 +85,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="income-expenses-container items-center flex w-full text-lg text-white p-10 pt-0 rounded-full">
+        <div className="income-expenses-container items-center flex w-full text-lg text-white p-5 pt-0 rounded-full">
           <div className="income-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-badge shadow-lg">
             <i className="bi-arrow-down-circle pr-2"></i>
             Income
@@ -103,7 +103,7 @@ const Dashboard = () => {
         </div>
 
         {/* Accounts and Top Spending Section */}
-        <div className="p-10 pb-5 pt-0">
+        <div className="p-5 pb-5 pt-0">
           <div className="collapse collapse-arrow max-w-2xl w-full p-3 shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-badge shadow-lg border-2 border-white border-opacity-20">
             <div className="flex justify-center items-center">
               <Link to="/dashboard/viewAccounts">

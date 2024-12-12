@@ -12,7 +12,7 @@ const TaskBar = () => {
   return (
     <div>
       {/* MOBILE */}
-      <div className="taskbar-mobile fixed bottom-0 left-0 w-full p-4 md:hidden rounded-tl-badge rounded-tr-badge bg-[#010827]">
+      <div className="taskbar-mobile fixed bottom-0 left-0 w-full p-2 md:hidden rounded-tl-badge rounded-tr-badge bg-[#010827]">
         <div className="flex justify-around items-center text-white">
           <Link
             to="/dashboard"
@@ -21,12 +21,10 @@ const TaskBar = () => {
             }`}
           >
             <i
-              className={`bi-house flex justify-center items-center text-2xl ${
+              className={`bi-house flex justify-center items-center text-xl ${
                 isActive("/dashboard") ? "text-[#9747FF]" : ""
               }`}
             ></i>
-
-            {/* <span className={`text-md ${isActive("/dashboard") ? 'text-[#9747FF]' : ''}`}>Home</span> */}
           </Link>
 
           <Link
@@ -36,20 +34,19 @@ const TaskBar = () => {
             }`}
           >
             <i
-              className={`fs-5 bi-arrow-left-right flex justify-center items-center text-2xl ${
+              className={`fs-5 bi-arrow-left-right flex justify-center items-center text-xl ${
                 isActive("/dashboard/transactions") ? "text-[#9747FF]" : ""
               }`}
             ></i>
-            {/* <span className={`text-md ${isActive("/dashboard/transactions") ? 'text-[#9747FF]' : ''
-                            }`}>Transactions</span> */}
           </Link>
 
           <Link
             to="#" //replace with /dashboard/addTransaction
-            className="flex flex-col items-center text-gray-400 no-underline p-2 rounded relative -top-10 justify-center"
+            className="flex flex-col items-center text-gray-400 no-underline p-2 rounded"
           >
-            <div className="bg-[#9747FF] rounded-full w-12 h-12 flex justify-center items-center">
-              <i className="fs-1 bi-plus text-white text-4xl"></i>
+            <div className="bg-[#9747FF] rounded-full w-10 h-10 flex justify-center items-center">
+              <i className="fs-1 bi-plus text-white text-3xl"></i>{" "}
+              {/* Adjusted size to match the other icons */}
             </div>
           </Link>
 
@@ -60,12 +57,10 @@ const TaskBar = () => {
             }`}
           >
             <i
-              className={`fs-5 bi-wallet2 text-2xl ${
+              className={`fs-5 bi-wallet2 text-xl ${
                 isActive("/dashboard/budgets") ? "text-[#9747FF]" : ""
               }`}
             ></i>
-            {/* <span className={`text-md ${isActive("/dashboard/budgets") ? 'text-[#9747FF]' : ''
-                            }`}>Budgets</span> */}
           </Link>
 
           <Link
@@ -75,12 +70,10 @@ const TaskBar = () => {
             }`}
           >
             <i
-              className={`fs-5 bi-clipboard2-data text-2xl ${
+              className={`fs-5 bi-clipboard2-data text-xl ${
                 isActive("/dashboard/reports") ? "text-[#9747FF]" : ""
               }`}
             ></i>
-            {/* <span className={`text-md ${isActive("/dashboard/profile") ? 'text-[#9747FF]' : ''
-                            }`}>Profile</span> */}
           </Link>
         </div>
         <Outlet />
