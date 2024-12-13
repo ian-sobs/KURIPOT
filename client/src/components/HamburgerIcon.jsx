@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Assuming you're using React Router for navigation
+import Categories from "./categories/Categories";
 
 const HamburgerIcon = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -8,23 +10,23 @@ const HamburgerIcon = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // fetching data frm backedn
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch("/api/user"); // replace with your API endpoint
-        if (!response.ok) {
-          throw new Error("Failed to fetch user data");
-        }
-        const data = await response.json();
-        setUser(data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
+  // fetching data from backend
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const response = await fetch("/api/user"); // replace with your API endpoint
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch user data");
+  //       }
+  //       const data = await response.json();
+  //       setUser(data);
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //     }
+  //   };
 
-    fetchUserData();
-  }, []);
+  //   fetchUserData();
+  // }, []);
 
   return (
     <>
@@ -64,12 +66,36 @@ const HamburgerIcon = () => {
             </div>
           </div>
 
-          {/* User Info */}
-          <div className="mt-6 flex-grow">
-            <h2 className="text-sm text-slate-400">U S E R</h2>
-            <p className="mt-4">
-              Email: {user ? user.email : "Loading..."} {/* Dynamic Email */}
-            </p>
+          {/* Links */}
+          <div className="mt-3">
+            <h2 className="text-sm text-slate-400 pt-5">USER</h2>
+            <hr className="border-slate-600" />
+            <ul className="space-y-4 mt-3">
+              <li>
+                <Link
+                  to="/dashboard/categories"
+                  className="text-slate-400 hover:text-white transition-all duration-300"
+                >
+                  My Categories
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="#"
+                  className="text-slate-400 hover:text-white transition-all duration-300"
+                >
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="#"
+                  className="text-slate-400 hover:text-white transition-all duration-300"
+                >
+                  Help
+                </Link>
+              </li>
+            </ul>
           </div>
 
           {/* Logout Button and Footer */}

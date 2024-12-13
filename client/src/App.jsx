@@ -14,6 +14,7 @@ import ViewAccounts from "./components/accounts/ViewAccounts";
 import Expense from "./components/transactions/Expense";
 import Income from "./components/transactions/Income";
 import Transfer from "./components/transactions/Transfer";
+import Categories from "./components/categories/Categories";
 
 import PrivateRoutes from "./auth/PrivateRoutes";
 import PublicRoutes from "./auth/PublicRoutes";
@@ -51,6 +52,9 @@ const App = () => {
             <Route path="/dashboard/addIncome" element={<Income />} />
             <Route path="/dashboard/addExpense" element={<Expense />} />
             <Route path="/dashboard/transferMoney" element={<Transfer />} />
+            <Route path="/dashboard/categories" element={<Categories />} />
+
+            
               <Route path="/dashboard/viewAccounts" element={<ViewAccounts />} />
           </Route>
           
