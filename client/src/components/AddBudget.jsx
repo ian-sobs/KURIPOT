@@ -228,38 +228,6 @@ const AddBudget = () => {
                   </div>
                 </div>
 
-                <div>
-                  <div className="flex items-center text-white">
-                    <label
-                      htmlFor="account"
-                      className="block text-slate-300 mb-1"
-                    >
-                      Account
-                    </label>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    {/* <i className="bi bi-wallet pt-3 pr-3 text-2xl items-center" /> */}
-                    <select
-                      id="account"
-                      value={account}
-                      onChange={(e) => setAccount(e.target.value)}
-                      required
-                      className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-indigo-100"
-                    >
-                      <option value="">Select Account</option>
-                      {accounts.length > 0 ? (
-                        accounts.map((acc, index) => (
-                          <option key={index} value={acc.name}>
-                            {acc.name}
-                          </option>
-                        ))
-                      ) : (
-                        <option value="">No accounts available</option>
-                      )}
-                    </select>
-                  </div>
-                </div>
-
                 <div className="text-center mt-6">
                   <button
                     type="submit"
