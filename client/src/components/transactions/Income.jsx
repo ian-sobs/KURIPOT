@@ -6,8 +6,16 @@ const Income = () => {
   const [incomeDetails, setIncomeDetails] = useState({
     amount: "",
     date: "",
-    account: "",  // Added account field
+    account: "", // Added account field
+    categories: [],
   });
+
+  const allCategories = [
+    "Salary",
+    "Savings",
+    "Business",
+    "Passive Income",
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,6 +23,20 @@ const Income = () => {
       ...prevDetails,
       [name]: value,
     }));
+  };
+
+  const handleCategoryChange = (e) => {
+    const { value, checked } = e.target;
+    setIncomeDetails((prevDetails) => {
+      const updatedCategories = checked
+        ? [...prevDetails.categories, value]
+        : prevDetails.categories.filter((category) => category !== value);
+
+      return {
+        ...prevDetails,
+        categories: updatedCategories,
+      };
+    });
   };
 
   const handleSubmit = (e) => {
@@ -63,6 +85,26 @@ const Income = () => {
                   className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-600"
                   required
                 />
+              </div>
+
+              <div>
+                <label htmlFor="categories" className="block text-slate-300 mb-1">
+                  Income Categories
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {allCategories.map((category) => (
+                    <label key={category} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        value={category}
+                        checked={incomeDetails.categories.includes(category)}
+                        onChange={handleCategoryChange}
+                        className="form-checkbox text-blue-600 focus:ring-blue-500"
+                      />
+                      <span className="text-slate-300">{category}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
 
               <div>
