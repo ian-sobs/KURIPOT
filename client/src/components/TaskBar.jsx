@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 //uncomment if taskbar with labels
@@ -8,7 +8,16 @@ const TaskBar = () => {
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  const openPopup = () => setIsPopupOpen(true);
+  const closePopup = () => setIsPopupOpen(false);
+
+  const navigate = useNavigate();
+  const handleNavigation = (url) => {
+    navigate(url); // Navigate to the specified URL
+    closePopup(); // Close the popup after navigation
+  };
   return (
     <div>
       {/* MOBILE */}
@@ -40,15 +49,14 @@ const TaskBar = () => {
             ></i>
           </Link>
 
-          <Link
-            to="#" //replace with /dashboard/addTransaction
+          <button
+            onClick={openPopup} // Open the popup when clicked
             className="flex flex-col items-center text-gray-400 no-underline p-2 rounded"
           >
             <div className="bg-[#9747FF] rounded-full w-10 h-10 flex justify-center items-center">
-              <i className="fs-1 bi-plus text-white text-3xl"></i>{" "}
-              {/* Adjusted size to match the other icons */}
+              <i className="fs-1 bi-plus text-white text-3xl"></i>
             </div>
-          </Link>
+          </button>
 
           <Link
             to="/dashboard/budgets"
@@ -78,6 +86,48 @@ const TaskBar = () => {
         </div>
         <Outlet />
       </div>
+
+      {/* Popup */}
+      {isPopupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50">
+          <div className="bg-gray-950 w-11/12 max-w-md p-6 rounded-badge shadow-lg">
+            <div className="flex justify-between items-center border-b pb-2 mb-4">
+              <h2 className="text-lg font-bold text-slate-300">
+                Transaction Type
+              </h2>
+              <button
+                onClick={closePopup}
+                className="text-gray-500 hover:text-slate-300"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <button
+                onClick={() => handleNavigation("/dashboard/addIncome")} // Link to the income route
+                className="block w-full px-4 py-2 bg-[#9747FF] text-white rounded-md hover:bg-blue-600 transition"
+              >
+                Income
+              </button>
+
+              <button
+                onClick={() => handleNavigation("/dashboard/addExpense")} // Link to the expense route
+                className="block w-full px-4 py-2 bg-[#9747FF] text-white rounded-md hover:bg-blue-600 transition"
+              >
+                Expense
+              </button>
+
+              <button
+                onClick={() => handleNavigation("/dashboard/transferMoney")} // Link to the transfer route
+                className="block w-full px-4 py-2 bg-[#9747FF] text-white rounded-md hover:bg-blue-600 transition"
+              >
+                Transfer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* DESKTOP */}
       <div className="fixed left-0 top-0 h-full p-5 w-16 md:w-1/5 lg:w-1/6 hidden md:block bg-[#010827]">
@@ -165,8 +215,8 @@ const TaskBar = () => {
               Reports
             </span>
           </Link>
-          <Link
-            to="#" //replace with /dashboard/addTransaction
+          <button
+            onClick={openPopup}
             className={`flex items-center text-gray-400 no-underline pt-10 rounded ${
               isActive("/dashboard/addTransaction") ? "glow-effect" : ""
             }`}
@@ -176,8 +226,8 @@ const TaskBar = () => {
                 isActive("/dashboard/addTransaction") ? "text-[#9747FF]" : ""
               }`}
             ></i>
-            <span className={`text-xs ml-2`}>New Transaction</span>
-          </Link>
+            <span className="text-xs ml-2">New Transaction</span>
+          </button>
         </div>
         <Outlet />
       </div>
