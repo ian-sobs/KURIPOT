@@ -46,7 +46,7 @@ const ViewAccounts = () => {
               {accounts.map((account, index) => <AccountCard {...account} />)}
             </ul>
           </div>
-          <AddAccount/>
+          <AddAccount accounts={accounts} setAccounts={setAccounts} />
         </div>
       </div>
     </div>
