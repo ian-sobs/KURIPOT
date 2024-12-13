@@ -31,7 +31,7 @@ const Income = () => {
           subtitle="View and Manage All Your Financial Activities"
           onBackClick={() => window.history.back()}
         />
-        <div className="page-with-navhead flex-col items-center justify-center mt-5">
+        <div className="page-with-navhead flex-col items-center justify-center mt-5 p-4">
           <div className="max-w-md mx-auto mt-5 p-6 bg-gray-950 rounded-badge shadow-lg">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
