@@ -1,3 +1,4 @@
+// Expanded Dummy Data for Transactions Page
 import React, { useState } from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
@@ -50,7 +51,7 @@ const TransactionsPage = () => {
     setActiveTab(index);
   };
 
-  // Dummy data for transactions
+  // Expanded Dummy Data for transactions (Daily)
   const transactionData = [
     {
       date: "09",
@@ -61,28 +62,28 @@ const TransactionsPage = () => {
           name: "Lunch",
           description: "Restaurant",
           amount: -150.75,
-          transactionType: "expense", // Negative amount
+          transactionType: "expense",
         },
         {
           category: "Travel",
           name: "Bus fare",
           description: "Commute to work",
           amount: -20.0,
-          transactionType: "expense", // Negative amount
+          transactionType: "expense",
         },
         {
           category: "Entertainment",
           name: "Movie",
           description: "Cinema ticket",
           amount: -250.0,
-          transactionType: "expense", // Negative amount
+          transactionType: "expense",
         },
         {
           category: "Salary",
           name: "Freelance Work",
           description: "Freelance income",
           amount: 500.0,
-          transactionType: "income", // Positive amount
+          transactionType: "income",
         },
       ],
     },
@@ -93,29 +94,134 @@ const TransactionsPage = () => {
         {
           category: "Food",
           name: "Coffee",
-          description: "Cafe",
+          description: "Morning coffee",
           amount: -50.0,
-          transactionType: "expense", // Negative amount
+          transactionType: "expense",
         },
         {
-          category: "Transport",
-          name: "Taxi",
-          description: "Ride share",
-          amount: -25.2,
-          transactionType: "expense", // Negative amount
+          category: "Health",
+          name: "Gym Membership",
+          description: "Monthly subscription",
+          amount: -1200.0,
+          transactionType: "expense",
+        },
+        {
+          category: "Salary",
+          name: "Project Bonus",
+          description: "Completion bonus",
+          amount: 1000.0,
+          transactionType: "income",
+        },
+      ],
+    },
+    {
+      date: "11",
+      day: "Wed",
+      transactions: [
+        {
+          category: "Shopping",
+          name: "Clothes",
+          description: "Online purchase",
+          amount: -800.0,
+          transactionType: "expense",
+        },
+        {
+          category: "Miscellaneous",
+          name: "Donation",
+          description: "Charity",
+          amount: -500.0,
+          transactionType: "expense",
         },
       ],
     },
   ];
 
-  // Calculate netIncome for each day based on the sum of transaction amounts
   const transactionDataWithNetIncome = transactionData.map((data) => {
     const netIncome = data.transactions.reduce(
       (total, transaction) => total + transaction.amount,
       0
     );
-    return { ...data, netIncome }; // Add the calculated netIncome to the data
+    return { ...data, netIncome };
   });
+
+  // Expanded Dummy Data for transactions (Weekly)
+  const weeklyTransactionData = [
+    {
+      weekStart: "01",
+      weekEnd: "07",
+      month: "DEC",
+      year: 2024,
+      transactions: [
+        {
+          category: "Food",
+          name: "Groceries",
+          description: "Weekly groceries",
+          amount: -750.0,
+          transactionType: "expense",
+        },
+        {
+          category: "Salary",
+          name: "Monthly Pay",
+          description: "Full-time job salary",
+          amount: 20000.0,
+          transactionType: "income",
+        },
+        {
+          category: "Utilities",
+          name: "Electricity Bill",
+          description: "Monthly electricity",
+          amount: -3500.0,
+          transactionType: "expense",
+        },
+      ],
+    },
+    {
+      weekStart: "08",
+      weekEnd: "14",
+      month: "DEC",
+      year: 2024,
+      transactions: [
+        {
+          category: "Entertainment",
+          name: "Streaming Subscription",
+          description: "Monthly Netflix plan",
+          amount: -500.0,
+          transactionType: "expense",
+        },
+        {
+          category: "Savings",
+          name: "Investment",
+          description: "Stocks purchase",
+          amount: -10000.0,
+          transactionType: "expense",
+        },
+        {
+          category: "Salary",
+          name: "Freelance Payment",
+          description: "Project completion",
+          amount: 8000.0,
+          transactionType: "income",
+        },
+      ],
+    },
+  ];
+
+  const weeklyTransactionDataWithNetIncome = weeklyTransactionData.map(
+    (week) => {
+      const netIncome = week.transactions.reduce(
+        (total, transaction) => total + transaction.amount,
+        0
+      );
+      const income = week.transactions
+        .filter((t) => t.transactionType === "income")
+        .reduce((sum, t) => sum + t.amount, 0);
+      const expense = week.transactions
+        .filter((t) => t.transactionType === "expense")
+        .reduce((sum, t) => sum + t.amount, 0); // Keep negative values as they are, don't use Math.abs()
+
+      return { ...week, netIncome, totalIncome: income, totalExpense: expense };
+    }
+  );
 
   return (
     <div className="flex flex-col h-screen">
@@ -127,7 +233,6 @@ const TransactionsPage = () => {
           onBackClick={() => window.history.back()}
         />
         <div className="page-with-navhead flex items-center justify-center flex-col">
-          {/* month switch */}
           <div className="month-switch w-full flex justify-between items-center mb-4">
             <button onClick={handlePrevMonth}>
               <i className="bi bi-caret-left ml-6"></i>
@@ -138,7 +243,6 @@ const TransactionsPage = () => {
             </button>
           </div>
           <div className="tab-container">
-            {/* tab switch */}
             <div
               role="tablist"
               className="tab-switch tabs tabs-bordered w-full tabs-lg flex justify-center items-center"
@@ -175,7 +279,6 @@ const TransactionsPage = () => {
                 onClick={() => handleTabChange(2)}
               />
             </div>
-            {/* content tab */}
             <div role="tabpanel" className="content-tab">
               {activeTab === 0 && (
                 <div>
@@ -192,9 +295,21 @@ const TransactionsPage = () => {
               )}
               {activeTab === 1 && (
                 <div>
-                  <TransactionWeekly />
-                  <TransactionWeekly />
-                  <TransactionWeekly />
+                  {weeklyTransactionDataWithNetIncome.map((week, index) => (
+                    <TransactionWeekly
+                      key={index}
+                      date={{
+                        start: week.weekStart,
+                        end: week.weekEnd,
+                        month: week.month,
+                      }}
+                      year={week.year}
+                      netIncome={week.netIncome}
+                      totalIncome={week.totalIncome}
+                      totalExpense={week.totalExpense}
+                      transactions={week.transactions}
+                    />
+                  ))}
                 </div>
               )}
               {activeTab === 2 && (

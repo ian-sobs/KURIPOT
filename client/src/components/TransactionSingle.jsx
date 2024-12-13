@@ -21,7 +21,7 @@ const TransactionSingle = ({
   return (
     <div className="singletrans-container flex justify-between items-center p-2">
       <div className="singletrans-left flex flex-row">
-        <div className="category-container flex items-center justify-center flex-col">
+        <div className="category-container flex items-center justify-center flex-col w-16">
           <i className="bi bi-car-front-fill"></i>
           <h3 className="text-xs truncate">{category}</h3>
         </div>

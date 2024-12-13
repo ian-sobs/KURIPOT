@@ -23,7 +23,11 @@ const TransactionDaily = ({ date, day, netIncome, transactions }) => {
           <h2>{day}</h2>
         </div>
         <div className="trans-right flex justify-center items-center">
-          <h2 className={`net-income mr-4 ${getNetIncomeClass(netIncome)}`}>
+          <h2
+            className={`net-income mr-4 font-medium text-lg ${getNetIncomeClass(
+              netIncome
+            )}`}
+          >
             ₱{netIncome}
           </h2>
           <button onClick={handleToggle}>
