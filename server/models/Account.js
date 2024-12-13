@@ -39,7 +39,13 @@ module.exports = (sequelize, DataTypes) =>{
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+
+        get() {
+          const rawValue = this.getDataValue('id');
+          const parsedValue = parseInt(rawValue, 10);
+          return parsedValue;
+        },
       },
       name: {
         type: DataTypes.STRING,
@@ -53,10 +59,21 @@ module.exports = (sequelize, DataTypes) =>{
         //   key: 'id',
         //   // research if you need Deferrable options
         // }
+        get() {
+          const rawValue = this.getDataValue('user_id');
+          const parsedValue = parseInt(rawValue, 10);
+          return parsedValue;
+        },
       },
       amount: {
           type: DataTypes.DECIMAL(18,2),
-          defaultValue: 0
+          defaultValue: 0,
+
+          get() {
+            const rawValue = this.getDataValue('amount');
+            const parsedValue = parseFloat(rawValue).toFixed(2);
+            return parsedValue;
+          },
       }
     },
     {
