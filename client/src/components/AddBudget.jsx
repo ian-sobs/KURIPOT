@@ -10,6 +10,7 @@ const AddBudget = () => {
   const [allCategories, setAllCategories] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [accounts, setAccounts] = useState([]);
 
   // Popup state
   const [isOpen, setIsOpen] = useState(false);
@@ -121,13 +122,13 @@ const AddBudget = () => {
                   <div className="flex items-center text-white">
                     <label
                       htmlFor="budgetLimit"
-                      className="block text-white mr-2 font-bold"
+                      className="block text-slate-300 mb-1"
                     >
                       Budget Limit (PHP)
                     </label>
                   </div>
                   <div className="flex items-center justify-center">
-                    <i className="bi bi-cash-coin pt-3 pr-3 text-2xl items-center" />
+                    {/* <i className="bi bi-cash-coin pt-3 pr-3 text-2xl items-center" /> */}
                     <input
                       type="number"
                       id="budgetLimit"
@@ -144,13 +145,13 @@ const AddBudget = () => {
                   <div className="flex items-center text-white">
                     <label
                       htmlFor="date"
-                      className="block text-white font-bold"
+                      className="block text-slate-300 mb-1"
                     >
                       Month and Year
                     </label>
                   </div>
                   <div className="flex items-center justify-center">
-                    <i className="bi bi-calendar-event pt-3 pr-3 text-2xl items-center" />
+                    {/* <i className="bi bi-calendar-event pt-3 pr-3 text-2xl items-center" /> */}
                     <input
                       type="month"
                       id="date"
@@ -166,7 +167,7 @@ const AddBudget = () => {
                   <div className="flex items-center text-white">
                     <label
                       htmlFor="categories"
-                      className="block text-white font-bold"
+                      className="block text-slate-300 mb-1"
                     >
                       Budget Categories
                     </label>
@@ -176,17 +177,17 @@ const AddBudget = () => {
                       <div key={index} className="flex items-center">
                         <input
                           type="checkbox"
-                          id={`category-${category}`}
-                          value={category}
-                          checked={categories.includes(category)}
+                          id={`category-${category.name}`}
+                          value={category.name}
+                          checked={categories.includes(category.name)}
                           onChange={handleCategoryChange}
                           className="mr-2"
                         />
                         <label
-                          htmlFor={`category-${category}`}
+                          htmlFor={`category-${category.name}`}
                           className="text-white"
                         >
-                          {category}
+                          {category.name}
                         </label>
                       </div>
                     ))}
@@ -202,19 +203,19 @@ const AddBudget = () => {
                   <div className="flex items-center text-white">
                     <label
                       htmlFor="account"
-                      className="block text-white font-bold"
+                      className="block text-slate-300 mb-1"
                     >
                       Account
                     </label>
                   </div>
                   <div className="flex items-center justify-center">
-                    <i className="bi bi-wallet pt-3 pr-3 text-2xl items-center" />
+                    {/* <i className="bi bi-wallet pt-3 pr-3 text-2xl items-center" /> */}
                     <select
                       id="account"
                       value={account}
                       onChange={(e) => setAccount(e.target.value)}
                       required
-                      className="w-full p-2 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
+                      className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-indigo-100"
                     >
                       <option value="">Select Account</option>
                       {accounts.length > 0 ? (
