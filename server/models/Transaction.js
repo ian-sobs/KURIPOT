@@ -86,8 +86,8 @@ module.exports = (sequelize, DataTypes) => {
       date:{
           type: DataTypes.DATE,
           allowNull: false,
-          set(dateString){
-            const parsedDate = new Date(dateString)
+          set(date){
+            const parsedDate = new Date(date).toISOString()
             this.setDataValue('date', parsedDate)
           }
       },

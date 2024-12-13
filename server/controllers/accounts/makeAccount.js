@@ -1,6 +1,6 @@
 const db = require('../../models/index')
 const sequelize = db.sequelize
-const {Account} = sequelize.models 
+const {Account, Transaction} = sequelize.models 
 
 exports.makeAccount = async (req, res)=>{
     const {usrId, usrname, email} = req.user
@@ -17,6 +17,23 @@ exports.makeAccount = async (req, res)=>{
                 user_id: usrId, 
                 amount: amount || 0
             }); 
+        const transacAdjust = await Transaction.create(
+            {
+                user_id: usrId,
+                amount: accountOfUser.amount,
+                account_id: accountOfUser.id,
+                accountName: accountOfUser.name,
+                date: new Date(),
+                category_id: null,
+                categoryName: null,
+                from_account_id: null,
+                from_accountName: null,
+                to_account_id: null,
+                to_accountName: null,
+                note: `Initial balance in ${accountOfUser.name} account `,
+                recurr_id: null,
+                type: 'income'
+            })
 
         return res.status(201).json({
             message: 'Account made successfully',
