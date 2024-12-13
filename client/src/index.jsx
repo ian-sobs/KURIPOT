@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { TokenProvider } from './token/TokenContext';
+import { TokenProvider } from './auth/TokenContext';
 import AxiosRequestInterceptor from './apiClient/axiosInterceptor';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

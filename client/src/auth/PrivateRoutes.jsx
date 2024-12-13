@@ -1,13 +1,17 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { decodeToken, isExpired } from "react-jwt";
-import { useToken } from '../token/TokenContext';
+import { useToken } from './TokenContext';
 import { useEffect, useState } from 'react';
 import { unprotectedRoute } from '../apiClient/axiosInstance';
 
 const PrivateRoutes = () => {
-    const { accessToken, setAccessToken, isAuthenticated, setIsAuthenticated } = useToken();
+    const { accessToken, setAccessToken, isAuthenticated, setIsAuthenticated, isFirstLogin, setIsFirstLogin } = useToken();
+    
     const location = useLocation()
+    const navigate = useNavigate()
+
     const [loading, setLoading] = useState(true); // Track loading state
+
     // const [isAuthenticated, setIsAuthenticated] = useState(null)
 
     // useEffect(()=>{
@@ -60,7 +64,18 @@ const PrivateRoutes = () => {
     if(loading) {
         return <div>Loading...</div>;
     }
-    return (!isAuthenticated) ? <Navigate to='/signin' state={{from: location}} replace /> : <Outlet/>
+
+    if(!isAuthenticated){
+        return  <Navigate to='/signin' state={{from: location}} replace />
+    }
+    else if(isFirstLogin){
+        navigate('/getting-started', { state: { fromProgrammatically: true } });
+    }
+    else{
+        return <Outlet/>
+    }
+
+    //return (!isAuthenticated) ? <Navigate to='/signin' state={{from: location}} replace /> : <Outlet/>
 }
 
 export default PrivateRoutes
