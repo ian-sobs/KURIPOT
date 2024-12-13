@@ -7,7 +7,7 @@ const AddBudget = () => {
   const [budgetLimit, setBudgetLimit] = useState("");
   const [categories, setCategories] = useState([]);
   const [account, setAccount] = useState("");
-  const [allCategories, setAllCategories] = useState([]);
+  // const [allCategories, setAllCategories] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [accounts, setAccounts] = useState([]);
@@ -36,7 +36,7 @@ const AddBudget = () => {
       .then((response) => {
         const { data } = response;
         console.log("categories: ", data);
-        setAllCategories(data.categories); // Set categories correctly
+        setCategories(data.categories); // Set categories correctly
       })
       .catch((error) => {
         console.log(error);
@@ -71,17 +71,17 @@ const AddBudget = () => {
     }
   };
 
-  const handleCategoryChange = (e) => {
-    const { value, checked } = e.target;
+  // const handleCategoryChange = (e) => {
+  //   const { value, checked } = e.target;
 
-    if (checked) {
-      setCategories((prevCategories) => [...prevCategories, value]);
-    } else {
-      setCategories((prevCategories) =>
-        prevCategories.filter((category) => category !== value)
-      );
-    }
-  };
+  //   if (checked) {
+  //     setCategories((prevCategories) => [...prevCategories, value]);
+  //   } else {
+  //     setCategories((prevCategories) =>
+  //       prevCategories.filter((category) => category !== value)
+  //     );
+  //   }
+  // };
 
   return (
     <div>
@@ -143,10 +143,7 @@ const AddBudget = () => {
 
                 <div>
                   <div className="flex items-center text-white">
-                    <label
-                      htmlFor="date"
-                      className="block text-slate-300 mb-1"
-                    >
+                    <label htmlFor="date" className="block text-slate-300 mb-1">
                       Month and Year
                     </label>
                   </div>
@@ -163,7 +160,7 @@ const AddBudget = () => {
                   </div>
                 </div>
 
-                <div>
+                {/* <div>
                   <div className="flex items-center text-white">
                     <label
                       htmlFor="categories"
@@ -196,6 +193,38 @@ const AddBudget = () => {
                     <p className="text-white text-xs mt-2">
                       Select multiple categories
                     </p>
+                  </div>
+                </div> */}
+
+                <div>
+                  <div className="flex items-center text-white">
+                    <label
+                      htmlFor="account"
+                      className="block text-slate-300 mb-1"
+                    >
+                      Budget Categories
+                    </label>
+                  </div>
+                  <div className="flex items-center justify-center">
+                
+                    <select
+                      id="account"
+                      value={account}
+                      onChange={(e) => setAccount(e.target.value)}
+                      required
+                      className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-indigo-100"
+                    >
+                      <option value="">Select Account</option>
+                      {accounts.length > 0 ? (
+                        accounts.map((acc, index) => (
+                          <option key={index} value={acc.name}>
+                            {acc.name}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="">No accounts available</option>
+                      )}
+                    </select>
                   </div>
                 </div>
 
