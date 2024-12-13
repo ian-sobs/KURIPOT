@@ -46,6 +46,12 @@ module.exports = (sequelize, DataTypes) =>{
           const parsedValue = parseInt(rawValue, 10);
           return parsedValue;
         },
+
+        set(value) {
+          // Storing passwords in plaintext in the database is terrible.
+          // Hashing the value with an appropriate cryptographic hash function is better.
+          this.setDataValue('id', parseInt(value, 10));
+        },
       },
       name: {
         type: DataTypes.STRING,
@@ -64,6 +70,11 @@ module.exports = (sequelize, DataTypes) =>{
           const parsedValue = parseInt(rawValue, 10);
           return parsedValue;
         },
+        set(value) {
+          // Storing passwords in plaintext in the database is terrible.
+          // Hashing the value with an appropriate cryptographic hash function is better.
+          this.setDataValue('user_id', parseInt(value, 10));
+        },
       },
       amount: {
           type: DataTypes.DECIMAL(18,2),
@@ -73,6 +84,11 @@ module.exports = (sequelize, DataTypes) =>{
             const rawValue = this.getDataValue('amount');
             const parsedValue = parseFloat(rawValue).toFixed(2);
             return parsedValue;
+          },
+          set(value) {
+            // Storing passwords in plaintext in the database is terrible.
+            // Hashing the value with an appropriate cryptographic hash function is better.
+            this.setDataValue('amount', parseFloat(value).toFixed(2));
           },
       }
     },
