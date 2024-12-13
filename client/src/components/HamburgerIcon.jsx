@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"; // Assuming you're using React Router for navigation
 import Categories from "./categories/Categories";
+import { unprotectedRoute } from "../apiClient/axiosInstance";
+import { useToken } from "../auth/TokenContext";
 
 const HamburgerIcon = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const {accessToken, setAccessToken} = useToken()
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  function handleLogout(){
+    unprotectedRoute.post('/entry/logout')
+      .then((response) => {
+        const {data} = response
+        console.log(data.message)
+        setAccessToken(null)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   // fetching data from backend
   // useEffect(() => {
@@ -102,7 +117,7 @@ const HamburgerIcon = () => {
           <div className="mt-auto">
             <button
               className="mt-8 bg-red-900 p-2 rounded w-full text-white"
-              onClick={toggleSidebar}
+              onClick={handleLogout}
             >
               Logout
             </button>
