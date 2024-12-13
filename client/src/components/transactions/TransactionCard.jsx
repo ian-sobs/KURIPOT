@@ -13,7 +13,7 @@ export default function TransactionCard(props){
                   : "text-red-500"
               }`}
             >
-              Php {props.amount}
+              {(props.amount > 0) ? `Php ${props.amount}` : `- Php ${-props.amount}`}
             </span>
           </div>
           <p className="text-sm text-gray-400">

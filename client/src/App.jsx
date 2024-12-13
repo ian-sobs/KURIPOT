@@ -10,7 +10,7 @@ import AddTransaction from "./components/transactions/AddTransaction";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import GettingStarted from "./pages/GettingStartedPage";
-import ViewAccounts from "./components/ViewAccounts";
+import ViewAccounts from "./components/accounts/ViewAccounts";
 
 import PrivateRoutes from "./auth/PrivateRoutes";
 import PublicRoutes from "./auth/PublicRoutes";

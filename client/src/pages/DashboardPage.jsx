@@ -6,6 +6,7 @@ import axios from "axios";
 import HamburgerIcon from "../components/HamburgerIcon";
 import TransactionCard from "../components/transactions/TransactionCard";
 import { protectedRoute } from "../apiClient/axiosInstance";
+import TopSpendingCard from "../components/categories/TopSpendingCard";
 
 const Dashboard = () => {
   // const [data, setData] = useState({
@@ -72,6 +73,59 @@ const Dashboard = () => {
       .catch((error) => {
         console.log(error)
       })
+
+      protectedRoute.get("/transactions/getTotalIncome")
+        .then((response) => {
+          const {data} = response
+          console.log("total income: ", response.data)
+          setIncome(data.totalIncome)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+
+        protectedRoute.get("/transactions/getTotalExpense")
+        .then((response) => {
+          const {data} = response
+          console.log("total expense: ", response.data)
+          setExpenses(data.totalExpense)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+
+        protectedRoute.get("/transactions/getTotalExpense")
+        .then((response) => {
+          const {data} = response
+          console.log("total expense: ", response.data)
+          setExpenses(data.totalExpense)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+
+        protectedRoute.get("/accounts/getAccounts")
+        .then((response) => {
+          const {data} = response
+          console.log("accounts: ", response.data)
+          setAccounts(data.accounts)
+
+          if(data.totalBalance === null) setTotalBalance(0)
+          else setTotalBalance(data.totalBalance)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+
+        protectedRoute.get("/transactions/getTopSpending")
+        .then((response) => {
+          const {data} = response
+          console.log("top spending: ", response.data)
+          setTopSpending(data.categories)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
   }, []);
 
   const toggleBalanceVisibility = () => {
@@ -96,7 +150,7 @@ const Dashboard = () => {
             <div className="balance-container items-start text-left text-lg text-white">
               Total Balance
               <div className="amount text-4xl font-bold">
-                {isBalanceVisible ? `Php ${totalBalance}` : "*****"}
+                {isBalanceVisible ? ((totalBalance < 0) ? `- Php ${-totalBalance}`:`Php ${totalBalance}`) : "*****"}
               </div>
             </div>
             <button onClick={toggleBalanceVisibility} className="p-2">
@@ -121,7 +175,7 @@ const Dashboard = () => {
             <i className="bi-arrow-up-circle pr-2"></i>
             Expenses
             <div className="expenses-amount text-md font-bold">
-              Php {expenses}
+              - Php {-expenses}
             </div>
           </div>
         </div>
@@ -166,17 +220,7 @@ const Dashboard = () => {
             <div className="collapse-content">
               {topSpending.length > 0 ? (
                 <ul>
-                  {topSpending.map((spending, index) => (
-                    <li key={index} className="py-2">
-                      <div className="flex justify-between">
-                        <span>{spending.category}</span>
-                        <span className="font-bold">
-                          Php {spending.amount} (
-                          {calculatePercentage(spending.amount)}%)
-                        </span>
-                      </div>
-                    </li>
-                  ))}
+                  {topSpending.map((spending, index) => <TopSpendingCard {...spending}/>)}
                 </ul>
               ) : (
                 <p>No spending data available.</p>
