@@ -16,25 +16,27 @@ exports.makeAccount = async (req, res)=>{
                 name: name, 
                 user_id: usrId, 
                 amount: amount || 0
-            }); 
-        const transacAdjust = await Transaction.create(
-            {
-                user_id: usrId,
-                amount: accountOfUser.amount,
-                account_id: accountOfUser.id,
-                accountName: accountOfUser.name,
-                date: new Date(),
-                category_id: null,
-                categoryName: null,
-                from_account_id: null,
-                from_accountName: null,
-                to_account_id: null,
-                to_accountName: null,
-                note: `Initial balance in ${accountOfUser.name} account `,
-                recurr_id: null,
-                type: 'income'
-            })
-
+            });
+        console.log('accountOfUser', accountOfUser)
+        if (parseFloat(accountOfUser.amount).toFixed(2) != 0){
+            const transacAdjust = await Transaction.create(
+                {
+                    user_id: usrId,
+                    amount: accountOfUser.amount,
+                    account_id: accountOfUser.id,
+                    accountName: accountOfUser.name,
+                    date: new Date(),
+                    category_id: null,
+                    categoryName: null,
+                    from_account_id: null,
+                    from_accountName: null,
+                    to_account_id: null,
+                    to_accountName: null,
+                    note: `Initial balance in ${accountOfUser.name} account `,
+                    recurr_id: null,
+                    type: 'income'
+                })
+        }
         return res.status(201).json({
             message: 'Account made successfully',
             account: accountOfUser
