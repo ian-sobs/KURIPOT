@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { protectedRoute } from "../apiClient/axiosInstance";
 import axios from "axios";
 
 const AddBudget = () => {
@@ -6,25 +7,40 @@ const AddBudget = () => {
   const [budgetLimit, setBudgetLimit] = useState("");
   const [categories, setCategories] = useState([]);
   const [account, setAccount] = useState("");
-
+  const [allCategories, setAllCategories] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
   // Popup state
   const [isOpen, setIsOpen] = useState(false);
-
   const openPopup = () => setIsOpen(true);
   const closePopup = () => setIsOpen(false);
 
-  const allCategories = [
-    "Shopping",
-    "Food",
-    "Entertainment",
-    "Transportation",
-    "Bills",
-  ]; // STATIC CATEGORIES
+  useEffect(() => {
+    // Fetch accounts from backend
+    protectedRoute
+      .get("/accounts/getAccounts")
+      .then((response) => {
+        const { data } = response;
+        console.log("accounts: ", data);
+        setAccounts(data.accounts); // Store accounts in state
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-  const accounts = ["Savings", "Checking", "Emergency Fund"]; // STATIC ACCOUNTS
+    // Fetch categories from backend
+    protectedRoute
+      .get("/categories/getCategories")
+      .then((response) => {
+        const { data } = response;
+        console.log("categories: ", data);
+        setAllCategories(data.categories); // Set categories correctly
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -156,7 +172,7 @@ const AddBudget = () => {
                     </label>
                   </div>
                   <div className="space-y-2 mt-2 pl-5">
-                    {allCategories.map((category, index) => (
+                    {allCategories?.map((category, index) => (
                       <div key={index} className="flex items-center">
                         <input
                           type="checkbox"
@@ -183,13 +199,13 @@ const AddBudget = () => {
                 </div>
 
                 <div>
-                <div className="flex items-center text-white">
-                  <label
-                    htmlFor="account"
-                    className="block text-white font-bold"
-                  >
-                    Account
-                  </label>
+                  <div className="flex items-center text-white">
+                    <label
+                      htmlFor="account"
+                      className="block text-white font-bold"
+                    >
+                      Account
+                    </label>
                   </div>
                   <div className="flex items-center justify-center">
                     <i className="bi bi-wallet pt-3 pr-3 text-2xl items-center" />
@@ -201,11 +217,15 @@ const AddBudget = () => {
                       className="w-full p-2 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
                     >
                       <option value="">Select Account</option>
-                      {accounts.map((acc, index) => (
-                        <option key={index} value={acc}>
-                          {acc}
-                        </option>
-                      ))}
+                      {accounts.length > 0 ? (
+                        accounts.map((acc, index) => (
+                          <option key={index} value={acc.name}>
+                            {acc.name}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="">No accounts available</option>
+                      )}
                     </select>
                   </div>
                 </div>
