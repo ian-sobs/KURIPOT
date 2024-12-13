@@ -15,10 +15,9 @@ const TransactionMonthly = ({
 
   return (
     <div className="monthlystrans-container flex justify-between items-center py-4 border-b border-b-gray-400">
-      <div className="date-range flex flex-row w-32 flex-shrink-0">
+      <div className="date-range flex flex-row flex-shrink-0">
         <div className="date1 flex flex-col justify-center items-center">
-          <h3 className="text-xs">{date.month}</h3>
-          <h3 className="text-lg">{date.year}</h3>
+          <h3 className="text-lg">{date.month}</h3>
         </div>
       </div>
       <div className="finances flex flex-row space-x-4">

@@ -4,6 +4,14 @@ import TransactionSingle from "./TransactionSingle";
 const TransactionDaily = ({ date, day, netIncome, transactions }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Format date to be always 2 digits
+  const formattedDate = new Date(date).getDate().toString().padStart(2, "0");
+
+  // Get the abbreviated day (e.g., Sun for Sunday)
+  const abbreviatedDay = new Date(date).toLocaleString("en-us", {
+    weekday: "short",
+  });
+
   // Function to determine text color for netIncome
   const getNetIncomeClass = (value) => {
     if (value > 0) return "text-green-500"; // Green for positive
@@ -19,8 +27,8 @@ const TransactionDaily = ({ date, day, netIncome, transactions }) => {
     <div>
       <div className="daily-container flex justify-between items-center py-2 border-b border-b-gray-400">
         <div className="trans-left flex flex-col items-center">
-          <h2 className="text-xl font-semibold">{date}</h2>
-          <h2>{day}</h2>
+          <h2 className="text-xl font-semibold">{formattedDate}</h2>
+          <h2>{abbreviatedDay}</h2>
         </div>
         <div className="trans-right flex justify-center items-center">
           <h2

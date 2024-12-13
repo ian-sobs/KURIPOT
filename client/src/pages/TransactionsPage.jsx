@@ -50,104 +50,105 @@ const TransactionsPage = () => {
     setActiveTab(index);
   };
 
-  // Dummy data for daily and weekly transactions
-  const dailyTransactionData = [
-    {
-      date: "2024-12-01",
-      day: "Sunday",
-      netIncome: 5000.0,
-      transactions: [
-        {
-          category: "Salary",
-          name: "Freelance Project",
-          description: "Payment for freelance project",
-          amount: 5000.0,
-          transactionType: "income",
-        },
-      ],
-    },
-    {
-      date: "2024-12-02",
-      day: "Monday",
-      netIncome: -1000.0,
-      transactions: [
-        {
-          category: "Food",
-          name: "Groceries",
-          description: "Groceries for the week",
-          amount: -1000.0,
-          transactionType: "expense",
-        },
-      ],
-    },
-  ];
+  // Define transaction data
+  const transactionData = {
+    daily: [
+      {
+        date: "2024-12-01",
+        day: "Sunday",
+        netIncome: 5000.0,
+        transactions: [
+          {
+            category: "Salary",
+            name: "Freelance Project",
+            description: "Payment for freelance project",
+            amount: 5000.0,
+            transactionType: "income",
+          },
+        ],
+      },
+      {
+        date: "2024-12-02",
+        day: "Monday",
+        netIncome: -1000.0,
+        transactions: [
+          {
+            category: "Food",
+            name: "Groceries",
+            description: "Groceries for the week",
+            amount: -1000.0,
+            transactionType: "expense",
+          },
+        ],
+      },
+    ],
+    weekly: [
+      {
+        date: { start: "2024-11-30", end: "2024-12-06" },
+        netIncome: 4000.0,
+        totalIncome: 6000.0,
+        totalExpense: -2000.0,
+      },
+      {
+        date: { start: "2024-12-07", end: "2024-12-13" },
+        netIncome: 3000.0,
+        totalIncome: 7000.0,
+        totalExpense: -4000.0,
+      },
+    ],
+    monthly: [
+      {
+        month: "DEC",
+        year: 2024,
+        transactions: [
+          {
+            category: "Food",
+            name: "Groceries",
+            description: "Monthly groceries",
+            amount: -2000.0,
+            transactionType: "expense",
+          },
+          {
+            category: "Salary",
+            name: "Salary",
+            description: "Full-time job salary",
+            amount: 25000.0,
+            transactionType: "income",
+          },
+          {
+            category: "Utilities",
+            name: "Internet Bill",
+            description: "Monthly internet",
+            amount: -1500.0,
+            transactionType: "expense",
+          },
+        ],
+      },
+      {
+        month: "JAN",
+        year: 2025,
+        transactions: [
+          {
+            category: "Travel",
+            name: "Flight Tickets",
+            description: "Round-trip to destination",
+            amount: -5000.0,
+            transactionType: "expense",
+          },
+          {
+            category: "Salary",
+            name: "Freelance Work",
+            description: "Freelance projects",
+            amount: 10000.0,
+            transactionType: "income",
+          },
+        ],
+      },
+    ],
+  };
 
-  const weeklyTransactionData = [
-    {
-      date: { start: "2024-11-30", end: "2024-12-06" },
-      netIncome: 4000.0,
-      totalIncome: 6000.0,
-      totalExpense: -2000.0,
-    },
-    {
-      date: { start: "2024-12-07", end: "2024-12-13" },
-      netIncome: 3000.0,
-      totalIncome: 7000.0,
-      totalExpense: -4000.0,
-    },
-  ];
-
-  const monthlyTransactionData = [
-    {
-      month: "DEC",
-      year: 2024,
-      transactions: [
-        {
-          category: "Food",
-          name: "Groceries",
-          description: "Monthly groceries",
-          amount: -2000.0,
-          transactionType: "expense",
-        },
-        {
-          category: "Salary",
-          name: "Salary",
-          description: "Full-time job salary",
-          amount: 25000.0,
-          transactionType: "income",
-        },
-        {
-          category: "Utilities",
-          name: "Internet Bill",
-          description: "Monthly internet",
-          amount: -1500.0,
-          transactionType: "expense",
-        },
-      ],
-    },
-    {
-      month: "JAN",
-      year: 2025,
-      transactions: [
-        {
-          category: "Travel",
-          name: "Flight Tickets",
-          description: "Round-trip to destination",
-          amount: -5000.0,
-          transactionType: "expense",
-        },
-        {
-          category: "Salary",
-          name: "Freelance Work",
-          description: "Freelance projects",
-          amount: 10000.0,
-          transactionType: "income",
-        },
-      ],
-    },
-  ];
-
-  const monthlyTransactionDataWithNetIncome = monthlyTransactionData.map(
+  // Map monthly data to include net income, total income, and total expenses
+  const monthlyTransactionDataWithNetIncome = transactionData.monthly.map(
     (data) => {
       const netIncome = data.transactions.reduce(
         (total, transaction) => total + transaction.amount,
@@ -164,11 +165,9 @@ const TransactionsPage = () => {
     }
   );
 
-  // Filtering logic based on the tab
   const filteredTransactions = () => {
     if (activeTab === 0) {
-      // Daily tab: Filter by the current month
-      return dailyTransactionData.filter((data) => {
+      return transactionData.daily.filter((data) => {
         const transactionDate = new Date(data.date);
         return (
           transactionDate.getMonth() === date.month &&
@@ -176,13 +175,11 @@ const TransactionsPage = () => {
         );
       });
     } else if (activeTab === 1) {
-      // Weekly tab: Filter by year
-      return weeklyTransactionData.filter((data) => {
+      return transactionData.weekly.filter((data) => {
         const startYear = new Date(data.date.start).getFullYear();
         return startYear === date.year;
       });
     } else if (activeTab === 2) {
-      // Monthly tab: Filter by year
       return monthlyTransactionDataWithNetIncome.filter(
         (data) => data.year === date.year
       );
@@ -289,11 +286,11 @@ const TransactionsPage = () => {
                       totalExpense={data.totalExpense}
                     />
                   );
-                } else if (activeTab === 2) {
+                } else {
                   return (
                     <TransactionMonthly
                       key={index}
-                      date={{ month: data.month, year: data.year }}
+                      date={{ month: data.month, year: data.year }} // Ensure month and year are passed
                       netIncome={data.netIncome}
                       totalIncome={data.totalIncome}
                       totalExpense={data.totalExpense}
