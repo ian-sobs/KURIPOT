@@ -24,7 +24,7 @@ const ViewAccounts = () => {
       .then((response) => {
         const {data} = response
         console.log("accounts in viewAccounts:", data)
-        setAccounts(accounts)
+        setAccounts(data.accounts)
       })
       .catch((error) => {
         console.log(error)
