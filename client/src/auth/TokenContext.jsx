@@ -45,21 +45,23 @@ export const TokenProvider = ({ children }) => {
             }
             
         }
+        
         if(decodedTokenNew) {
             // setIsAuthenticated(true)
             if(decodedTokenNew.fLgn !== null){
                 console.log("decodedTokenNew.fLgn === ", decodedTokenNew.fLgn)
                 setIsFirstLogin(decodedTokenNew.fLgn)
             }
-            scheduleTokenRefresh()
 
-            return () => {
-                console.log(`destroying previous refresh timer : ${new Date(Date.now()).toLocaleString()}`)
-                if (refreshTimeout.current) {
-                    clearTimeout(refreshTimeout.current); // Clear the timer on unmount
-                }
-            };
+            scheduleTokenRefresh()
         }
+
+        return () => {
+            console.log(`destroying previous refresh timer : ${new Date(Date.now()).toLocaleString()}`)
+            if (refreshTimeout.current) {
+                clearTimeout(refreshTimeout.current); // Clear the timer on unmount
+            }
+        };
     }, [accessToken])
 
     if (!decodedToken) {
