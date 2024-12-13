@@ -11,6 +11,9 @@ import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import GettingStarted from "./pages/GettingStartedPage";
 import ViewAccounts from "./components/accounts/ViewAccounts";
+import Expense from "./components/transactions/Expense";
+import Income from "./components/transactions/Income";
+import Transfer from "./components/transactions/Transfer";
 
 import PrivateRoutes from "./auth/PrivateRoutes";
 import PublicRoutes from "./auth/PublicRoutes";
@@ -45,6 +48,9 @@ const App = () => {
               path="/dashboard/addTransaction"
               element={<AddTransaction />}
             />
+            <Route path="/dashboard/addIncome" element={<Income />} />
+            <Route path="/dashboard/addExpense" element={<Expense />} />
+            <Route path="/dashboard/transferMoney" element={<Transfer />} />
               <Route path="/dashboard/viewAccounts" element={<ViewAccounts />} />
           </Route>
           
