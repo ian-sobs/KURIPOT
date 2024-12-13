@@ -1,3 +1,5 @@
+const {Op, Sequelize, where} = require('sequelize')
+
 // Function to get the number of days in a month
 function getDaysInMonth(year, month) {
     // Month is 0-indexed in JavaScript (0 = January, 1 = February, ...)

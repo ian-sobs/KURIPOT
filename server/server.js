@@ -23,7 +23,7 @@ const accountsRouter = require('./routes/accountsRouter')
 const budgetsRouter = require('./routes/budgetsRouter')
 const categoriesRouter = require('./routes/categoriesRouter')
 const transactionsRouter = require('./routes/transactionsRouter')
-
+const userRouter = require('./routes/userRouter')
 // Start the server and connect to the database
 const startServer = async () => {
   app.use(cors({
@@ -64,6 +64,7 @@ const startServer = async () => {
   app.use('/api/budgets', authAccessToken, budgetsRouter)
   app.use('/api/categories', authAccessToken, categoriesRouter)
   app.use('/api/transactions', authAccessToken, transactionsRouter)
+  app.use('/api/user', authAccessToken, userRouter)
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

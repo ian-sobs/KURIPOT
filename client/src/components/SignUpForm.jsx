@@ -1,19 +1,22 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { unprotectedRoute } from "../apiClient/axiosInstance.js";
-import { TokenContext } from "../token/TokenContext.jsx";
+import { TokenContext } from "../auth/TokenContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({
     email: "",
   });
   const { accessToken, setAccessToken } = useContext(TokenContext);
   useEffect(() => {
     console.log("React-context access token updated:", accessToken);
+    
   }, [accessToken]);
 
   const handleChange = (e) => {
@@ -46,11 +49,12 @@ const SignUpForm = () => {
       .post("/entry/signUp", formData)
       .then((response) => {
         if (response.status === 201) {
-          let { message, user, accessToken } = response.data;
+          let { message, user, accessToken, isFirstLogin } = response.data;
           console.log("message: ", message);
           console.log("user: ", user);
           console.log("Access token: ", accessToken);
           setAccessToken(accessToken);
+          navigate('/getting-started', { state: { fromProgrammatically: true } })
         } else {
           console.log(response);
           console.error("Failed to submit form");

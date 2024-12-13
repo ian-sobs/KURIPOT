@@ -9,8 +9,11 @@ exports.getTotalExpense = async (req, res) => {
     const {usrId} = req.user
     const {categoryId, accountId} = req.query
 
-    let whereClause = valQueryParamDate(req.query, res, 'date')
-
+    let whereClause = {}
+    
+    if(req.query.period){
+        whereClause = valQueryParamDate(req.query, res, 'date')
+    }
     // filters the total expense by category and account
     if(categoryId){
         whereClause.category_id = parseInt(categoryId, 10)

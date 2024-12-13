@@ -8,7 +8,15 @@ exports.getTopSpending = async (req, res) => {
     const {usrId} = req.user
     let sortIn = req.query.sortIn
 
-    let whereClause = valQueryParamDate(req.query, res, 'date')
+    if(!sortIn){
+        sortIn = "DESC"
+    }
+
+    let whereClause = {}
+    
+    if(req.query.period){
+        whereClause = valQueryParamDate(req.query, res, 'date')
+    }
     whereClause.user_id = usrId
 
     whereClause.amount = {
@@ -49,7 +57,7 @@ exports.getTopSpending = async (req, res) => {
                 [sequelize.fn('sum', sequelize.col('amount')), 'spent'], // Sum of 'amount' for each category
             ],
             where: whereClause,
-            group: ['category_id'], // Group by 'category'
+            group: ['category_id', 'categoryName'], // Group by 'category'
             order: [sequelize.literal('spent '+ sortIn)], // Use a literal for ordering by the alias
         })
 

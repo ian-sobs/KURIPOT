@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { TokenContext } from "../token/TokenContext";
+import { TokenContext } from "../auth/TokenContext";
 import { unprotectedRoute } from "../apiClient/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const SignInForm = () => {
-  const { accessToken, setAccessToken } = useContext(TokenContext);
+  const { accessToken, setAccessToken, isAuthenticated, isFirstLogin } = useContext(TokenContext);
+  //const [accTokCopy, setAccTokCopy] = useState
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,7 +18,14 @@ const SignInForm = () => {
 
   useEffect(() => {
     console.log("React-context access token updated:", accessToken);
-  }, [accessToken]);
+
+    // if(isAuthenticated === true){
+    //   navigate('/dashboard')
+    // }
+    // else{
+    //   navigate('/signin')
+    // }
+  }, [isAuthenticated]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,10 +57,11 @@ const SignInForm = () => {
       .post("/entry/signIn", formData)
       .then((response) => {
         if (response.status === 200) {
-          let { message, accessToken } = response.data;
+          let { message, accessToken, isFirstLogin } = response.data;
           console.log("message: ", message);
           console.log("Access token: ", accessToken);
           setAccessToken(accessToken);
+          navigate('/dashboard')
         } else {
           console.log(response);
           console.error("Failed to submit form");

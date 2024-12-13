@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import { protectedRoute } from "../apiClient/axiosInstance";
+import { useToken } from "../auth/TokenContext";
 
 const GettingStarted = () => {
+  const {isFirstLogin, setIsFirstLogin} = useToken()
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [username, setUsername] = useState("");
@@ -27,6 +30,25 @@ const GettingStarted = () => {
     }
     setStep(step + 1);
   };
+
+  const handleFinish = () => {
+    const formData = {
+      username: username,
+      // currency: currency
+    }
+    protectedRoute
+      .patch("/user/finalizeUser", formData)
+      .then((response) => {
+        let { message } = response.data;
+        console.log("message: ", message);
+        setIsFirstLogin(false)
+        navigate('/dashboard')
+      })
+      .catch((err) => {
+        console.error("Error during submission:", err);
+        // Handle network or request error
+      });
+  }
 
   // using a switch case since we wont be using these components again
   const renderStep = () => {
@@ -97,7 +119,7 @@ const GettingStarted = () => {
               </p>
             </div>
             <button
-              onClick={handleBackClick}
+              onClick={handleFinish}
               className="signup-submit mt-2 w-full bg-[#9747FF] text-white text-sm font-medium rounded-md p-2"
             >
               Finish
