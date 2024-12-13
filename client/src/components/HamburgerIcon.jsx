@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Assuming you're using React Router for navigation
+import Categories from "./Categories";
 
 const HamburgerIcon = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -8,7 +10,7 @@ const HamburgerIcon = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // fetching data frm backedn
+  // fetching data from backend
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -65,11 +67,44 @@ const HamburgerIcon = () => {
           </div>
 
           {/* User Info */}
-          <div className="mt-6 flex-grow">
-            <h2 className="text-sm text-slate-400">U S E R</h2>
+          <div className="mt-3">
+            <h2 className="text-sm text-slate-400">USER</h2>
+            <hr className="border-slate-600" />
             <p className="mt-4">
               Email: {user ? user.email : "Loading..."} {/* Dynamic Email */}
             </p>
+          </div>
+
+          {/* Links */}
+          <div className="mt-3">
+            <h2 className="text-sm text-slate-400 pt-10">OTHERS</h2>
+            <hr className="border-slate-600" />
+            <ul className="space-y-4 mt-3">
+              <li>
+                <Link
+                  to="/dashboard/categories"
+                  className="text-slate-400 hover:text-white transition-all duration-300"
+                >
+                  My Categories
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="#"
+                  className="text-slate-400 hover:text-white transition-all duration-300"
+                >
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="#"
+                  className="text-slate-400 hover:text-white transition-all duration-300"
+                >
+                  Help
+                </Link>
+              </li>
+            </ul>
           </div>
 
           {/* Logout Button and Footer */}
