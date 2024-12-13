@@ -34,9 +34,11 @@ export const TokenProvider = ({ children }) => {
                         if (!status === 200) throw new Error("Failed to refresh token");
                         console.log(`Access token refreshed : ${new Date(Date.now()).toLocaleString()}`)
                         setAccessToken(data.accessToken); // Update token in state
+                        setIsAuthenticated(true)
                     } catch (error) {
                         console.error(`Failed to refresh token : ${new Date(Date.now()).toLocaleString()}`, error);
                         setAccessToken(null)
+                        setIsAuthenticated(false)
                     }
                 }, timeToRefresh);
                 console.log('refresh timeout set')
@@ -46,6 +48,7 @@ export const TokenProvider = ({ children }) => {
         if(decodedTokenNew) {
             // setIsAuthenticated(true)
             if(decodedTokenNew.fLgn !== null){
+                console.log("decodedTokenNew.fLgn === ", decodedTokenNew.fLgn)
                 setIsFirstLogin(decodedTokenNew.fLgn)
             }
             scheduleTokenRefresh()

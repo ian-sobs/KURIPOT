@@ -4,50 +4,74 @@ import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
 import axios from "axios";
 import HamburgerIcon from "../components/HamburgerIcon";
+import TransactionCard from "../components/transactions/TransactionCard";
+import { protectedRoute } from "../apiClient/axiosInstance";
 
 const Dashboard = () => {
-  const [data, setData] = useState({
-    totalBalance: 0,
-    income: 0,
-    expenses: 0,
-    //static data, feel free to remove when testing with the backend
-    accounts: [
-      { name: "Savings", amount: 15000 },
-      { name: "Checking", amount: 5000 },
-      { name: "Emergency Fund", amount: 3000 },
-    ],
-    topSpending: [
-      { category: "Shopping", amount: 5000 },
-      { category: "Food", amount: 2000 },
-    ],
-    recentTransactions: [
-      {
-        date: "2024-12-01",
-        amount: 1500,
-        description: "Salary Payment",
-        type: "income",
-      },
-      {
-        date: "2024-11-25",
-        amount: 200,
-        description: "Grocery Shopping",
-        type: "expense",
-      },
-    ],
-  });
+  // const [data, setData] = useState({
+  //   totalBalance: 0,
+  //   income: 0,
+  //   expenses: 0,
+  //   //static data, feel free to remove when testing with the backend
+  //   accounts: [
+  //     { name: "Savings", amount: 15000 },
+  //     { name: "Checking", amount: 5000 },
+  //     { name: "Emergency Fund", amount: 3000 },
+  //   ],
+  //   topSpending: [
+  //     { category: "Shopping", amount: 5000 },
+  //     { category: "Food", amount: 2000 },
+  //   ],
+  //   recentTransactions: [
+  //     {
+  //       date: "2024-12-01",
+  //       amount: 1500,
+  //       description: "Salary Payment",
+  //       type: "income",
+  //     },
+  //     {
+  //       date: "2024-11-25",
+  //       amount: 200,
+  //       description: "Grocery Shopping",
+  //       type: "expense",
+  //     },
+  //   ],
+  // });
+  const [totalBalance, setTotalBalance] = useState(0)
+  const [income, setIncome] = useState(0)
+  const [expenses, setExpenses] = useState(0)
+  const [accounts, setAccounts] = useState([])
+  const [topSpending, setTopSpending] = useState([])
+  const [recentTransactions, setRecentTransactions] = useState([])
+
+
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("#"); // Replace with actual API endpoint
-        setData(response.data); // Assuming the API returns data in the required format
-      } catch (error) {
-        console.error("Error fetching dashboard data:", error);
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await axios.get("#"); // Replace with actual API endpoint
+    //     //setData(response.data); // Assuming the API returns data in the required format
+    //   } catch (error) {
+    //     console.error("Error fetching dashboard data:", error);
+    //   }
+    // };
+    //fetchData();
+    protectedRoute.get("/transactions/getTransactions", {
+      params: {
+        period: 'range',
+        startDate: new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate() - 7, new Date().getUTCHours(), new Date().getUTCMinutes(), new Date().getUTCSeconds())),
+        endDate: new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate(), new Date().getUTCHours(), new Date().getUTCMinutes(), new Date().getUTCSeconds()))
       }
-    };
-
-    fetchData();
+    })
+      .then((response) => {
+        const {data} = response
+        console.log("recent transactions: ", response.data)
+        setRecentTransactions(data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }, []);
 
   const toggleBalanceVisibility = () => {
@@ -55,8 +79,8 @@ const Dashboard = () => {
   };
 
   const calculatePercentage = (amount) => {
-    if (data.expenses === 0) return 0;
-    return ((amount / data.expenses) * 100).toFixed(2);
+    if (expenses === 0) return 0;
+    return ((amount / expenses) * 100).toFixed(2);
   };
 
   return (
@@ -72,7 +96,7 @@ const Dashboard = () => {
             <div className="balance-container items-start text-left text-lg text-white">
               Total Balance
               <div className="amount text-4xl font-bold">
-                {isBalanceVisible ? `Php ${data.totalBalance}` : "*****"}
+                {isBalanceVisible ? `Php ${totalBalance}` : "*****"}
               </div>
             </div>
             <button onClick={toggleBalanceVisibility} className="p-2">
@@ -90,14 +114,14 @@ const Dashboard = () => {
             <i className="bi-arrow-down-circle pr-2"></i>
             Income
             <div className="income-amount text-md font-bold">
-              Php {data.income}
+              Php {income}
             </div>
           </div>
           <div className="expenses-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-badge ml-4 shadow-lg">
             <i className="bi-arrow-up-circle pr-2"></i>
             Expenses
             <div className="expenses-amount text-md font-bold">
-              Php {data.expenses}
+              Php {expenses}
             </div>
           </div>
         </div>
@@ -118,9 +142,9 @@ const Dashboard = () => {
               My Accounts
             </div>
             <div className="collapse-content">
-              {data.accounts.length > 0 ? (
+              {accounts.length > 0 ? (
                 <ul>
-                  {data.accounts.map((account, index) => (
+                  {accounts.map((account, index) => (
                     <li key={index} className="py-2">
                       <div className="flex justify-between">
                         <span>{account.name}</span>
@@ -140,9 +164,9 @@ const Dashboard = () => {
               Top Spending
             </div>
             <div className="collapse-content">
-              {data.topSpending.length > 0 ? (
+              {topSpending.length > 0 ? (
                 <ul>
-                  {data.topSpending.map((spending, index) => (
+                  {topSpending.map((spending, index) => (
                     <li key={index} className="py-2">
                       <div className="flex justify-between">
                         <span>{spending.category}</span>
@@ -165,27 +189,9 @@ const Dashboard = () => {
               Recent Transactions
             </div>
             <div className="collapse-content">
-              {data.recentTransactions.length > 0 ? (
+              {recentTransactions.length > 0 ? (
                 <ul>
-                  {data.recentTransactions.map((transaction, index) => (
-                    <li key={index} className="py-2">
-                      <div className="flex justify-between">
-                        <span>{transaction.date}</span>
-                        <span
-                          className={`font-bold ${
-                            transaction.type === "income"
-                              ? "text-green-500"
-                              : "text-red-500"
-                          }`}
-                        >
-                          Php {transaction.amount}
-                        </span>
-                      </div>
-                      <p className="text-sm text-gray-400">
-                        {transaction.description}
-                      </p>
-                    </li>
-                  ))}
+                  {recentTransactions.map((transaction, index) => <TransactionCard {...transaction}/>)}
                 </ul>
               ) : (
                 <p>No recent transactions available.</p>

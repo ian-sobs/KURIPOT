@@ -6,7 +6,7 @@ import Dashboard from "./pages/DashboardPage";
 import Transactions from "./pages/TransactionsPage";
 import Budgets from "./pages/BudgetsPage";
 import Reports from "./pages/ReportsPage";
-import AddTransaction from "./components/AddTransaction";
+import AddTransaction from "./components/transactions/AddTransaction";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import GettingStarted from "./pages/GettingStartedPage";
