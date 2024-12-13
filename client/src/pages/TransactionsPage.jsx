@@ -1,4 +1,3 @@
-// Expanded Dummy Data for Transactions Page
 import React, { useState } from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
@@ -7,8 +6,8 @@ import TransactionWeekly from "../components/TransactionWeekly";
 import TransactionMonthly from "../components/TransactionMonthly";
 
 const TransactionsPage = () => {
-  const [date, setDate] = useState({ month: 11, year: 2024 }); // December 2024 (0-indexed months)
-  const [activeTab, setActiveTab] = useState(0); // state to manage active tab
+  const [date, setDate] = useState({ month: 11, year: 2024 }); // Default: December 2024 (0-indexed months)
+  const [activeTab, setActiveTab] = useState(0); // State to manage active tab
 
   const months = [
     "January",
@@ -51,177 +50,144 @@ const TransactionsPage = () => {
     setActiveTab(index);
   };
 
-  // Expanded Dummy Data for transactions (Daily)
-  const transactionData = [
+  // Dummy data for daily and weekly transactions
+  const dailyTransactionData = [
     {
-      date: "09",
-      day: "Mon",
+      date: "2024-12-01",
+      day: "Sunday",
+      netIncome: 5000.0,
       transactions: [
         {
-          category: "Food",
-          name: "Lunch",
-          description: "Restaurant",
-          amount: -150.75,
-          transactionType: "expense",
-        },
-        {
-          category: "Travel",
-          name: "Bus fare",
-          description: "Commute to work",
-          amount: -20.0,
-          transactionType: "expense",
-        },
-        {
-          category: "Entertainment",
-          name: "Movie",
-          description: "Cinema ticket",
-          amount: -250.0,
-          transactionType: "expense",
-        },
-        {
           category: "Salary",
-          name: "Freelance Work",
-          description: "Freelance income",
-          amount: 500.0,
+          name: "Freelance Project",
+          description: "Payment for freelance project",
+          amount: 5000.0,
           transactionType: "income",
         },
       ],
     },
     {
-      date: "10",
-      day: "Tue",
+      date: "2024-12-02",
+      day: "Monday",
+      netIncome: -1000.0,
       transactions: [
         {
           category: "Food",
-          name: "Coffee",
-          description: "Morning coffee",
-          amount: -50.0,
-          transactionType: "expense",
-        },
-        {
-          category: "Health",
-          name: "Gym Membership",
-          description: "Monthly subscription",
-          amount: -1200.0,
-          transactionType: "expense",
-        },
-        {
-          category: "Salary",
-          name: "Project Bonus",
-          description: "Completion bonus",
-          amount: 1000.0,
-          transactionType: "income",
-        },
-      ],
-    },
-    {
-      date: "11",
-      day: "Wed",
-      transactions: [
-        {
-          category: "Shopping",
-          name: "Clothes",
-          description: "Online purchase",
-          amount: -800.0,
-          transactionType: "expense",
-        },
-        {
-          category: "Miscellaneous",
-          name: "Donation",
-          description: "Charity",
-          amount: -500.0,
+          name: "Groceries",
+          description: "Groceries for the week",
+          amount: -1000.0,
           transactionType: "expense",
         },
       ],
     },
   ];
 
-  const transactionDataWithNetIncome = transactionData.map((data) => {
-    const netIncome = data.transactions.reduce(
-      (total, transaction) => total + transaction.amount,
-      0
-    );
-    return { ...data, netIncome };
-  });
-
-  // Expanded Dummy Data for transactions (Weekly)
   const weeklyTransactionData = [
     {
-      weekStart: "01",
-      weekEnd: "07",
+      date: { start: "2024-11-30", end: "2024-12-06" },
+      netIncome: 4000.0,
+      totalIncome: 6000.0,
+      totalExpense: -2000.0,
+    },
+    {
+      date: { start: "2024-12-07", end: "2024-12-13" },
+      netIncome: 3000.0,
+      totalIncome: 7000.0,
+      totalExpense: -4000.0,
+    },
+  ];
+
+  const monthlyTransactionData = [
+    {
       month: "DEC",
       year: 2024,
       transactions: [
         {
           category: "Food",
           name: "Groceries",
-          description: "Weekly groceries",
-          amount: -750.0,
+          description: "Monthly groceries",
+          amount: -2000.0,
           transactionType: "expense",
         },
         {
           category: "Salary",
-          name: "Monthly Pay",
+          name: "Salary",
           description: "Full-time job salary",
-          amount: 20000.0,
+          amount: 25000.0,
           transactionType: "income",
         },
         {
           category: "Utilities",
-          name: "Electricity Bill",
-          description: "Monthly electricity",
-          amount: -3500.0,
+          name: "Internet Bill",
+          description: "Monthly internet",
+          amount: -1500.0,
           transactionType: "expense",
         },
       ],
     },
     {
-      weekStart: "08",
-      weekEnd: "14",
-      month: "DEC",
-      year: 2024,
+      month: "JAN",
+      year: 2025,
       transactions: [
         {
-          category: "Entertainment",
-          name: "Streaming Subscription",
-          description: "Monthly Netflix plan",
-          amount: -500.0,
-          transactionType: "expense",
-        },
-        {
-          category: "Savings",
-          name: "Investment",
-          description: "Stocks purchase",
-          amount: -10000.0,
+          category: "Travel",
+          name: "Flight Tickets",
+          description: "Round-trip to destination",
+          amount: -5000.0,
           transactionType: "expense",
         },
         {
           category: "Salary",
-          name: "Freelance Payment",
-          description: "Project completion",
-          amount: 8000.0,
+          name: "Freelance Work",
+          description: "Freelance projects",
+          amount: 10000.0,
           transactionType: "income",
         },
       ],
     },
   ];
 
-  const weeklyTransactionDataWithNetIncome = weeklyTransactionData.map(
-    (week) => {
-      const netIncome = week.transactions.reduce(
+  const monthlyTransactionDataWithNetIncome = monthlyTransactionData.map(
+    (data) => {
+      const netIncome = data.transactions.reduce(
         (total, transaction) => total + transaction.amount,
         0
       );
-      const income = week.transactions
+      const income = data.transactions
         .filter((t) => t.transactionType === "income")
         .reduce((sum, t) => sum + t.amount, 0);
-      const expense = week.transactions
+      const expense = data.transactions
         .filter((t) => t.transactionType === "expense")
-        .reduce((sum, t) => sum + t.amount, 0); // Keep negative values as they are, don't use Math.abs()
+        .reduce((sum, t) => sum + t.amount, 0);
 
-      return { ...week, netIncome, totalIncome: income, totalExpense: expense };
+      return { ...data, netIncome, totalIncome: income, totalExpense: expense };
     }
   );
+
+  // Filtering logic based on the tab
+  const filteredTransactions = () => {
+    if (activeTab === 0) {
+      // Daily tab: Filter by the current month
+      return dailyTransactionData.filter((data) => {
+        const transactionDate = new Date(data.date);
+        return (
+          transactionDate.getMonth() === date.month &&
+          transactionDate.getFullYear() === date.year
+        );
+      });
+    } else if (activeTab === 1) {
+      // Weekly tab: Filter by year
+      return weeklyTransactionData.filter((data) => {
+        const startYear = new Date(data.date.start).getFullYear();
+        return startYear === date.year;
+      });
+    } else if (activeTab === 2) {
+      // Monthly tab: Filter by year
+      return monthlyTransactionDataWithNetIncome.filter(
+        (data) => data.year === date.year
+      );
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -234,13 +200,35 @@ const TransactionsPage = () => {
         />
         <div className="page-with-navhead flex items-center justify-center flex-col">
           <div className="month-switch w-full flex justify-between items-center mb-4">
-            <button onClick={handlePrevMonth}>
-              <i className="bi bi-caret-left ml-6"></i>
-            </button>
-            <h2>{`${months[date.month]} ${date.year}`}</h2>
-            <button onClick={handleNextMonth}>
-              <i className="bi bi-caret-right mr-6"></i>
-            </button>
+            {activeTab === 0 ? (
+              <>
+                <button onClick={handlePrevMonth}>
+                  <i className="bi bi-caret-left ml-6"></i>
+                </button>
+                <h2>{`${months[date.month]} ${date.year}`}</h2>
+                <button onClick={handleNextMonth}>
+                  <i className="bi bi-caret-right mr-6"></i>
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() =>
+                    setDate((prev) => ({ ...prev, year: prev.year - 1 }))
+                  }
+                >
+                  <i className="bi bi-caret-left ml-6"></i>
+                </button>
+                <h2>{`${date.year}`}</h2>
+                <button
+                  onClick={() =>
+                    setDate((prev) => ({ ...prev, year: prev.year + 1 }))
+                  }
+                >
+                  <i className="bi bi-caret-right mr-6"></i>
+                </button>
+              </>
+            )}
           </div>
           <div className="tab-container">
             <div
@@ -280,9 +268,9 @@ const TransactionsPage = () => {
               />
             </div>
             <div role="tabpanel" className="content-tab">
-              {activeTab === 0 && (
-                <div>
-                  {transactionDataWithNetIncome.map((data, index) => (
+              {filteredTransactions().map((data, index) => {
+                if (activeTab === 0) {
+                  return (
                     <TransactionDaily
                       key={index}
                       date={data.date}
@@ -290,34 +278,30 @@ const TransactionsPage = () => {
                       netIncome={data.netIncome}
                       transactions={data.transactions}
                     />
-                  ))}
-                </div>
-              )}
-              {activeTab === 1 && (
-                <div>
-                  {weeklyTransactionDataWithNetIncome.map((week, index) => (
+                  );
+                } else if (activeTab === 1) {
+                  return (
                     <TransactionWeekly
                       key={index}
-                      date={{
-                        start: week.weekStart,
-                        end: week.weekEnd,
-                        month: week.month,
-                      }}
-                      year={week.year}
-                      netIncome={week.netIncome}
-                      totalIncome={week.totalIncome}
-                      totalExpense={week.totalExpense}
-                      transactions={week.transactions}
+                      date={data.date}
+                      netIncome={data.netIncome}
+                      totalIncome={data.totalIncome}
+                      totalExpense={data.totalExpense}
                     />
-                  ))}
-                </div>
-              )}
-              {activeTab === 2 && (
-                <div>
-                  <TransactionMonthly />
-                  <TransactionMonthly />
-                </div>
-              )}
+                  );
+                } else if (activeTab === 2) {
+                  return (
+                    <TransactionMonthly
+                      key={index}
+                      date={{ month: data.month, year: data.year }}
+                      netIncome={data.netIncome}
+                      totalIncome={data.totalIncome}
+                      totalExpense={data.totalExpense}
+                      transactions={data.transactions}
+                    />
+                  );
+                }
+              })}
             </div>
           </div>
         </div>
