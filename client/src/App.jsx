@@ -14,7 +14,7 @@ import ViewAccounts from "./components/accounts/ViewAccounts";
 import Expense from "./components/transactions/Expense";
 import Income from "./components/transactions/Income";
 import Transfer from "./components/transactions/Transfer";
-import Categories from "./components/Categories";
+import Categories from "./components/categories/Categories";
 
 import PrivateRoutes from "./auth/PrivateRoutes";
 import PublicRoutes from "./auth/PublicRoutes";
