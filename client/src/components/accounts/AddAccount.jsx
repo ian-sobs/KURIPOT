@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { protectedRoute } from "../../apiClient/axiosInstance";
 
-const AddAccount = () => {
+const AddAccount = ({accounts, setAccounts}) => {
   const [accountName, setAccountName] = useState("");
   const [amount, setAmount] = useState("");
   const [error, setError] = useState(null);
@@ -21,25 +21,41 @@ const AddAccount = () => {
       amount: parseFloat(amount),
     };
 
-    try {
-      const response = await axios.post("/api/accounts", accountData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    // try {
+    //   const response = await axios.post("http://localhost:5000/api/accounts/makeAccount", accountData, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
 
-      if (response.status === 200) {
+    //   if (response.status === 200) {
+    //     setSuccess(true);
+    //     setError(null);
+    //     setAccountName("");
+    //     setAmount("");
+    //   } else {
+    //     throw new Error("Account creation failed!");
+    //   }
+    // } catch (err) {
+    //   setError("Account creation failed!");
+    //   setSuccess(false);
+    // }
+  
+    protectedRoute.post("/accounts/makeAccount", accountData)
+      .then((response) => {
+        const {data} = response
+        console.log(data.message)
         setSuccess(true);
         setError(null);
         setAccountName("");
         setAmount("");
-      } else {
-        throw new Error("Account creation failed!");
-      }
-    } catch (err) {
-      setError("Account creation failed!");
-      setSuccess(false);
-    }
+        setAccounts([...accounts, data.account])
+      })
+      .catch((error) => {
+        setError("Account creation failed!");
+        setSuccess(false);
+        console.log(error)
+      })
   };
 
   return (
