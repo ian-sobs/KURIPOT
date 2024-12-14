@@ -1,23 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TaskBar from "../TaskBar";
 import PageHeader from "../PageHeader";
+import { protectedRoute } from "../../apiClient/axiosInstance";
 
 const Expense = () => {
+  const [accounts, setAccounts] = useState([]);
+  const [categories, setCategories] = useState([]); // Categories fetched from backend
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch accounts from the backend
+    protectedRoute
+      .get("/accounts/getAccounts")
+      .then((response) => {
+        const { data } = response;
+        console.log("accounts in viewAccounts:", data);
+        setAccounts(data.accounts); // Assuming 'data.accounts' is the list of accounts
+      })
+      .catch((error) => {
+        console.log("Error fetching accounts:", error);
+      });
+  }, []); // Empty dependency array ensures this effect runs once on mount
+
+  useEffect(() => {
+    // Fetch categories from the backend
+    protectedRoute
+      .get("/categories/getCategories")
+      .then((response) => {
+        const { data } = response;
+        console.log("Fetched categories:", data);
+        if (Array.isArray(data)) {
+          setCategories(data); // Set the categories directly from the array
+        } else {
+          setCategories([]); // Set as empty array if no categories field is present
+        }
+        setIsLoading(false); // Stop loading after data is fetched
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+        setIsLoading(false); // Stop loading in case of error
+      });
+  }, []);
+
   const [expenseDetails, setExpenseDetails] = useState({
     amount: "",
     date: "",
-    account: "", // Added account field
-    categories: [], // Array to store selected categories
+    accountId: "", // Changed from 'accountFrom'
+    categoryId: "", // Single categoryId instead of array
+    note: "",
+    recurrId: "",
   });
-
-  const allCategories = [
-    "Food",
-    "Transportation",
-    "Entertainment",
-    "Utilities",
-    "Healthcare",
-    "Others",
-  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,22 +60,27 @@ const Expense = () => {
   };
 
   const handleCategoryChange = (e) => {
-    const { value, checked } = e.target;
-    setExpenseDetails((prevDetails) => {
-      const updatedCategories = checked
-        ? [...prevDetails.categories, value]
-        : prevDetails.categories.filter((category) => category !== value);
-
-      return {
-        ...prevDetails,
-        categories: updatedCategories,
-      };
-    });
+    setExpenseDetails((prevDetails) => ({
+      ...prevDetails,
+      categoryId: e.target.value, // Update categoryId with selected value
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Expense details submitted:", expenseDetails);
+
+    // Make the API call to the backend
+    protectedRoute
+      .post("/transactions/makeExpense", expenseDetails)
+      .then((response) => {
+        console.log("Expense transaction successful:", response.data);
+        // Optionally, handle success (e.g., show a success message, reset form)
+      })
+      .catch((error) => {
+        console.error("Error during expense transaction:", error);
+        // Optionally, handle errors (e.g., show an error message)
+      });
   };
 
   return (
@@ -90,53 +127,62 @@ const Expense = () => {
               </div>
 
               <div>
-                <label htmlFor="account" className="block text-slate-300 mb-1">
-                  Account to Deduct From
+                <label
+                  htmlFor="accountId"
+                  className="block text-slate-300 mb-1"
+                >
+                  Account
                 </label>
                 <select
-                  id="account"
-                  name="account"
-                  value={expenseDetails.account}
+                  id="accountId"
+                  name="accountId"
+                  value={expenseDetails.accountId}
                   onChange={handleChange}
                   className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-600"
                   required
                 >
                   <option value="">Select Account</option>
-                  <option value="savings">Savings Account</option>
-                  <option value="checking">Checking Account</option>
-                  <option value="credit">Credit Card</option>
+                  {accounts.map((account) => (
+                    <option key={account.id} value={account.id}>
+                      {account.name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
               <div>
-                <label htmlFor="categories" className="block text-slate-300 mb-1">
-                  Categories
+                <label htmlFor="categoryId" className="block text-slate-300 mb-1">
+                  Category
                 </label>
-                <div className="space-y-2 mt-2 pl-5">
-                  {allCategories.map((category, index) => (
-                    <div key={index} className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id={`category-${category}`}
-                        value={category}
-                        checked={expenseDetails.categories.includes(category)}
-                        onChange={handleCategoryChange}
-                        className="mr-2"
-                      />
-                      <label
-                        htmlFor={`category-${category}`}
-                        className="text-white"
-                      >
-                        {category}
-                      </label>
-                    </div>
+                <select
+                  id="categoryId"
+                  name="categoryId"
+                  value={expenseDetails.categoryId}
+                  onChange={handleCategoryChange}
+                  className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-600"
+                  required
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
                   ))}
-                </div>
-                <div className="flex items-center text-white">
-                  <p className="text-white text-xs mt-2">
-                    Select multiple categories
-                  </p>
-                </div>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="note" className="block text-slate-300 mb-1">
+                  Note (Optional)
+                </label>
+                <textarea
+                  id="note"
+                  name="note"
+                  value={expenseDetails.note}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-600"
+                  placeholder="Add any notes"
+                />
               </div>
 
               <button
