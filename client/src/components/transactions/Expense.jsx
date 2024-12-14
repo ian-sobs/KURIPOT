@@ -5,48 +5,41 @@ import { protectedRoute } from "../../apiClient/axiosInstance";
 
 const Expense = () => {
   const [accounts, setAccounts] = useState([]);
-  const [categories, setCategories] = useState([]); // Categories fetched from backend
+  const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [confirmationMessage, setConfirmationMessage] = useState(""); // To store confirmation message
 
   useEffect(() => {
-    // Fetch accounts from the backend
     protectedRoute
       .get("/accounts/getAccounts")
       .then((response) => {
         const { data } = response;
-        console.log("accounts in viewAccounts:", data);
-        setAccounts(data.accounts); // Assuming 'data.accounts' is the list of accounts
+        setAccounts(data.accounts);
       })
       .catch((error) => {
         console.log("Error fetching accounts:", error);
       });
-  }, []); // Empty dependency array ensures this effect runs once on mount
+  }, []);
 
   useEffect(() => {
-    // Fetch categories from the backend
     protectedRoute
       .get("/categories/getCategories")
       .then((response) => {
         const { data } = response;
-        console.log("Fetched categories:", data);
-        if (Array.isArray(data)) {
-          setCategories(data); // Set the categories directly from the array
-        } else {
-          setCategories([]); // Set as empty array if no categories field is present
-        }
-        setIsLoading(false); // Stop loading after data is fetched
+        setCategories(Array.isArray(data) ? data : []);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching categories:", error);
-        setIsLoading(false); // Stop loading in case of error
+        setIsLoading(false);
       });
   }, []);
 
   const [expenseDetails, setExpenseDetails] = useState({
     amount: "",
     date: "",
-    accountId: "", // Changed from 'accountFrom'
-    categoryId: "", // Single categoryId instead of array
+    accountId: "",
+    categoryId: "",
     note: "",
     recurrId: "",
   });
@@ -62,24 +55,32 @@ const Expense = () => {
   const handleCategoryChange = (e) => {
     setExpenseDetails((prevDetails) => ({
       ...prevDetails,
-      categoryId: e.target.value, // Update categoryId with selected value
+      categoryId: e.target.value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Expense details submitted:", expenseDetails);
+    setConfirmationMessage(""); // Reset confirmation message before submitting
 
-    // Make the API call to the backend
     protectedRoute
       .post("/transactions/makeExpense", expenseDetails)
       .then((response) => {
+        setConfirmationMessage("Expense transaction successful!"); // Success message
         console.log("Expense transaction successful:", response.data);
-        // Optionally, handle success (e.g., show a success message, reset form)
+        // Optionally, reset the form after a successful transaction
+        setExpenseDetails({
+          amount: "",
+          date: "",
+          accountId: "",
+          categoryId: "",
+          note: "",
+          recurrId: "",
+        });
       })
       .catch((error) => {
+        setConfirmationMessage("Failed to complete the expense transaction."); // Error message
         console.error("Error during expense transaction:", error);
-        // Optionally, handle errors (e.g., show an error message)
       });
   };
 
@@ -94,6 +95,17 @@ const Expense = () => {
         />
         <div className="page-with-navhead flex-col items-center justify-center mt-5 p-4">
           <div className="max-w-md mx-auto mt-5 p-6 bg-gray-950 rounded-badge shadow-lg">
+            {confirmationMessage && (
+              <div
+                className={`mb-4 p-4 text-center rounded-md ${
+                  confirmationMessage.includes("successful")
+                    ? "bg-green-500 text-white"
+                    : "bg-red-500 text-white"
+                }`}
+              >
+                {confirmationMessage}
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="amount" className="block text-slate-300 mb-1">
