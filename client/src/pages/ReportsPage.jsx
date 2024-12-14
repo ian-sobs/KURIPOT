@@ -1,8 +1,8 @@
 import React from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
-import LineChart from "../components/LineChart";
-import PolarAreaChart from "../components/PolarAreaChart";
+import LineChart from "../components/charts/LineChart";
+import DoughnutChart from "../components/charts/DoughnutChart";
 
 const Reports = () => {
   return (
@@ -15,15 +15,11 @@ const Reports = () => {
           onBackClick={() => window.history.back()}
         />
 
-        <div className="page-with-navhead flex flex-col space-y-8">
-          {" "}
-          {/* Added flex-col and space-y-8 */}
-          <div className="pl-5 m-5 mb-0 text-xl font-medium">Expense Breakdown</div>
-          <div className="flex flex-col items-center justify-center space-y-8 ">
-            <PolarAreaChart />
+        <div className="page-with-navhead flex flex-col p-6 space-y-5">
+          <div className="doughnutchart-container">
+            <DoughnutChart />
           </div>
-          <div className="pl-5 m-5 mb-0 text-xl font-medium">Monthly Analytics</div>
-          <div className="flex flex-col items-center justify-center space-y-8">
+          <div className="linechart-container">
             <LineChart />
           </div>
         </div>

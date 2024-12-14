@@ -38,13 +38,12 @@ const Dashboard = () => {
   //     },
   //   ],
   // });
-  const [totalBalance, setTotalBalance] = useState(0)
-  const [income, setIncome] = useState(0)
-  const [expenses, setExpenses] = useState(0)
-  const [accounts, setAccounts] = useState([])
-  const [topSpending, setTopSpending] = useState([])
-  const [recentTransactions, setRecentTransactions] = useState([])
-
+  const [totalBalance, setTotalBalance] = useState(0);
+  const [income, setIncome] = useState(0);
+  const [expenses, setExpenses] = useState(0);
+  const [accounts, setAccounts] = useState([]);
+  const [topSpending, setTopSpending] = useState([]);
+  const [recentTransactions, setRecentTransactions] = useState([]);
 
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
 
@@ -58,75 +57,99 @@ const Dashboard = () => {
     //   }
     // };
     //fetchData();
-    protectedRoute.get("/transactions/getTransactions", {
-      params: {
-        period: 'range',
-        startDate: new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate() - 7, new Date().getUTCHours(), new Date().getUTCMinutes(), new Date().getUTCSeconds())),
-        endDate: new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate(), new Date().getUTCHours(), new Date().getUTCMinutes(), new Date().getUTCSeconds()))
-      }
-    })
+    protectedRoute
+      .get("/transactions/getTransactions", {
+        params: {
+          period: "range",
+          startDate: new Date(
+            Date.UTC(
+              new Date().getUTCFullYear(),
+              new Date().getUTCMonth(),
+              new Date().getUTCDate() - 7,
+              new Date().getUTCHours(),
+              new Date().getUTCMinutes(),
+              new Date().getUTCSeconds()
+            )
+          ),
+          endDate: new Date(
+            Date.UTC(
+              new Date().getUTCFullYear(),
+              new Date().getUTCMonth(),
+              new Date().getUTCDate(),
+              new Date().getUTCHours(),
+              new Date().getUTCMinutes(),
+              new Date().getUTCSeconds()
+            )
+          ),
+        },
+      })
       .then((response) => {
-        const {data} = response
-        console.log("recent transactions: ", response.data)
-        setRecentTransactions(data)
+        const { data } = response;
+        console.log("recent transactions: ", response.data);
+        setRecentTransactions(data);
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
+      });
+
+    protectedRoute
+      .get("/transactions/getTotalIncome")
+      .then((response) => {
+        const { data } = response;
+        console.log("total income: ", response.data);
+        if (data.totalIncome !== null) setIncome(data.totalIncome);
+        else setIncome(0);
       })
+      .catch((error) => {
+        console.log(error);
+      });
 
-      protectedRoute.get("/transactions/getTotalIncome")
-        .then((response) => {
-          const {data} = response
-          console.log("total income: ", response.data)
-          if(data.totalIncome !== null) setIncome(data.totalIncome)
-          else setIncome(0)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+    protectedRoute
+      .get("/transactions/getTotalExpense")
+      .then((response) => {
+        const { data } = response;
+        console.log("total expense: ", response.data);
+        setExpenses(data.totalExpense);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-        protectedRoute.get("/transactions/getTotalExpense")
-        .then((response) => {
-          const {data} = response
-          console.log("total expense: ", response.data)
-          setExpenses(data.totalExpense)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+    protectedRoute
+      .get("/transactions/getTotalExpense")
+      .then((response) => {
+        const { data } = response;
+        console.log("total expense: ", response.data);
+        setExpenses(data.totalExpense);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-        protectedRoute.get("/transactions/getTotalExpense")
-        .then((response) => {
-          const {data} = response
-          console.log("total expense: ", response.data)
-          setExpenses(data.totalExpense)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+    protectedRoute
+      .get("/accounts/getAccounts")
+      .then((response) => {
+        const { data } = response;
+        console.log("accounts: ", response.data);
+        setAccounts(data.accounts);
 
-        protectedRoute.get("/accounts/getAccounts")
-        .then((response) => {
-          const {data} = response
-          console.log("accounts: ", response.data)
-          setAccounts(data.accounts)
+        if (data.totalBalance === null) setTotalBalance(0);
+        else setTotalBalance(data.totalBalance);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-          if(data.totalBalance === null) setTotalBalance(0)
-          else setTotalBalance(data.totalBalance)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-
-        protectedRoute.get("/transactions/getTopSpending")
-        .then((response) => {
-          const {data} = response
-          console.log("top spending: ", response.data)
-          setTopSpending(data.categories)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+    protectedRoute
+      .get("/transactions/getTopSpending")
+      .then((response) => {
+        const { data } = response;
+        console.log("top spending: ", response.data);
+        setTopSpending(data.categories);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const toggleBalanceVisibility = () => {
@@ -147,11 +170,15 @@ const Dashboard = () => {
         <HamburgerIcon />
 
         <div className="page-with-navhead amount-container w-full p-0">
-          <div className="amount-container-content w-full flex items-center justify-between p-5 pb-5">
+          <div className="amount-container-content w-full flex items-center justify-between p-6 pb-5">
             <div className="balance-container items-start text-left text-lg text-white">
               Total Balance
               <div className="amount text-4xl font-bold">
-                {isBalanceVisible ? ((totalBalance < 0) ? `- Php ${-totalBalance}`:`Php ${totalBalance}`) : "*****"}
+                {isBalanceVisible
+                  ? totalBalance < 0
+                    ? `- Php ${-totalBalance}`
+                    : `Php ${totalBalance}`
+                  : "*****"}
               </div>
             </div>
             <button onClick={toggleBalanceVisibility} className="p-2">
@@ -168,9 +195,7 @@ const Dashboard = () => {
           <div className="income-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-badge shadow-lg">
             <i className="bi-arrow-down-circle pr-2"></i>
             Income
-            <div className="income-amount text-md font-bold">
-              Php {income}
-            </div>
+            <div className="income-amount text-md font-bold">Php {income}</div>
           </div>
           <div className="expenses-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-badge ml-4 shadow-lg">
             <i className="bi-arrow-up-circle pr-2"></i>
@@ -221,7 +246,9 @@ const Dashboard = () => {
             <div className="collapse-content">
               {topSpending.length > 0 ? (
                 <ul>
-                  {topSpending.map((spending, index) => <TopSpendingCard {...spending}/>)}
+                  {topSpending.map((spending, index) => (
+                    <TopSpendingCard {...spending} />
+                  ))}
                 </ul>
               ) : (
                 <p>No spending data available.</p>
@@ -236,7 +263,9 @@ const Dashboard = () => {
             <div className="collapse-content">
               {recentTransactions.length > 0 ? (
                 <ul>
-                  {recentTransactions.map((transaction, index) => <TransactionCard {...transaction}/>)}
+                  {recentTransactions.map((transaction, index) => (
+                    <TransactionCard {...transaction} />
+                  ))}
                 </ul>
               ) : (
                 <p>No recent transactions available.</p>
