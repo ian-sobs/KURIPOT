@@ -9,6 +9,7 @@ const Transfer = () => {
     date: "",
     accountFrom: "", // Account to transfer money from
     accountTo: "", // Account to transfer money to
+    note: "", // Note for the transaction
   });
 
   const [accounts, setAccounts] = useState([]);
@@ -37,6 +38,18 @@ const Transfer = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Expense details submitted:", expenseDetails);
+
+    // Make the API call to the transfer route
+    protectedRoute
+      .post("/transactions/makeTransfer", expenseDetails)
+      .then((response) => {
+        console.log("Transfer successful:", response.data);
+        // Optionally, handle success (e.g., show a success message, reset form)
+      })
+      .catch((error) => {
+        console.error("Error during transfer:", error);
+        // Optionally, handle errors (e.g., show an error message)
+      });
   };
 
   return (
@@ -84,7 +97,7 @@ const Transfer = () => {
 
               <div>
                 <label htmlFor="accountFrom" className="block text-slate-300 mb-1">
-                  Account to Transfer From
+                  From Account:
                 </label>
                 <select
                   id="accountFrom"
@@ -105,7 +118,7 @@ const Transfer = () => {
 
               <div>
                 <label htmlFor="accountTo" className="block text-slate-300 mb-1">
-                  Account to Transfer To
+                  To Account:
                 </label>
                 <select
                   id="accountTo"
@@ -122,6 +135,20 @@ const Transfer = () => {
                     </option>
                   ))}
                 </select>
+              </div>
+
+              <div>
+                <label htmlFor="note" className="block text-slate-300 mb-1">
+                  Note (Optional)
+                </label>
+                <textarea
+                  id="note"
+                  name="note"
+                  value={expenseDetails.note}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-600"
+                  placeholder="Optional note for the transaction"
+                />
               </div>
 
               <button
