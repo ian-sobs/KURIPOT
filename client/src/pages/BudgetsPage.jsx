@@ -34,7 +34,7 @@ const Budgets = () => {
           subtitle="Set a Budget and Stay on Track"
           onBackClick={() => window.history.back()}
         />
-        <div className="page-with-navhead p-10">
+        <div className="page-with-navhead flex justify-center items-center min-h-full p-10">
           {loading ? (
             // Loading state while data is being fetched
             <div className="flex justify-center items-center h-full text-white">
@@ -42,10 +42,10 @@ const Budgets = () => {
             </div>
           ) : budgets.length === 0 ? (
             // If there are no budgets
-            <div className="flex flex-col items-center justify-center text-center">
+            <div className="flex flex-col items-center justify-center text-center mb-8">
               <img src="/images/budget-box.png" alt="" className="min-h-10" />
               <div className="text-white text-xl mb-2">
-                You currently have no budget.
+                You currently have no budget
               </div>
               <div className="text-gray-400 text-sm">
                 Input a budget and we'll help you manage your daily income and
