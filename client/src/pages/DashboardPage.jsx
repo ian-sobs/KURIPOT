@@ -78,7 +78,8 @@ const Dashboard = () => {
         .then((response) => {
           const {data} = response
           console.log("total income: ", response.data)
-          setIncome(data.totalIncome)
+          if(data.totalIncome !== null) setIncome(data.totalIncome)
+          else setIncome(0)
         })
         .catch((error) => {
           console.log(error)
