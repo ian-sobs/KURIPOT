@@ -20,8 +20,7 @@ exports.makeBudget = async (req, res)=>{
     whereClause.type = type
     whereClause.user_id = usrId
 
-
-
+    //console.log("whereClause ", whereClause)
     try{
         const existingBudget = await Budget.findOne({
             where: whereClause
@@ -58,7 +57,7 @@ exports.makeBudget = async (req, res)=>{
             budgetCategories: newBudgetCategories
         })
     } catch (err) {
-        console.error('Error to make a new budget:', err.message); // Log the error
+        console.error('Error to make a new budget:', err); // Log the error
         return res.status(500).json({ message: 'Failed to to make a new budget' }); // Respond with an error
     }
 
