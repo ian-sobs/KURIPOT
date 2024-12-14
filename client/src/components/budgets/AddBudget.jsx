@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { protectedRoute } from "../apiClient/axiosInstance";
+import { protectedRoute } from "../../apiClient/axiosInstance";
 import axios from "axios";
 
 const AddBudget = () => {
