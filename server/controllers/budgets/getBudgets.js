@@ -41,7 +41,10 @@ exports.getBudgets = async (req, res)=>{
         //     res.status(404).json({message: "Could not find any account"})
         // }
     
-        return res.status(200).json(budgetsOfUser)
+        return res.status(200).json({
+            message: "Budgets fetched successfully",
+            budgets: budgetsOfUser
+        })
     } catch (err) {
         console.error('Error fetching accounts:', err.message); // Log the error
         return res.status(500).json({ message: 'Failed to fetch accounts' }); // Respond with an error
