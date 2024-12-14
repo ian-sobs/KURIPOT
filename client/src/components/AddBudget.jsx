@@ -1,42 +1,75 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { protectedRoute } from "../apiClient/axiosInstance";
 import axios from "axios";
 
 const AddBudget = () => {
   const [date, setDate] = useState("");
-  const [budgetLimit, setBudgetLimit] = useState("");
-  const [categories, setCategories] = useState([]);
-  const [account, setAccount] = useState("");
-
+  const [categories, setCategories] = useState([]); // Holds all available categories
+  const [selectedCategories, setSelectedCategories] = useState([]); // Selected categories with limits
+  const [totalBudgetLimit, setTotalBudgetLimit] = useState(""); // Total budget limit input
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
   // Popup state
   const [isOpen, setIsOpen] = useState(false);
-
   const openPopup = () => setIsOpen(true);
   const closePopup = () => setIsOpen(false);
 
-  const allCategories = [
-    "Shopping",
-    "Food",
-    "Entertainment",
-    "Transportation",
-    "Bills",
-  ]; // STATIC CATEGORIES
+  useEffect(() => {
+    // Fetch categories from backend
+    protectedRoute
+      .get("/categories/getCategories")
+      .then((response) => {
+        const { data } = response; // Assume data is an array
+        setCategories(data); // Set the available categories
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
-  const accounts = ["Savings", "Checking", "Emergency Fund"]; // STATIC ACCOUNTS
+  const handleAddCategory = () => {
+    setSelectedCategories((prev) => [...prev, { name: "", limit: "" }]);
+  };
+
+  const handleRemoveCategory = (index) => {
+    setSelectedCategories((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleCategoryChange = (index, field, value) => {
+    setSelectedCategories((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, [field]: value } : item
+      )
+    );
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Calculate the sum of category limits
+    const categoryLimitsSum = selectedCategories.reduce(
+      (sum, category) => sum + (parseFloat(category.limit) || 0),
+      0
+    );
+
+    // Validate that the category limits sum matches the total budget limit
+    if (categoryLimitsSum !== parseFloat(totalBudgetLimit)) {
+      setError("The sum of category limits must match the total budget limit.");
+      setSuccess(false);
+      return;
+    }
+
     const budgetData = {
       date,
-      budgetLimit,
-      categories,
-      account,
+      categories: selectedCategories.filter(
+        (category) => category.name && category.limit
+      ),
+      totalBudgetLimit, // Include the total budget limit in the data
     };
 
     try {
-      const response = await axios.post("/api/budgets", budgetData, {
+      const response = await axios.post("budgets/makeBudget", budgetData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -45,24 +78,15 @@ const AddBudget = () => {
       if (response.status === 200) {
         setSuccess(true);
         setError(null);
+        setSelectedCategories([]); // Reset the form
+        setTotalBudgetLimit("");
+        setDate("");
       } else {
         throw new Error("Budget creation failed!");
       }
     } catch (err) {
       setError("Budget creation failed!");
       setSuccess(false);
-    }
-  };
-
-  const handleCategoryChange = (e) => {
-    const { value, checked } = e.target;
-
-    if (checked) {
-      setCategories((prevCategories) => [...prevCategories, value]);
-    } else {
-      setCategories((prevCategories) =>
-        prevCategories.filter((category) => category !== value)
-      );
     }
   };
 
@@ -102,112 +126,81 @@ const AddBudget = () => {
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <div className="flex items-center text-white">
-                    <label
-                      htmlFor="budgetLimit"
-                      className="block text-white mr-2 font-bold"
-                    >
-                      Budget Limit (PHP)
-                    </label>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <i className="bi bi-cash-coin pt-3 pr-3 text-2xl items-center" />
-                    <input
-                      type="number"
-                      id="budgetLimit"
-                      placeholder="0.00"
-                      value={budgetLimit}
-                      onChange={(e) => setBudgetLimit(e.target.value)}
-                      required
-                      className="w-full p-2 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center text-white">
-                    <label
-                      htmlFor="date"
-                      className="block text-white font-bold"
-                    >
-                      Month and Year
-                    </label>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <i className="bi bi-calendar-event pt-3 pr-3 text-2xl items-center" />
-                    <input
-                      type="month"
-                      id="date"
-                      value={date}
-                      onChange={(e) => setDate(e.target.value)}
-                      required
-                      className="w-full p-2 pr-5 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center text-white">
-                    <label
-                      htmlFor="categories"
-                      className="block text-white font-bold"
-                    >
-                      Budget Categories
-                    </label>
-                  </div>
-                  <div className="space-y-2 mt-2 pl-5">
-                    {allCategories.map((category, index) => (
-                      <div key={index} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id={`category-${category}`}
-                          value={category}
-                          checked={categories.includes(category)}
-                          onChange={handleCategoryChange}
-                          className="mr-2"
-                        />
-                        <label
-                          htmlFor={`category-${category}`}
-                          className="text-white"
-                        >
-                          {category}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex items-center text-white">
-                    <p className="text-white text-xs mt-2">
-                      Select multiple categories
-                    </p>
-                  </div>
-                </div>
-
-                <div>
-                <div className="flex items-center text-white">
-                  <label
-                    htmlFor="account"
-                    className="block text-white font-bold"
-                  >
-                    Account
+                  <label htmlFor="date" className="block text-slate-300 mb-1">
+                    Month and Year
                   </label>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <i className="bi bi-wallet pt-3 pr-3 text-2xl items-center" />
-                    <select
-                      id="account"
-                      value={account}
-                      onChange={(e) => setAccount(e.target.value)}
-                      required
-                      className="w-full p-2 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
-                    >
-                      <option value="">Select Account</option>
-                      {accounts.map((acc, index) => (
-                        <option key={index} value={acc}>
-                          {acc}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <input
+                    type="month"
+                    id="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    required
+                    className="w-full p-2 pr-5 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="totalBudgetLimit" className="block text-slate-300 mb-1">
+                    Total Budget Limit
+                  </label>
+                  <input
+                    type="number"
+                    id="totalBudgetLimit"
+                    value={totalBudgetLimit}
+                    onChange={(e) => setTotalBudgetLimit(e.target.value)}
+                    required
+                    className="w-full p-2 mt-2 bg-[#C6D9EA]/20 text-white rounded-md"
+                  />
+                </div>
+
+                {/* Selected Categories with Limits */}
+                <div>
+                  <label className="block text-slate-300 mb-1">
+                    Budget Categories
+                  </label>
+                  {selectedCategories.map((category, index) => (
+                    <div key={index} className="flex items-center gap-2 mb-2">
+                      <select
+                        value={category.name}
+                        onChange={(e) =>
+                          handleCategoryChange(index, "name", e.target.value)
+                        }
+                        required
+                        className="flex-1 px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-indigo-100"
+                      >
+                        <option value="">Select a Category</option>
+                        {categories.map((cat, i) => (
+                          <option key={i} value={cat.name}>
+                            {cat.name}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        type="number"
+                        placeholder="Limit"
+                        value={category.limit}
+                        onChange={(e) =>
+                          handleCategoryChange(index, "limit", e.target.value)
+                        }
+                        required
+                        className="w-24 p-2 bg-[#C6D9EA]/20 text-white rounded-md"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveCategory(index)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={handleAddCategory}
+                    className="mt-2 text-indigo-400 hover:underline"
+                  >
+                    + Add Another Category
+                  </button>
                 </div>
 
                 <div className="text-center mt-6">

@@ -1,14 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TaskBar from "../TaskBar";
 import PageHeader from "../PageHeader";
+import { protectedRoute } from "../../apiClient/axiosInstance";
 
-const Expense = () => {
+const Transfer = () => {
   const [expenseDetails, setExpenseDetails] = useState({
     amount: "",
     date: "",
     accountFrom: "", // Account to transfer money from
     accountTo: "", // Account to transfer money to
   });
+
+  const [accounts, setAccounts] = useState([]);
+
+  useEffect(() => {
+    protectedRoute
+      .get("/accounts/getAccounts")
+      .then((response) => {
+        const { data } = response;
+        console.log("accounts in viewAccounts:", data);
+        setAccounts(data.accounts); // Assuming 'data.accounts' is the list of accounts
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -79,9 +95,11 @@ const Expense = () => {
                   required
                 >
                   <option value="">Select Account</option>
-                  <option value="savings">Savings Account</option>
-                  <option value="checking">Checking Account</option>
-                  <option value="credit">Credit Card</option>
+                  {accounts.map((account) => (
+                    <option key={account.id} value={account.id}>
+                      {account.name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -98,9 +116,11 @@ const Expense = () => {
                   required
                 >
                   <option value="">Select Account</option>
-                  <option value="savings">Savings Account</option>
-                  <option value="checking">Checking Account</option>
-                  <option value="investment">Investment Account</option>
+                  {accounts.map((account) => (
+                    <option key={account.id} value={account.id}>
+                      {account.name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -118,4 +138,4 @@ const Expense = () => {
   );
 };
 
-export default Expense;
+export default Transfer;
