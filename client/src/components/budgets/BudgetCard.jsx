@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { protectedRoute } from "../../apiClient/axiosInstance"
 
 export default function BudgetCard(props){
     return (
