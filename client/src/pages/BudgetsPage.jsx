@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import HowToBudget from "../components/HowToBudget";
 import AddBudget from "../components/AddBudget";
+import HowToBudget from "../components/HowToBudget";
 import { protectedRoute } from "../apiClient/axiosInstance";
+import BudgetCard from "../components/budgets/BudgetCard";
 
 const Budgets = () => {
   const [budgets, setBudgets] = useState([]); // Initialize as empty array
@@ -61,40 +60,15 @@ const Budgets = () => {
             // If there are budgets
             <div>
               <ul className="text-white">
-                {budgets.map((budget, index) => (
-                  <li
-                    key={budget.id} // Use unique `id` for the key
-                    className="bg-[#15172E] p-4 mb-4 rounded-lg flex justify-between"
-                  >
-                    <div>
-                      <div className="text-lg font-bold">
-                        Budget {index + 1} {/* Display numbering */}
-                      </div>
-                      <div className="text-sm text-gray-400">
-                        Date: {budget.date}
-                      </div>
-                      <div className="text-sm text-gray-400">
-                        Type: {budget.type}
-                      </div>
-                      <div className="text-sm text-gray-400 mt-2">
-                        Categories:{" "}
-                        {budget.categories && budget.categories.length > 0 ? (
-                          <ul className="list-disc pl-5">
-                            {budget.categories.map((category, idx) => (
-                              <li key={idx}>{category.name}</li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <span>No categories assigned</span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-[#9747FF] font-bold">
-                        Php {parseFloat(budget.budgetLimit).toFixed(2)}
-                      </div>
-                    </div>
-                  </li>
+                {budgets.map((budget) => (
+                  <BudgetCard
+                    key={budget.id} // Pass unique key
+                    id={budget.id}
+                    budgetLimit={parseFloat(budget.budgetLimit).toFixed(2)} // Ensure budget limit is formatted
+                    categories={budget.categories || []} // Ensure categories is an array
+                    date={budget.date}
+                    type={budget.type}
+                  />
                 ))}
               </ul>
               <AddBudget />
