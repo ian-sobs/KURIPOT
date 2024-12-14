@@ -237,7 +237,7 @@ const TransactionsPage = () => {
                 name="my_tabs_1"
                 role="tab"
                 className={`tab text-white ${
-                  activeTab === 0 ? "tab-active" : ""
+                  activeTab === 0 ? "tab-active text-[#9747FF]" : ""
                 }`}
                 aria-label="DAILY"
                 onClick={() => handleTabChange(0)}
@@ -248,7 +248,7 @@ const TransactionsPage = () => {
                 name="my_tabs_1"
                 role="tab"
                 className={`tab text-white ${
-                  activeTab === 1 ? "tab-active" : ""
+                  activeTab === 1 ? "tab-active text-[#9747FF]" : ""
                 }`}
                 aria-label="WEEKLY"
                 onClick={() => handleTabChange(1)}
@@ -258,12 +258,13 @@ const TransactionsPage = () => {
                 name="my_tabs_1"
                 role="tab"
                 className={`tab text-white ${
-                  activeTab === 2 ? "tab-active" : ""
+                  activeTab === 2 ? "tab-active text-[#9747FF]" : ""
                 }`}
                 aria-label="MONTHLY"
                 onClick={() => handleTabChange(2)}
               />
             </div>
+
             <div role="tabpanel" className="content-tab">
               {filteredTransactions().map((data, index) => {
                 if (activeTab === 0) {

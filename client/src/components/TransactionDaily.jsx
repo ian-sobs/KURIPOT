@@ -41,7 +41,7 @@ const TransactionDaily = ({ date, day, netIncome, transactions }) => {
           <button onClick={handleToggle}>
             <i
               className={`bi ${
-                isOpen ? "bi-caret-up-fill" : "bi-caret-down-fill"
+                isOpen ? "bi bi-chevron-up" : "bi bi-chevron-down"
               }`}
             ></i>
           </button>
