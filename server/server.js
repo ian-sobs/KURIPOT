@@ -1,15 +1,19 @@
 //just to start things up
 const path = require('path');
 
-const dotenv = require('dotenv');
-const envFile = `.env.${process.env.NODE_ENV || 'development'}`;  // default to 'development' if NODE_ENV is not set
-dotenv.config({ path: path.resolve(__dirname, envFile) });
+const {connectDB } = require("./db/config/connection");
+const db = require("./db/models/index")
+
+// const dotenv = require('dotenv');
+// dotenv.config();
+//const env = process.env.NODE_ENV;
+//const envFile = `.env.${env || 'development'}`;  // default to 'development' if NODE_ENV is not set
+//dotenv.config({ path: path.resolve(__dirname, envFile) });
 
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 5000;
-const {connectDB } = require("./config/connection");
-const db = require("./models/index")
+
 const entryRouter = require('./routes/entryRouter')
 const {authAccessToken} = require('./controllers/authentication/authAccessToken')
 
@@ -50,7 +54,26 @@ const startServer = async () => {
     console.error("Failed to start server:", error);
     process.exit(1);
   }
-  console.log(process.env.ACCESS_TOKEN_JWT_SECRET)
+
+  // NODE_ENV=development
+  // POSTGRES_HOST=localhost
+  // POSTGRES_USER=postgres
+  // POSTGRES_PASSWORD=falgor123
+  // POSTGRES_DB=Kuripot_dev
+  // POSTGRES_PORT=5432
+  // SALT_ROUNDS=10
+  // PORT=5000
+  // ACCESS_TOKEN_JWT_SECRET="8dbur3wwV5RTIbxTACfUlKjVNgoaHM6OWfULTdbBeTA="
+  // REFRESH_TOKEN_JWT_SECRET="ljeqw7rcl4V0DCYZ2SzYtPLEJudxCVI+l2J8eVQiCuA="
+  // CORS_ORIGIN=http://localhost:3000
+
+  console.log("process.env.NODE_ENV : ", process.env.NODE_ENV)
+  console.log("process.env.POSTGRES_HOST : ", process.env.POSTGRES_HOST)
+  console.log("process.env.POSTGRES_USER : ", process.env.POSTGRES_USER)
+  console.log("process.env.POSTGRES_PASSWORD : ", process.env.POSTGRES_PASSWORD)
+  console.log("process.env.POSTGRES_DB : ", process.env.POSTGRES_DB)
+  console.log("process.env.POSTGRES_PORT : ", process.env.POSTGRES_PORT)
+
   app.use(cookieParser())
   app.use(loggingMiddleware);  // Use the logging middleware for all routes
   

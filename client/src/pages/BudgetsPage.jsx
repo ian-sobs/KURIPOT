@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
-import AddBudget from "../components/AddBudget";
-import HowToBudget from "../components/HowToBudget";
+import AddBudget from "../components/budgets/AddBudget";
+import HowToBudget from "../components/budgets/HowToBudget";
 import { protectedRoute } from "../apiClient/axiosInstance";
 import BudgetCard from "../components/budgets/BudgetCard";
 
@@ -16,7 +16,7 @@ const Budgets = () => {
       .then((response) => {
         const data = response.data; // Directly use `data` as it's already the array
         console.log("budgets:", data); // Check the structure of the data
-        setBudgets(data || []); // Ensure it's an array even if undefined
+        setBudgets(data.budgets || []); // Ensure it's an array even if undefined
         setLoading(false); // Set loading to false after data is fetched
       })
       .catch((error) => {

@@ -1,4 +1,4 @@
-const db = require('../../../models/index')
+const db = require('../../../db/models/index')
 const {Sequelize} = require('sequelize')
 const {sequelize} = db
 const {Account} = sequelize.models
