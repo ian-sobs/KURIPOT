@@ -1,35 +1,38 @@
-import { useState, useEffect } from "react"
-import { protectedRoute } from "../../apiClient/axiosInstance"
+export default function BudgetCard(props) {
+  return (
+    <li
+      key={props.id}
+      className="flex justify-between items-center bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 p-4 rounded-badge mb-2"
+    >
+      <div className="flex flex-col w-full">
+        {/* Highlight the budget limit */}
+        <div className="text-[#9747FF] text-2xl font-bold mb-2">
+          Php {props.budgetLimit}
+        </div>
 
-export default function BudgetCard(props){
-    return (
-        <>
-            <li
-                key={props.id}
-                className="bg-[#15172E] p-4 mb-4 rounded-lg flex justify-between"
-            >
-                    <div>
-                      <div className="text-lg font-bold">{props.name}</div>
-                      <div className="text-sm text-gray-400">
-                        Limit: Php {props.budgetLimit.toFixed(2)}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-green-400">
-                        Spent: Php {props.spent.toFixed(2)}
-                      </div>
-                      <div
-                        className={`text-sm ${
-                            props.spent > props.limit
-                            ? "text-red-500"
-                            : "text-gray-400"
-                        }`}
-                      >
-                        Remaining: Php{" "}
-                        {(props.limit - props.spent).toFixed(2)}
-                      </div>
-                    </div>
-            </li>
-        </>
-    )
+        {/* Categories section */}
+        <div className="text-sm text-gray-400 mb-2">
+          Purpose:{" "}
+          {props.categories && props.categories.length > 0 ? (
+            <ul className="list-disc pl-5">
+              {props.categories.map((category, idx) => (
+                <li key={idx} className="text-white">
+                  {category.name}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <span>No categories assigned.</span>
+          )}
+        </div>
+
+        {/* Date and Budget Type */}
+        <div className="text-xs text-gray-400/70">
+          <span>Created on: {props.date}</span>
+          <br />
+          <span>Type: {props.type}</span>
+        </div>
+      </div>
+    </li>
+  );
 }

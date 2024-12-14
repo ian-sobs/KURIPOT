@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .tab-active {
+    color: #9747FF !important;
+    /* Use !important to ensure it overrides other styles */
+  }
+}
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -30,7 +37,8 @@ body {
 }
 
 .taskbar-mobile {
-  z-index: 1000; /* makes sure the taskbar stays on top*/
+  z-index: 1000;
+  /* makes sure the taskbar stays on top*/
 }
 
 .page-with-navhead {
@@ -44,14 +52,19 @@ body {
 
 /* sidebar */
 .sidebar {
-  transform: translateX(100%); 
+  transform: translateX(100%);
 }
 
 .sidebar.open {
   transform: translateX(0);
-  z-index: 1001;  /*lets sidebar hamburg icon popup overlap the taskbar mobile*/
+  z-index: 1001;
+  /*lets sidebar hamburg icon popup overlap the taskbar mobile*/
 }
 
+.tab-active {
+  border-bottom: 2px solid #9747FF !important;
+  /* Replace with your preferred color */
+}
 
 
 code {

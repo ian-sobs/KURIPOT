@@ -1,51 +1,29 @@
 import React, { useState, useEffect } from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import HowToBudget from "../components/budgets/HowToBudget";
-import AddBudget from "../components/budgets/AddBudget";
+import AddBudget from "../components/AddBudget";
+import HowToBudget from "../components/HowToBudget";
 import { protectedRoute } from "../apiClient/axiosInstance";
 import BudgetCard from "../components/budgets/BudgetCard";
 
 const Budgets = () => {
-  const [budgets, setBudgets] = useState([]);
-  //const [loading, setLoading] = useState(true);
+  const [budgets, setBudgets] = useState([]); // Initialize as empty array
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // const fetchBudgets = async () => {
-    //   try {
-    //     const response = await axios.get("/api/budgets"); // Replace with your API endpoint
-    //     setBudgets(response.data); // Assume API returns an array of budgets
-    //   } catch (error) {
-    //     console.error("Error fetching budgets:", error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-
-    // fetchBudgets();
-    protectedRoute.get('/budgets/getBudgets')
+    protectedRoute
+      .get("/budgets/getBudgets")
       .then((response) => {
-        const {data} = response
-        console.log(data.message)
-        setBudgets(data.budgets)
+        const data = response.data; // Directly use `data` as it's already the array
+        console.log("budgets:", data); // Check the structure of the data
+        setBudgets(data || []); // Ensure it's an array even if undefined
+        setLoading(false); // Set loading to false after data is fetched
       })
       .catch((error) => {
-        console.log(error)
-      })
-      .finally(() => {
-        //setLoading(false)
+        console.log(error);
+        setLoading(false); // Set loading to false in case of error
       });
   }, []);
-
-  // if (loading) {
-  //   return (
-  //     <div className="flex justify-center items-center h-screen text-white">
-  //       Loading...
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="flex flex-col h-screen">
@@ -56,10 +34,14 @@ const Budgets = () => {
           subtitle="Set a Budget and Stay on Track"
           onBackClick={() => window.history.back()}
         />
-
         <div className="page-with-navhead p-10">
-          {budgets.length === 0 ? (
-            // budgets are null
+          {loading ? (
+            // Loading state while data is being fetched
+            <div className="flex justify-center items-center h-full text-white">
+              Loading...
+            </div>
+          ) : budgets.length === 0 ? (
+            // If there are no budgets
             <div className="flex flex-col items-center justify-center text-center">
               <img src="/images/budget-box.png" alt="" className="min-h-10" />
               <div className="text-white text-xl mb-2">
@@ -75,17 +57,21 @@ const Budgets = () => {
               </div>
             </div>
           ) : (
-            // if there are budgets
+            // If there are budgets
             <div>
-              <h2 className="text-white text-2xl mb-4">Your Budgets</h2>
               <ul className="text-white">
-                {budgets.map((budget, index) => <BudgetCard {...budget}/>)}
+                {budgets.map((budget) => (
+                  <BudgetCard
+                    key={budget.id} // Pass unique key
+                    id={budget.id}
+                    budgetLimit={parseFloat(budget.budgetLimit).toFixed(2)} // Ensure budget limit is formatted
+                    categories={budget.categories || []} // Ensure categories is an array
+                    date={budget.date}
+                    type={budget.type}
+                  />
+                ))}
               </ul>
-              <Link to="/dashboard/budgets/addBudget">
-                <button className="bg-[#9747FF] text-white py-2 px-10 rounded-lg mt-5 hover:bg-[#7e3adf] transition-all">
-                  Add Another Budget
-                </button>
-              </Link>
+              <AddBudget />
             </div>
           )}
         </div>
