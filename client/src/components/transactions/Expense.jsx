@@ -79,7 +79,7 @@ const Expense = () => {
         });
       })
       .catch((error) => {
-        setConfirmationMessage("Failed to complete the expense transaction."); // Error message
+        setConfirmationMessage("Expense transaction failed."); // Error message
         console.error("Error during expense transaction:", error);
       });
   };
@@ -95,17 +95,6 @@ const Expense = () => {
         />
         <div className="page-with-navhead flex-col items-center justify-center mt-5 p-4">
           <div className="max-w-md mx-auto mt-5 p-6 bg-gray-950 rounded-badge shadow-lg">
-            {confirmationMessage && (
-              <div
-                className={`mb-4 p-4 text-center rounded-md ${
-                  confirmationMessage.includes("successful")
-                    ? "bg-green-500 text-white"
-                    : "bg-red-500 text-white"
-                }`}
-              >
-                {confirmationMessage}
-              </div>
-            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="amount" className="block text-slate-300 mb-1">
@@ -204,6 +193,17 @@ const Expense = () => {
                 Save Expense
               </button>
             </form>
+            {confirmationMessage && (
+              <div
+                className={`mb-4 p-4 text-center rounded-md ${
+                  confirmationMessage.includes("successful")
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
+                {confirmationMessage}
+              </div>
+            )}
           </div>
         </div>
       </div>
