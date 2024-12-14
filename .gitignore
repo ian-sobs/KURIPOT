@@ -26,7 +26,7 @@ npm-debug.log*
 build/
 
 #db environment variables
-/db/
+/db/password.txt.example
 
 useless/
 /server/entrypoint.sh

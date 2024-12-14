@@ -1,3 +1,11 @@
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config()
+
+const env = process.env.NODE_ENV
+const envFile = `.env.${process.env.NODE_ENV || 'development'}`;
+dotenv.config({ path: path.resolve(__dirname + "/../../", envFile) });
+
 module.exports = {
     development: {
         username: process.env.POSTGRES_USER,

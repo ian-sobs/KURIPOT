@@ -1,20 +1,28 @@
 'use strict';
 
+// const dotenv = require('dotenv')
+// dotenv.config();
+// const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.js');
+
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.js')[env];
+
+
 const db = {};
 
+console.log("config", config[process.env.NODE_ENV])
 // Initialize Sequelize instance
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config);
-}
+let sequelize = new Sequelize(process.env.POSTGRES_DB, process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, config[process.env.NODE_ENV]);
+// if (config.use_env_variable) {
+//   sequelize = new Sequelize(process.env[config.use_env_variable], config);
+//   console.log("if (config.use_env_variable)")
+// } else {
+//   sequelize = new Sequelize(config);
+//   console.log("else")
+// }
 
 // Import models and add them to the `db` object
 fs
