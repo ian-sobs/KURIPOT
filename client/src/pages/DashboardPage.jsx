@@ -176,9 +176,9 @@ const Dashboard = () => {
               <div className="amount text-4xl font-bold">
                 {isBalanceVisible
                   ? totalBalance < 0
-                    ? `- Php ${-totalBalance}`
-                    : `Php ${totalBalance}`
-                  : "*****"}
+                    ? `- ₱ ${-totalBalance}`
+                    : `₱ ${totalBalance}`
+                  : "₱ *****"}
               </div>
             </div>
             <button onClick={toggleBalanceVisibility} className="p-2">
@@ -195,13 +195,13 @@ const Dashboard = () => {
           <div className="income-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-badge shadow-lg">
             <i className="bi-arrow-down-circle pr-2"></i>
             Income
-            <div className="income-amount text-md font-bold">Php {income}</div>
+            <div className="income-amount text-md font-bold">₱ {income}</div>
           </div>
           <div className="expenses-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-badge ml-4 shadow-lg">
             <i className="bi-arrow-up-circle pr-2"></i>
             Expenses
             <div className="expenses-amount text-md font-bold">
-              - Php {-expenses}
+              - ₱ {-expenses}
             </div>
           </div>
         </div>
@@ -228,13 +228,15 @@ const Dashboard = () => {
                     <li key={index} className="py-2">
                       <div className="flex justify-between">
                         <span>{account.name}</span>
-                        <span className="font-bold">Php {account.amount}</span>
+                        <span className="font-bold">₱ {account.amount}</span>
                       </div>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p>You have no accounts.</p>
+                <p className="text-gray-400 text-sm font-light">
+                  You have no accounts.
+                </p>
               )}
             </div>
           </div>
@@ -251,7 +253,9 @@ const Dashboard = () => {
                   ))}
                 </ul>
               ) : (
-                <p>No spending data available.</p>
+                <p className="text-gray-400 text-sm font-light">
+                  No spending data available.
+                </p>
               )}
             </div>
           </div>
@@ -268,7 +272,9 @@ const Dashboard = () => {
                   ))}
                 </ul>
               ) : (
-                <p>No recent transactions available.</p>
+                <p className="text-gray-400 text-sm font-light">
+                  No recent transactions available.
+                </p>
               )}
             </div>
           </div>
