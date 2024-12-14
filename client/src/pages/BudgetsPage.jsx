@@ -28,19 +28,19 @@ const Budgets = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <TaskBar />
-      <div className="flex-1 md:ml-[20%] lg:ml-[16.666%] page-with-taskbar overflow-auto">
+      <div className="flex-1 md:ml-[20%] lg:ml-[16.666%] overflow-auto">
         <PageHeader
           title="Budgets"
           subtitle="Set a Budget and Stay on Track"
           onBackClick={() => window.history.back()}
         />
-        <div className="page-with-navhead min-h-screen p-10">
+        <div className="page-with-navhead page-with-taskbar flex justify-center items-center min-h-screen p-6">
           {loading ? (
             <div className="flex justify-center items-center h-full text-white">
               Loading...
             </div>
           ) : budgets.length === 0 ? (
-            <div className="nobudget-container flex justify-center items-center min-h-full">
+            <div className="nobudget-container flex justify-center items-center">
               <div className="flex flex-col items-center justify-center text-center mb-8">
                 <img src="/images/budget-box.png" alt="" className="min-h-10" />
                 <div className="text-white text-xl mb-2">
@@ -51,13 +51,13 @@ const Budgets = () => {
                   expenses.
                 </div>
                 <AddBudget />
-                <div className="text-gray-400 text-sm underline">
+                <div className="text-gray-400 text-sm underline mt-2">
                   <HowToBudget />
                 </div>
               </div>
             </div>
           ) : (
-            <div>
+            <div className="w-full">
               <ul className="text-white">
                 {budgets.map((budget) => (
                   <BudgetCard

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { protectedRoute } from "../../apiClient/axiosInstance";
 import axios from "axios";
 
-const AddBudget = ({budgets, setBudgets}) => {
+const AddBudget = ({ budgets, setBudgets }) => {
   const [date, setDate] = useState("");
   const [categories, setCategories] = useState([]); // Holds all available categories
   const [selectedCategories, setSelectedCategories] = useState([]); // Selected categories with limits
@@ -17,15 +17,15 @@ const AddBudget = ({budgets, setBudgets}) => {
 
   useEffect(() => {
     // Fetch categories from backend
-    protectedRoute.get("/categories/getCategories", {
+    protectedRoute
+      .get("/categories/getCategories", {
         params: {
-          isIncome: false
-        }
+          isIncome: false,
+        },
       })
       .then((response) => {
-
         const { data } = response; // Assume data is an array
-        console.log("categories data", data)
+        console.log("categories data", data);
         setCategories(data); // Set the available categories
       })
       .catch((error) => {
@@ -34,7 +34,10 @@ const AddBudget = ({budgets, setBudgets}) => {
   }, []);
 
   const handleAddCategory = () => {
-    setSelectedCategories((prev) => [...prev, {name: "", categoryId: "", categoryLimit: "" }]);
+    setSelectedCategories((prev) => [
+      ...prev,
+      { name: "", categoryId: "", categoryLimit: "" },
+    ]);
   };
 
   const handleRemoveCategory = (index) => {
@@ -43,11 +46,9 @@ const AddBudget = ({budgets, setBudgets}) => {
 
   const handleCategoryChange = (index, field, value) => {
     setSelectedCategories((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item
-      )
+      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
     );
-    console.log("selectedCategories", selectedCategories)
+    console.log("selectedCategories", selectedCategories);
   };
 
   const handleSubmit = async (e) => {
@@ -65,30 +66,33 @@ const AddBudget = ({budgets, setBudgets}) => {
     //   setSuccess(false);
     //   return;
     // }
-    
+
     const budgetData = {
       date: date,
       categories: selectedCategories.filter(
         (category) => category.categoryId && category.categoryLimit
       ),
       budgetLimit: totalBudgetLimit, // Include the total budget limit in the data
-      type: 'expense'
+      type: "expense",
     };
-    console.log("budgetDate", budgetData)
+    console.log("budgetDate", budgetData);
     try {
-      const response = await protectedRoute.post("/budgets/makeBudget", budgetData);
-      const {data} = response
-      const {budget, budgetCategories} = data
+      const response = await protectedRoute.post(
+        "/budgets/makeBudget",
+        budgetData
+      );
+      const { data } = response;
+      const { budget, budgetCategories } = data;
       if (response.status === 201) {
-        const {id, date, budgetLimit, type} = budget
+        const { id, date, budgetLimit, type } = budget;
         setSuccess(true);
         setError(null);
         setSelectedCategories([]); // Reset the form
         setTotalBudgetLimit("");
         setDate("");
-        console.log("newBudget ", budget)
-        
-        setBudgets([...budgets, {id, date, budgetLimit, type}])
+        console.log("newBudget ", budget);
+
+        setBudgets([...budgets, { id, date, budgetLimit, type }]);
       } else {
         throw new Error("Budget creation failed!");
       }
@@ -99,10 +103,10 @@ const AddBudget = ({budgets, setBudgets}) => {
   };
 
   return (
-    <div>
+    <div className="flex justify-end">
       <button
         onClick={openPopup}
-        className="bg-[#9747FF] text-white py-2 px-10 rounded-lg mt-5 mb-5 hover:bg-[#7e3adf] transition-all"
+        className="bg-[#9747FF] text-white py-2 px-10 rounded-lg mt-4 hover:bg-[#7e3adf] transition-all"
       >
         Add a Budget
       </button>
@@ -148,7 +152,10 @@ const AddBudget = ({budgets, setBudgets}) => {
                 </div>
 
                 <div>
-                  <label htmlFor="totalBudgetLimit" className="block text-slate-300 mb-1">
+                  <label
+                    htmlFor="totalBudgetLimit"
+                    className="block text-slate-300 mb-1"
+                  >
                     Total Budget Limit
                   </label>
                   <input
@@ -170,12 +177,25 @@ const AddBudget = ({budgets, setBudgets}) => {
                     <div key={index} className="flex items-center gap-2 mb-2">
                       <select
                         value={category.name}
-                        onChange={(e) =>{
-                            console.log("e.target ", e.target.selectedOptions[0].getAttribute('data-cat_id'))
-                            handleCategoryChange(index, "categoryId", parseInt(e.target.selectedOptions[0].getAttribute('data-cat_id'), 10))
-                            handleCategoryChange(index, "name", e.target.value)
-                          }
-                        }
+                        onChange={(e) => {
+                          console.log(
+                            "e.target ",
+                            e.target.selectedOptions[0].getAttribute(
+                              "data-cat_id"
+                            )
+                          );
+                          handleCategoryChange(
+                            index,
+                            "categoryId",
+                            parseInt(
+                              e.target.selectedOptions[0].getAttribute(
+                                "data-cat_id"
+                              ),
+                              10
+                            )
+                          );
+                          handleCategoryChange(index, "name", e.target.value);
+                        }}
                         required
                         className="flex-1 px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-indigo-100"
                       >
@@ -191,7 +211,11 @@ const AddBudget = ({budgets, setBudgets}) => {
                         placeholder="Limit"
                         value={category.categoryLimit}
                         onChange={(e) =>
-                          handleCategoryChange(index, "categoryLimit", e.target.value)
+                          handleCategoryChange(
+                            index,
+                            "categoryLimit",
+                            e.target.value
+                          )
                         }
                         required
                         className="w-24 p-2 bg-[#C6D9EA]/20 text-white rounded-md"
