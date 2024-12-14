@@ -7,12 +7,14 @@ const Transfer = () => {
   const [expenseDetails, setExpenseDetails] = useState({
     amount: "",
     date: "",
-    accountFrom: "", // Account to transfer money from
-    accountTo: "", // Account to transfer money to
-    note: "", // Note for the transaction
+    accountFrom: "",
+    accountTo: "",
+    note: "",
   });
 
   const [accounts, setAccounts] = useState([]);
+  const [statusMessage, setStatusMessage] = useState(null); // State for feedback messages
+  const [messageType, setMessageType] = useState(""); // success or error
 
   useEffect(() => {
     protectedRoute
@@ -38,34 +40,38 @@ const Transfer = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Map frontend fields to backend expectations
     const payload = {
-        amount: parseFloat(expenseDetails.amount), // Ensure it's a number
-        fromAccountId: expenseDetails.accountFrom,
-        toAccountId: expenseDetails.accountTo,
-        note: expenseDetails.note,
-        date: expenseDetails.date, // Send date if required (backend might discard it)
+      amount: parseFloat(expenseDetails.amount),
+      fromAccountId: expenseDetails.accountFrom,
+      toAccountId: expenseDetails.accountTo,
+      note: expenseDetails.note,
+      date: expenseDetails.date,
     };
 
     console.log("Submitting transfer payload:", payload);
 
     protectedRoute
-        .post("/transactions/makeTransfer", payload)
-        .then((response) => {
-            console.log("Transfer successful:", response.data);
-            // Optionally reset form or display success message
-            setExpenseDetails({
-                amount: "",
-                date: "",
-                accountFrom: "",
-                accountTo: "",
-                note: "",
-            });
-        })
-        .catch((error) => {
-            console.error("Error during transfer:", error.response?.data || error.message);
+      .post("/transactions/makeTransfer", payload)
+      .then((response) => {
+        console.log("Transfer successful:", response.data);
+        setStatusMessage("Transfer completed successfully!"); // Success message
+        setMessageType("success");
+        setExpenseDetails({
+          amount: "",
+          date: "",
+          accountFrom: "",
+          accountTo: "",
+          note: "",
         });
-};
+      })
+      .catch((error) => {
+        console.error("Error during transfer:", error.response?.data || error.message);
+        setStatusMessage(
+          error.response?.data?.message || "Transfer failed. Please try again." // Error message
+        );
+        setMessageType("error");
+      });
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -173,6 +179,19 @@ const Transfer = () => {
                 Transfer Money
               </button>
             </form>
+
+            {/* Status Message */}
+            {statusMessage && (
+              <div
+                className={`mt-4 text-center p-2 rounded-md ${
+                  messageType === "success"
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
+                {statusMessage}
+              </div>
+            )}
           </div>
         </div>
       </div>
