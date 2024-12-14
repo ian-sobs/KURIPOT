@@ -1,9 +1,9 @@
 'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
-const moment = require('moment')
-const localDate = moment("2024-11-11 14:00", "YYYY-MM-DD HH:mm"); 
-const utcDate = localDate.utc()
+// const moment = require('moment')
+// const localDate = moment("2024-11-11 14:00", "YYYY-MM-DD HH:mm"); 
+// const utcDate = localDate.utc()
 
 // const bcrypt = require('bcrypt');
 // //const saltRounds = 10;
