@@ -3,35 +3,49 @@ import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import HowToBudget from "../components/HowToBudget";
-import AddBudget from "../components/AddBudget";
+import HowToBudget from "../components/budgets/HowToBudget";
+import AddBudget from "../components/budgets/AddBudget";
+import { protectedRoute } from "../apiClient/axiosInstance";
+import BudgetCard from "../components/budgets/BudgetCard";
 
 const Budgets = () => {
   const [budgets, setBudgets] = useState([]);
-  const [loading, setLoading] = useState(true);
+  //const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchBudgets = async () => {
-      try {
-        const response = await axios.get("/api/budgets"); // Replace with your API endpoint
-        setBudgets(response.data); // Assume API returns an array of budgets
-      } catch (error) {
-        console.error("Error fetching budgets:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    // const fetchBudgets = async () => {
+    //   try {
+    //     const response = await axios.get("/api/budgets"); // Replace with your API endpoint
+    //     setBudgets(response.data); // Assume API returns an array of budgets
+    //   } catch (error) {
+    //     console.error("Error fetching budgets:", error);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
 
-    fetchBudgets();
+    // fetchBudgets();
+    protectedRoute.get('/budgets/getBudgets')
+      .then((response) => {
+        const {data} = response
+        console.log(data.message)
+        setBudgets(data.budgets)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      .finally(() => {
+        //setLoading(false)
+      });
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen text-white">
-        Loading...
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen text-white">
+  //       Loading...
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex flex-col h-screen">
@@ -65,34 +79,7 @@ const Budgets = () => {
             <div>
               <h2 className="text-white text-2xl mb-4">Your Budgets</h2>
               <ul className="text-white">
-                {budgets.map((budget, index) => (
-                  <li
-                    key={index}
-                    className="bg-[#15172E] p-4 mb-4 rounded-lg flex justify-between"
-                  >
-                    <div>
-                      <div className="text-lg font-bold">{budget.name}</div>
-                      <div className="text-sm text-gray-400">
-                        Limit: Php {budget.limit.toFixed(2)}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-green-400">
-                        Spent: Php {budget.spent.toFixed(2)}
-                      </div>
-                      <div
-                        className={`text-sm ${
-                          budget.spent > budget.limit
-                            ? "text-red-500"
-                            : "text-gray-400"
-                        }`}
-                      >
-                        Remaining: Php{" "}
-                        {(budget.limit - budget.spent).toFixed(2)}
-                      </div>
-                    </div>
-                  </li>
-                ))}
+                {budgets.map((budget, index) => <BudgetCard {...budget}/>)}
               </ul>
               <Link to="/dashboard/budgets/addBudget">
                 <button className="bg-[#9747FF] text-white py-2 px-10 rounded-lg mt-5 hover:bg-[#7e3adf] transition-all">
