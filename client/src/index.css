@@ -30,7 +30,8 @@ body {
 }
 
 .taskbar-mobile {
-  z-index: 1000; /* makes sure the taskbar stays on top*/
+  z-index: 1000;
+  /* makes sure the taskbar stays on top*/
 }
 
 .page-with-navhead {
@@ -44,12 +45,13 @@ body {
 
 /* sidebar */
 .sidebar {
-  transform: translateX(100%); 
+  transform: translateX(100%);
 }
 
 .sidebar.open {
   transform: translateX(0);
-  z-index: 1001;  /*lets sidebar hamburg icon popup overlap the taskbar mobile*/
+  z-index: 1001;
+  /*lets sidebar hamburg icon popup overlap the taskbar mobile*/
 }
 
 
