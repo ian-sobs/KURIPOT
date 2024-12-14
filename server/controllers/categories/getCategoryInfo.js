@@ -1,4 +1,4 @@
-const db = require('../../models/index')
+const db = require('../../db/models/index')
 const sequelize = db.sequelize
 const {Category, Transaction} = sequelize.models 
 const {valQueryParamDate} = require('../utility/valQueryParamDate')
