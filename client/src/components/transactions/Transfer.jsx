@@ -37,20 +37,35 @@ const Transfer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Expense details submitted:", expenseDetails);
 
-    // Make the API call to the transfer route
+    // Map frontend fields to backend expectations
+    const payload = {
+        amount: parseFloat(expenseDetails.amount), // Ensure it's a number
+        fromAccountId: expenseDetails.accountFrom,
+        toAccountId: expenseDetails.accountTo,
+        note: expenseDetails.note,
+        date: expenseDetails.date, // Send date if required (backend might discard it)
+    };
+
+    console.log("Submitting transfer payload:", payload);
+
     protectedRoute
-      .post("/transactions/makeTransfer", expenseDetails)
-      .then((response) => {
-        console.log("Transfer successful:", response.data);
-        // Optionally, handle success (e.g., show a success message, reset form)
-      })
-      .catch((error) => {
-        console.error("Error during transfer:", error);
-        // Optionally, handle errors (e.g., show an error message)
-      });
-  };
+        .post("/transactions/makeTransfer", payload)
+        .then((response) => {
+            console.log("Transfer successful:", response.data);
+            // Optionally reset form or display success message
+            setExpenseDetails({
+                amount: "",
+                date: "",
+                accountFrom: "",
+                accountTo: "",
+                note: "",
+            });
+        })
+        .catch((error) => {
+            console.error("Error during transfer:", error.response?.data || error.message);
+        });
+};
 
   return (
     <div className="flex flex-col h-screen">
