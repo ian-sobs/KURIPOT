@@ -47,7 +47,7 @@ body {
 
 /* take into account size of taskbar to avoid taskbar from hiding any content*/
 .page-with-taskbar {
-  padding-bottom: 4rem;
+  padding-bottom: 4.5rem;
 }
 
 /* sidebar */
