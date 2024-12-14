@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .tab-active {
+    color: #9747FF !important;
+    /* Use !important to ensure it overrides other styles */
+  }
+}
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -54,6 +61,10 @@ body {
   /*lets sidebar hamburg icon popup overlap the taskbar mobile*/
 }
 
+.tab-active {
+  border-bottom: 2px solid #9747FF !important;
+  /* Replace with your preferred color */
+}
 
 
 code {
