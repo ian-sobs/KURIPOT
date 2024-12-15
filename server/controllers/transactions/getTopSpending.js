@@ -9,7 +9,7 @@ exports.getTopSpending = async (req, res) => {
     let sortIn = req.query.sortIn
 
     if(!sortIn){
-        sortIn = "DESC"
+        sortIn = "ASC"
     }
 
     let whereClause = {}
