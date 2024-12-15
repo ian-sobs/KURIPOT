@@ -15,7 +15,7 @@ const DoughnutChart = () => {
     try {
       const query =
         startDate && endDate
-          ? `?startDate=${startDate}&endDate=${endDate}`
+          ? `?startDate=${startDate}&endDate=${endDate}` // Send both start and end dates
           : "";
 
       const response = await protectedRoute.get(
@@ -113,7 +113,10 @@ const DoughnutChart = () => {
         {/* Date Range Inputs */}
         <div className="date-range-filter pt-10 flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
           <div className="flex flex-col">
-            <label htmlFor="start-date" className="block text-slate-300 text-sm">
+            <label
+              htmlFor="start-date"
+              className="block text-slate-300 text-sm"
+            >
               Start Date:
             </label>
             <input
@@ -135,7 +138,6 @@ const DoughnutChart = () => {
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
               className="w-full px-4 py-2 rounded-md bg-gray-950/75 text-gray-500 focus:outline-none focus:ring focus:ring-blue-600"
-            
             />
           </div>
 
