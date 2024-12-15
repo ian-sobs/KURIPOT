@@ -4,6 +4,8 @@ const {Transaction} = sequelize.models
 const {Op, Sequelize, where} = require('sequelize')
 const {retTransac} = require('./helper/retTransac')
 const {valQueryParamDate} = require('../utility/valQueryParamDate')
+const {getWeekDateRange} = require('../utility/getWeekDateRange')
+const { raw } = require('express')
 
 exports.getAggrTransac = async (req, res) => {
     const {sortIn, sortBy, period } = req.query;
@@ -60,58 +62,50 @@ exports.getAggrTransac = async (req, res) => {
     options.where = whereClause;
 
     try {
-        // return array of records in descending order of date
-        // let transac = await Transaction.findAll(options);
-        // const retTransacArr = transac.map(retTransac)
-        const aggrTransac = await Transaction.findAll({
-            attributes: [
-                // Income sum
-                [
-                    sequelize.literal(`
-                        SUM(CASE 
-                            WHEN type = 'income' THEN amount 
-                            ELSE 0 
-                        END)
-                    `),
-                    'income',
-                ],
-                // Expense sum
-                [
-                    sequelize.literal(`
-                        SUM(CASE 
-                            WHEN type = 'expense' THEN amount 
-                            ELSE 0 
-                        END)
-                    `),
-                    'expense',
-                ],
-            ],
-            ...options,
-            raw: true, // Return raw JSON data
-        });
-        
-        const {income, expense} = aggrTransac
-        let startDate, endDate
-        let {date} = options.where
+        const income = await Transaction.sum('amount', {
+            where: {
+                ...whereClause,
+                amount: {
+                    [Op.gt]: 0
+                },
+                type: {
+                    [Op.eq]: 'income'
+                }
+            }
+        })
 
-        if(period == 'range'){
-            startDate = date[Op.between][0]
-            endDate = date[Op.between][1]
-        }
-        else if(['year', 'month', 'day', 'week'].includes(period)){
-            startDate = date.gte
-            endDate = date.lt
+        const expense = await Transaction.sum('amount', {
+            where: {
+                ...whereClause,
+                amount: {
+                    [Op.lt]: 0
+                },
+                type: {
+                    [Op.eq]: 'expense'
+                }
+            }
+        })
+
+        const net = income + expense
+
+        let retDate = {}
+
+        if(period == 'week'){
+            const {year, month, weekNum} = req.query
+            const {startDate, endDate} = getWeekDateRange(year, month, weekNum)
+            retDate.startDate = startDate
+            retDate.endDate = endDate
         }
 
         return res.status(200).json({
-            income: parseFloat(income).toFixed(2),
-            expense: parseFloat(expense).toFixed(2),
-            startDate: startDate,
-            endDate: endDate,
-            period: period
-        });
+            ...retDate,
+            income: (!income) ? 0 : parseFloat(parseFloat(income).toFixed(2)),
+            expense: (!expense) ? 0 : parseFloat(parseFloat(expense).toFixed(2)),
+            net: parseFloat(parseFloat(net).toFixed(2))
+        })
+
     } catch (err) {
-        console.error('Error fetching transactions:', err); // Log the error
-        return res.status(500).json({ message: 'Failed to fetch transactions' });
+        console.error('Error fetching aggregate transaction for the period:', err); // Log the error
+        return res.status(500).json({ message: 'Failed to fetch aggregate transactions' });
     }
 };
