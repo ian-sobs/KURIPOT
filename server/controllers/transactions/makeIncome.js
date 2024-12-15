@@ -40,7 +40,7 @@ exports.makeIncome = async function makeIncome(req, res){
             amount: amount,
             account_id: accountInfo.id,
             accountName: accountInfo.name,
-            date: date,
+            date: new Date(),
             category_id: categoryInfo.id,
             categoryName: categoryInfo.name,
             from_account_id: null,
@@ -52,12 +52,16 @@ exports.makeIncome = async function makeIncome(req, res){
             type: 'income'
         })
 
+        console.log("accountInfo.amount:", accountInfo.amount); // Should log the current account amount
+        console.log("transacInfo.amount:", transacInfo.amount);
+
         // Change everyone without a last name to "Doe"
         await Account.update(
             { amount: (parseFloat(accountInfo.amount) + parseFloat(transacInfo.amount)).toFixed(2) },
             {
                 where: {
                     id: accountInfo.id,
+                    user_id: parseInt(usrId, 10)
                 },
             },
         );
