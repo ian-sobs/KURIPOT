@@ -33,8 +33,13 @@ exports.makeTransfer = async function makeTransfer(req, res){
                 id: toAccountId,
                 user_id: usrId
             },
-            attributes: ['id', 'name', 'amount']
+            attributes: ['id', 'name', 'amount'],
+            
         })
+
+        console.log("toAccountInfo.id", toAccountInfo.id)
+        console.log("toAccountInfo.name", toAccountInfo.name)
+        console.log("toAccountInfo.amount", toAccountInfo.amount)
 
         if(!fromAccountInfo || !toAccountInfo){
             return res.status(400).json({message: 'no such account exists'})
@@ -51,7 +56,7 @@ exports.makeTransfer = async function makeTransfer(req, res){
             categoryName: null,
             from_account_id: fromAccountInfo.id,
             from_accountName: fromAccountInfo.name,
-            to_accountId: toAccountInfo.id,
+            to_account_id: toAccountInfo.id,
             to_accountName: toAccountInfo.name,
             note: note,
             recurrId: null,
@@ -88,7 +93,7 @@ exports.makeTransfer = async function makeTransfer(req, res){
                 name: transacInfo.from_accountName
             },
             toAccount: {
-                id: parseInt(transacInfo.to_accountId, 10),
+                id: parseInt(transacInfo.to_account_id, 10),
                 name: transacInfo.to_accountName
             },
             note: transacInfo.note
