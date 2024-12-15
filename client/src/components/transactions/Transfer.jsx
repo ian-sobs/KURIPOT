@@ -14,6 +14,10 @@ const Transfer = () => {
   const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
+    console.log("expenseDetails", expenseDetails)
+  }, [expenseDetails])
+
+  useEffect(() => {
     protectedRoute
       .get("/accounts/getAccounts")
       .then((response) => {
@@ -37,6 +41,23 @@ const Transfer = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Expense details submitted:", expenseDetails);
+
+    let toSubmit = {
+      amount: expenseDetails.amount, 
+      fromAccountId: expenseDetails.accountFrom, 
+      toAccountId: expenseDetails.accountTo, 
+      note: "", 
+      date: expenseDetails.date
+    }
+
+    protectedRoute.post("/transactions/makeTransfer", toSubmit)
+      .then((response) => {
+        const {data} = response
+        console.log("new transfer", data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   };
 
   return (

@@ -4,8 +4,16 @@ const {Transaction, Account, Category} = sequelize.models
 
 
 exports.makeTransfer = async function makeTransfer(req, res){
-    const {amount, fromAccountId, toAccountId, note} = req.body
+    let {amount, fromAccountId, toAccountId, note, date} = req.body
     const {usrId} = req.user
+
+    amount = parseFloat(amount).toFixed(2)
+    fromAccountId = parseInt(fromAccountId, 10)
+    toAccountId = parseInt(toAccountId, 10)
+    date = new Date(date).toISOString()
+    date = new Date(date)
+
+    date = new Date(date).toISOString()
 
     if(amount < 0){
         amount = -amount
@@ -25,8 +33,13 @@ exports.makeTransfer = async function makeTransfer(req, res){
                 id: toAccountId,
                 user_id: usrId
             },
-            attributes: ['id', 'name', 'amount']
+            attributes: ['id', 'name', 'amount'],
+            
         })
+
+        console.log("toAccountInfo.id", toAccountInfo.id)
+        console.log("toAccountInfo.name", toAccountInfo.name)
+        console.log("toAccountInfo.amount", toAccountInfo.amount)
 
         if(!fromAccountInfo || !toAccountInfo){
             return res.status(400).json({message: 'no such account exists'})
@@ -34,7 +47,7 @@ exports.makeTransfer = async function makeTransfer(req, res){
 
 
         let transacInfo = await Transaction.create({
-            user_id: usrId,
+            user_id: parseInt(usrId, 10),
             amount: amount,
             account_id: null,
             accountName: null,
@@ -43,7 +56,7 @@ exports.makeTransfer = async function makeTransfer(req, res){
             categoryName: null,
             from_account_id: fromAccountInfo.id,
             from_accountName: fromAccountInfo.name,
-            to_accountId: toAccountInfo.id,
+            to_account_id: toAccountInfo.id,
             to_accountName: toAccountInfo.name,
             note: note,
             recurrId: null,
@@ -51,36 +64,36 @@ exports.makeTransfer = async function makeTransfer(req, res){
         })
 
         await Account.update(
-            { amount: fromAccountInfo.amount - transacInfo.amount },
+            { amount: (parseFloat(fromAccountInfo.amount) - parseFloat(transacInfo.amount)).toFixed(2) },
             {
                 where: {
-                    id: fromAccountInfo.id,
-                    user_id: usrId
+                    id: parseInt(fromAccountInfo.id, 10),
+                    user_id: parseInt(usrId, 10)
                 },
             },
         );
 
         await Account.update(
-            { amount: toAccountInfo.amount + transacInfo.amount },
+            { amount: (parseFloat(toAccountInfo.amount) + parseFloat(transacInfo.amount)).toFixed(2) },
             {
                 where: {
-                    id: toAccountInfo.id,
-                    user_id: usrId
+                    id: parseInt(toAccountInfo.id, 10),
+                    user_id: parseInt(usrId, 10)
                 },
             },
         );
 
         return res.status(201).json({
             type: 'transfer',
-            id: transacInfo.id,
-            date: transacInfo.date,
-            amount: transacInfo.amount,
+            id: parseInt(transacInfo.id, 10),
+            date: new Date(transacInfo.date),
+            amount: parseFloat(transacInfo.amount).toFixed(2),
             fromAccount: {
-                id: transacInfo.from_account_id,
+                id: parseInt(transacInfo.from_account_id, 10),
                 name: transacInfo.from_accountName
             },
             toAccount: {
-                id: transacInfo.to_accountId,
+                id: parseInt(transacInfo.to_account_id, 10),
                 name: transacInfo.to_accountName
             },
             note: transacInfo.note

@@ -57,7 +57,7 @@ exports.makeIncome = async function makeIncome(req, res){
 
         // Change everyone without a last name to "Doe"
         await Account.update(
-            { amount: parseFloat(accountInfo.amount) + parseFloat(transacInfo.amount )},
+            { amount: (parseFloat(accountInfo.amount) + parseFloat(transacInfo.amount)).toFixed(2) },
             {
                 where: {
                     id: accountInfo.id,
@@ -68,19 +68,19 @@ exports.makeIncome = async function makeIncome(req, res){
 
         return res.status(201).json({
             type: 'income', 
-            id: transacInfo.id,
-            date: transacInfo.date,
-            amount: transacInfo.amount,
+            id: parseInt(transacInfo.id, 10),
+            date: new Date(transacInfo.date),
+            amount: parseFloat(transacInfo.amount).toFixed(2),
             account: {
-                id: transacInfo.account_id,
+                id: parseInt(transacInfo.account_id, 10),
                 name: transacInfo.accountName
             },
             category: {
-                id: transacInfo.category_id,
+                id: parseInt(transacInfo.category_id, 10),
                 name: transacInfo.categoryName
             },
             note: transacInfo.note,
-            recurrId: transacInfo.recurrId
+            recurrId: parseInt(transacInfo.recurrId, 10)
         })
     } catch(err){
         console.error('Error creating the income transaction:', err); // Log the error
