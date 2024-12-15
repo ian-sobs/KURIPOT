@@ -38,15 +38,15 @@ const Categories = () => {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <TaskBar />
-      <div className="page-with-taskbar flex-1 md:ml-[20%] lg:ml-[16.666%]">
+      <div className="page-with-taskbar flex-1 md:ml-[20%] lg:ml-[16.666%] ">
         <PageHeader
           title="Categories"
           subtitle="Browse and manage your categories"
           onBackClick={() => window.history.back()}
         />
-        <div className="page-with-navhead p-10 pl-5 pr-5">
+        <div className="page-with-navhead px-10 py-5 ">
           <div className="bg-bg-[#010827] p-5 rounded-badge shadow-lg">
             {isLoading ? (
               <p className="text-white">Loading categories...</p> // Show loading state
