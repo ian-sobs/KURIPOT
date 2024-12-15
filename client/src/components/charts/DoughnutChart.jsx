@@ -35,22 +35,26 @@ const DoughnutChart = () => {
       ];
 
       setTopSpending(categories);
-      setChartData({
-        labels,
-        datasets: [
-          {
-            data,
-            backgroundColor,
-            hoverBackgroundColor: [
-              "#000000",
-              "#000000",
-              "#000000",
-              "#000000",
-              "#000000",
-            ],
-          },
-        ],
-      });
+      if (categories.length > 0) {
+        setChartData({
+          labels,
+          datasets: [
+            {
+              data,
+              backgroundColor,
+              hoverBackgroundColor: [
+                "#000000",
+                "#000000",
+                "#000000",
+                "#000000",
+                "#000000",
+              ],
+            },
+          ],
+        });
+      } else {
+        setChartData(null);
+      }
     } catch (error) {
       console.error("Error fetching top spending data:", error);
     }
@@ -106,6 +110,8 @@ const DoughnutChart = () => {
         <div className="doughnut-container w-full pt-5 rounded-badge shadow-lg bg-gradient-to-r from-[#180655]/10 via-[#15172E]/50 to-[#180655]/10 p-4">
           {chartData ? (
             <Doughnut data={chartData} options={options} />
+          ) : topSpending.length === 0 ? (
+            <p className="text-center text-sm text-gray-500">No expense data available for the selected date range.</p>
           ) : (
             <p>Loading...</p>
           )}
