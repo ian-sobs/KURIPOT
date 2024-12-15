@@ -10,7 +10,11 @@ exports.getAccounts = async (req, res)=>{
     }
 
     try{
-        const totalBalance = await Account.sum('amount')
+        const totalBalance = await Account.sum('amount', {
+            where: {
+                user_id: parseInt(usrId, 10)
+            }
+        })
         const accountsOfUser = await Account.findAll({
             where: {
                 user_id: usrId
