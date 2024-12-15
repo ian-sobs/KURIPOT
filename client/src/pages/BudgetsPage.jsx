@@ -34,14 +34,12 @@ const Budgets = () => {
           subtitle="Set a Budget and Stay on Track"
           onBackClick={() => window.history.back()}
         />
-        <div className="page-with-navhead page-with-taskbar flex justify-center items-center min-h-screen p-6">
+        <div className="page-with-navhead page-with-taskbar min-h-screen px-6">
           {loading ? (
-            <div className="flex justify-center items-center h-full text-white">
-              Loading...
-            </div>
+            <div className="text-white">Loading...</div>
           ) : budgets.length === 0 ? (
             <div className="nobudget-container flex justify-center items-center">
-              <div className="flex flex-col items-center justify-center text-center mb-8">
+              <div className="flex flex-col items-center justify-center text-center mt-36">
                 <img src="/images/budget-box.png" alt="" className="min-h-10" />
                 <div className="text-white text-xl mb-2">
                   You currently have no budget
@@ -57,8 +55,8 @@ const Budgets = () => {
               </div>
             </div>
           ) : (
-            <div className="w-full">
-              <ul className="text-white">
+            <div className="w-full block">
+              <ul className="text-white pb-20">
                 {budgets.map((budget) => (
                   <BudgetCard
                     key={budget.id}

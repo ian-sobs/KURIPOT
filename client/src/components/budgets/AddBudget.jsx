@@ -104,12 +104,14 @@ const AddBudget = ({ budgets, setBudgets }) => {
 
   return (
     <div className="flex justify-end">
-      <button
-        onClick={openPopup}
-        className="bg-[#9747FF] text-white py-2 px-10 rounded-lg mt-4 hover:bg-[#7e3adf] transition-all"
-      >
-        Add a Budget
-      </button>
+      <div className="fixed bottom-20 right-4 z-50">
+        <button
+          onClick={openPopup}
+          className="bg-[#9747FF] text-white py-2 px-10 rounded-lg my-4 hover:bg-[#7e3adf] transition-all"
+        >
+          Add a Budget
+        </button>
+      </div>
 
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50">
