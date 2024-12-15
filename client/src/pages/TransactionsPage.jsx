@@ -4,6 +4,7 @@ import PageHeader from "../components/PageHeader";
 import TransactionDaily from "../components/transactions/TransactionDaily";
 import TransactionWeekly from "../components/transactions/TransactionWeekly";
 import TransactionMonthly from "../components/transactions/TransactionMonthly";
+import { protectedRoute } from "../apiClient/axiosInstance";
 
 const TransactionsPage = () => {
   const [date, setDate] = useState({ month: 11, year: 2024 }); // Default: December 2024 (0-indexed months)
@@ -23,6 +24,33 @@ const TransactionsPage = () => {
     "November",
     "December",
   ];
+
+  function getDaysInMonth(year, month) {
+    //month of date constructor is 0 based. passing a 1-based month parameter to getDaysInMonth
+    //and setting day to 0 causes the date to roll over to the last day of the month we want
+    //to find the number of days of
+    return new Date(year, month, 0).getDate();
+  }
+
+  function getWeeksInMonth(year, month) {
+    // Get the first day of the month
+    const firstDayOfMonth = new Date(year, month - 1, 1);
+    const firstDayWeekday = firstDayOfMonth.getDay(); // Day of the week (0 = Sunday)
+
+      // Get the last day of the month
+    const lastDayOfMonth = new Date(year, month, 0); // Automatically gets the last day
+    const lastDay = lastDayOfMonth.getDate(); // Number of days in the month
+    const lastDayWeekday = lastDayOfMonth.getDay();
+
+      // Calculate the total number of days spanned by weeks
+    const totalDays = lastDay + firstDayWeekday; // Offset for the first week
+
+      // Calculate the number of weeks, rounding up for partial weeks
+    const numWeeks = Math.ceil(totalDays / 7);
+
+    return numWeeks;
+  }
+
 
   const handlePrevMonth = () => {
     setDate((prev) => {
