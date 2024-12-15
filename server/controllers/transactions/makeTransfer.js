@@ -51,7 +51,7 @@ exports.makeTransfer = async function makeTransfer(req, res){
             amount: amount,
             account_id: null,
             accountName: null,
-            date: date,
+            date: new Date(),
             category_id: null,
             categoryName: null,
             from_account_id: fromAccountInfo.id,

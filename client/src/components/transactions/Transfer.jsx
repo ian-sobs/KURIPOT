@@ -12,10 +12,12 @@ const Transfer = () => {
   });
 
   const [accounts, setAccounts] = useState([]);
+  const [error, setError] = useState(null); // To handle errors
+  const [successMessage, setSuccessMessage] = useState(null); // For success confirmation message
 
   useEffect(() => {
-    console.log("expenseDetails", expenseDetails)
-  }, [expenseDetails])
+    console.log("expenseDetails", expenseDetails);
+  }, [expenseDetails]);
 
   useEffect(() => {
     protectedRoute
@@ -40,24 +42,30 @@ const Transfer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Expense details submitted:", expenseDetails);
+    console.log("Transfer details submitted:", expenseDetails);
 
     let toSubmit = {
-      amount: expenseDetails.amount, 
-      fromAccountId: expenseDetails.accountFrom, 
-      toAccountId: expenseDetails.accountTo, 
-      note: "", 
-      date: expenseDetails.date
-    }
+      amount: expenseDetails.amount,
+      fromAccountId: expenseDetails.accountFrom,
+      toAccountId: expenseDetails.accountTo,
+      note: expenseDetails.note,
+      date: expenseDetails.date,
+    };
 
-    protectedRoute.post("/transactions/makeTransfer", toSubmit)
+    setError(null);
+    setSuccessMessage(null);
+
+    protectedRoute
+      .post("/transactions/makeTransfer", toSubmit)
       .then((response) => {
-        const {data} = response
-        console.log("new transfer", data)
+        const { data } = response;
+        console.log("new transfer", data);
+        setSuccessMessage("Transfer recorded successfully!");
       })
       .catch((error) => {
-        console.log(error)
-      })
+        console.log(error);
+        setError("Transfer transaction failed.");
+      });
   };
 
   return (
@@ -71,6 +79,16 @@ const Transfer = () => {
         />
         <div className="page-with-navhead flex-col items-center justify-center mt-5 p-4">
           <div className="max-w-md mx-auto mt-5 p-6 bg-gray-950 rounded-badge shadow-lg">
+            {/* Error and Success Messages */}
+            {error && (
+              <div className="text-red-500 mt-2 text-center">{error}</div>
+            )}
+            {successMessage && (
+              <div className="text-green-500 mt-2 text-center">
+                {successMessage}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="amount" className="block text-slate-300 mb-1">
@@ -104,7 +122,10 @@ const Transfer = () => {
               </div>
 
               <div>
-                <label htmlFor="accountFrom" className="block text-slate-300 mb-1">
+                <label
+                  htmlFor="accountFrom"
+                  className="block text-slate-300 mb-1"
+                >
                   Account to Transfer From
                 </label>
                 <select
@@ -125,7 +146,10 @@ const Transfer = () => {
               </div>
 
               <div>
-                <label htmlFor="accountTo" className="block text-slate-300 mb-1">
+                <label
+                  htmlFor="accountTo"
+                  className="block text-slate-300 mb-1"
+                >
                   Account to Transfer To
                 </label>
                 <select
@@ -143,6 +167,22 @@ const Transfer = () => {
                     </option>
                   ))}
                 </select>
+              </div>
+
+              
+              {/* Note Input */}
+              <div>
+                <label htmlFor="note" className="block text-slate-300 mb-1">
+                  Description
+                </label>
+                <textarea
+                  id="note"
+                  name="note"
+                  value={expenseDetails.note}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-600"
+                  placeholder=""
+                />
               </div>
 
               <button

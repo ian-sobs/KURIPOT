@@ -58,7 +58,7 @@ const Income = () => {
     e.preventDefault();
 
     const submitData = {
-      date: new Date(incomeDetails.date), 
+      date: new Date(incomeDetails.date),
       amount: parseFloat(incomeDetails.amount).toFixed(2),
       accountId: parseInt(incomeDetails.account, 10),
       categoryId: parseInt(incomeDetails.categoryId, 10),
@@ -94,8 +94,12 @@ const Income = () => {
         <div className="page-with-navhead flex-col items-center justify-center mt-5 p-4">
           <div className="max-w-md mx-auto mt-5 p-6 bg-gray-950 rounded-badge shadow-lg">
             {/* Display error or success messages */}
-            {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-            {success && <div className="text-green-500 text-center mb-4">{success}</div>}
+            {error && (
+              <div className="text-red-500 text-center mb-4">{error}</div>
+            )}
+            {success && (
+              <div className="text-green-500 text-center mb-4">{success}</div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Amount Input */}
               <div>
@@ -132,7 +136,10 @@ const Income = () => {
 
               {/* Categories Input */}
               <div>
-                <label htmlFor="categories" className="block text-slate-300 mb-1">
+                <label
+                  htmlFor="categories"
+                  className="block text-slate-300 mb-1"
+                >
                   Income Categories
                 </label>
                 <select
