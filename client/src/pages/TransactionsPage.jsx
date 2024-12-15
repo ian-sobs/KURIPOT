@@ -51,6 +51,8 @@ const TransactionsPage = () => {
     return numWeeks;
   }
 
+  const daysInMonth = getDaysInMonth()
+
 
   const handlePrevMonth = () => {
     setDate((prev) => {
