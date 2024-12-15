@@ -30,10 +30,12 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       Category.belongsToMany(models.Budget, {
-        through: models.BudgetCategory,
-        unique: false,
+        through: {
+          model: models.BudgetCategory,
+          unique: false,
+        },
         foreignKey: 'category_id',
-        otherKey: 'budget_id'       
+        otherKey: 'budget_id'
       })
     }
   }

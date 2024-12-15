@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { protectedRoute } from "../../apiClient/axiosInstance";
 import axios from "axios";
 
-const AddBudget = () => {
+const AddBudget = ({budgets, setBudgets}) => {
   const [date, setDate] = useState("");
   const [categories, setCategories] = useState([]); // Holds all available categories
   const [selectedCategories, setSelectedCategories] = useState([]); // Selected categories with limits
@@ -17,10 +17,15 @@ const AddBudget = () => {
 
   useEffect(() => {
     // Fetch categories from backend
-    protectedRoute
-      .get("/categories/getCategories")
+    protectedRoute.get("/categories/getCategories", {
+        params: {
+          isIncome: false
+        }
+      })
       .then((response) => {
+
         const { data } = response; // Assume data is an array
+        console.log("categories data", data)
         setCategories(data); // Set the available categories
       })
       .catch((error) => {
@@ -29,7 +34,7 @@ const AddBudget = () => {
   }, []);
 
   const handleAddCategory = () => {
-    setSelectedCategories((prev) => [...prev, { name: "", limit: "" }]);
+    setSelectedCategories((prev) => [...prev, {name: "", categoryId: "", categoryLimit: "" }]);
   };
 
   const handleRemoveCategory = (index) => {
@@ -42,6 +47,7 @@ const AddBudget = () => {
         i === index ? { ...item, [field]: value } : item
       )
     );
+    console.log("selectedCategories", selectedCategories)
   };
 
   const handleSubmit = async (e) => {
@@ -49,38 +55,40 @@ const AddBudget = () => {
 
     // Calculate the sum of category limits
     const categoryLimitsSum = selectedCategories.reduce(
-      (sum, category) => sum + (parseFloat(category.limit) || 0),
+      (sum, category) => sum + (parseFloat(category.categorylimit) || 0),
       0
     );
 
     // Validate that the category limits sum matches the total budget limit
-    if (categoryLimitsSum !== parseFloat(totalBudgetLimit)) {
-      setError("The sum of category limits must match the total budget limit.");
-      setSuccess(false);
-      return;
-    }
-
+    // if (categoryLimitsSum !== parseFloat(totalBudgetLimit)) {
+    //   setError("The sum of category limits must match the total budget limit.");
+    //   setSuccess(false);
+    //   return;
+    // }
+    
     const budgetData = {
-      date,
+      date: date,
       categories: selectedCategories.filter(
-        (category) => category.name && category.limit
+        (category) => category.categoryId && category.categoryLimit
       ),
-      totalBudgetLimit, // Include the total budget limit in the data
+      budgetLimit: totalBudgetLimit, // Include the total budget limit in the data
+      type: 'expense'
     };
-
+    console.log("budgetDate", budgetData)
     try {
-      const response = await axios.post("budgets/makeBudget", budgetData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.status === 200) {
+      const response = await protectedRoute.post("/budgets/makeBudget", budgetData);
+      const {data} = response
+      const {budget, budgetCategories} = data
+      if (response.status === 201) {
+        const {id, date, budgetLimit, type} = budget
         setSuccess(true);
         setError(null);
         setSelectedCategories([]); // Reset the form
         setTotalBudgetLimit("");
         setDate("");
+        console.log("newBudget ", budget)
+        
+        setBudgets([...budgets, {id, date, budgetLimit, type}])
       } else {
         throw new Error("Budget creation failed!");
       }
@@ -162,15 +170,18 @@ const AddBudget = () => {
                     <div key={index} className="flex items-center gap-2 mb-2">
                       <select
                         value={category.name}
-                        onChange={(e) =>
-                          handleCategoryChange(index, "name", e.target.value)
+                        onChange={(e) =>{
+                            console.log("e.target ", e.target.selectedOptions[0].getAttribute('data-cat_id'))
+                            handleCategoryChange(index, "categoryId", parseInt(e.target.selectedOptions[0].getAttribute('data-cat_id'), 10))
+                            handleCategoryChange(index, "name", e.target.value)
+                          }
                         }
                         required
                         className="flex-1 px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-indigo-100"
                       >
                         <option value="">Select a Category</option>
                         {categories.map((cat, i) => (
-                          <option key={i} value={cat.name}>
+                          <option key={i} value={cat.name} data-cat_id={cat.id}>
                             {cat.name}
                           </option>
                         ))}
@@ -178,9 +189,9 @@ const AddBudget = () => {
                       <input
                         type="number"
                         placeholder="Limit"
-                        value={category.limit}
+                        value={category.categoryLimit}
                         onChange={(e) =>
-                          handleCategoryChange(index, "limit", e.target.value)
+                          handleCategoryChange(index, "categoryLimit", e.target.value)
                         }
                         required
                         className="w-24 p-2 bg-[#C6D9EA]/20 text-white rounded-md"

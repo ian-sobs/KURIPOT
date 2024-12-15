@@ -65,13 +65,13 @@ const Budgets = () => {
                     key={budget.id} // Pass unique key
                     id={budget.id}
                     budgetLimit={parseFloat(budget.budgetLimit).toFixed(2)} // Ensure budget limit is formatted
-                    categories={budget.categories || []} // Ensure categories is an array
+                    //categories={budget.categories || []} // Ensure categories is an array
                     date={budget.date}
                     type={budget.type}
                   />
                 ))}
               </ul>
-              <AddBudget />
+              <AddBudget budgets={budgets} setBudgets={setBudgets} />
             </div>
           )}
         </div>
