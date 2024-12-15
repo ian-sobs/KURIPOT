@@ -52,12 +52,16 @@ exports.makeExpense = async function makeExpense(req, res){
             type: 'expense'
         })
 
+        console.log("accountInfo.amount:", accountInfo.amount); // Should log the current account amount
+        console.log("transacInfo.amount:", transacInfo.amount); // Should log the transaction amount
+
         // Change everyone without a last name to "Doe"
         await Account.update(
-            { amount: accountInfo.amount + transacInfo.amount },
+            { amount: parseFloat(accountInfo.amount) + parseFloat(transacInfo.amount )},
             {
                 where: {
                     id: accountInfo.id,
+                    user_id: parseInt(usrId, 10)
                 },
             },
         );

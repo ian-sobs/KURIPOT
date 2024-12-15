@@ -1,23 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TaskBar from "../TaskBar";
 import PageHeader from "../PageHeader";
+import { protectedRoute } from "../../apiClient/axiosInstance";
 
 const Expense = () => {
   const [expenseDetails, setExpenseDetails] = useState({
     amount: "",
     date: "",
-    account: "", // Added account field
-    categories: [], // Array to store selected categories
+    accountId: null, // Added account field
+    categoryId: null, // Array to store selected categories
   });
 
-  const allCategories = [
-    "Food",
-    "Transportation",
-    "Entertainment",
-    "Utilities",
-    "Healthcare",
-    "Others",
-  ];
+
+  useEffect(() => {
+    console.log("expense details ", expenseDetails)
+  }, [expenseDetails])
+
+  // const allCategories = [
+  //   "Food",
+  //   "Transportation",
+  //   "Entertainment",
+  //   "Utilities",
+  //   "Healthcare",
+  //   "Others",
+  // ];
+  const [allCategories, setAllCategories] = useState([])
+  const [accounts, setAccounts] = useState([])
+
+  useEffect(() => {
+    protectedRoute.get("/accounts/getAccounts")
+      .then((response) => {
+        const {data} = response
+        console.log("total balance ", data.totalBalance)
+        console.log("accounts of expenses ", data.accounts)
+        setAccounts(data.accounts)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+    protectedRoute.get("/categories/getCategories",{ 
+      params: {
+        isIncome: false
+      }
+    })
+      .then((response) => {
+        const {data} = response
+        console.log("expense categories", data)
+        setAllCategories(data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,20 +65,41 @@ const Expense = () => {
   const handleCategoryChange = (e) => {
     const { value, checked } = e.target;
     setExpenseDetails((prevDetails) => {
-      const updatedCategories = checked
-        ? [...prevDetails.categories, value]
-        : prevDetails.categories.filter((category) => category !== value);
+      // const updatedCategories = checked
+      //   ? [...prevDetails.categories, value]
+      //   : prevDetails.categories.filter((category) => category !== value);
 
       return {
         ...prevDetails,
-        categories: updatedCategories,
+        categoryId: parseInt(value, 10),
       };
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Expense details submitted:", expenseDetails);
+
+    const submitData = {
+      date: new Date(expenseDetails.date), 
+      amount: parseFloat(expenseDetails.amount).toFixed(2), 
+      accountId: parseInt(expenseDetails.accountId, 10), 
+      categoryId: parseInt(expenseDetails.categoryId, 10), 
+      note: "", 
+      recurrId: null
+    }
+    
+    protectedRoute.post("/transactions/makeExpense", submitData)
+      .then((response) => {
+        console.log("Expense details submitted:", expenseDetails);
+
+        const {data} = response
+        console.log("new expense ", data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    
+    
   };
 
   return (
@@ -95,16 +151,15 @@ const Expense = () => {
                 </label>
                 <select
                   id="account"
-                  name="account"
+                  name="accountId"
                   value={expenseDetails.account}
                   onChange={handleChange}
                   className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-600"
                   required
                 >
                   <option value="">Select Account</option>
-                  <option value="savings">Savings Account</option>
-                  <option value="checking">Checking Account</option>
-                  <option value="credit">Credit Card</option>
+                  {accounts.map((account)=><option name={account.name} value={account.id}>{account.name}</option>)}
+
                 </select>
               </div>
 
@@ -116,18 +171,18 @@ const Expense = () => {
                   {allCategories.map((category, index) => (
                     <div key={index} className="flex items-center">
                       <input
-                        type="checkbox"
-                        id={`category-${category}`}
-                        value={category}
-                        checked={expenseDetails.categories.includes(category)}
+                        type="radio"
+                        id={`category-${category.id}`}
+                        value={category.id}
+                        checked={expenseDetails.categoryId == category.id}
                         onChange={handleCategoryChange}
                         className="mr-2"
                       />
                       <label
-                        htmlFor={`category-${category}`}
+                        htmlFor={`category-${category.name}`}
                         className="text-white"
                       >
-                        {category}
+                        {category.name}
                       </label>
                     </div>
                   ))}
@@ -140,7 +195,7 @@ const Expense = () => {
               </div>
 
               <button
-                type="submit"
+                onClick={handleSubmit}
                 className="w-full py-2 bg-[#9747FF] text-white rounded-md hover:bg-blue-600 transition"
               >
                 Save Expense
