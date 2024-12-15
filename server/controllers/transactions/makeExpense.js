@@ -57,7 +57,7 @@ exports.makeExpense = async function makeExpense(req, res){
 
         // Change everyone without a last name to "Doe"
         await Account.update(
-            { amount: parseFloat(accountInfo.amount) + parseFloat(transacInfo.amount )},
+            { amount: (parseFloat(accountInfo.amount) + parseFloat(transacInfo.amount )).toFixed(2)},
             {
                 where: {
                     id: accountInfo.id,
