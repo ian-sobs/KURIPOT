@@ -4,7 +4,7 @@
 
 @layer components {
   .tab-active {
-    color: #9747FF !important;
+    color: #9747ff !important;
     /* Use !important to ensure it overrides other styles */
   }
 }
@@ -47,7 +47,7 @@ body {
 
 /* take into account size of taskbar to avoid taskbar from hiding any content*/
 .page-with-taskbar {
-  padding-bottom: 6rem;
+  padding-bottom: 4.5rem;
 }
 
 /* sidebar */
@@ -62,10 +62,9 @@ body {
 }
 
 .tab-active {
-  border-bottom: 2px solid #9747FF !important;
+  border-bottom: 2px solid #9747ff !important;
   /* Replace with your preferred color */
 }
-
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

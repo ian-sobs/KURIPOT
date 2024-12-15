@@ -26,46 +26,42 @@ const Budgets = () => {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <TaskBar />
-      <div className="flex-1 md:ml-[20%] lg:ml-[16.666%] page-with-taskbar">
+      <div className="flex-1 md:ml-[20%] lg:ml-[16.666%] overflow-auto">
         <PageHeader
           title="Budgets"
           subtitle="Set a Budget and Stay on Track"
           onBackClick={() => window.history.back()}
         />
-        <div className="page-with-navhead p-10">
+        <div className="page-with-navhead page-with-taskbar min-h-screen px-6">
           {loading ? (
-            // Loading state while data is being fetched
-            <div className="flex justify-center items-center h-full text-white">
-              Loading...
-            </div>
+            <div className="text-white">Loading...</div>
           ) : budgets.length === 0 ? (
-            // If there are no budgets
-            <div className="flex flex-col items-center justify-center text-center">
-              <img src="/images/budget-box.png" alt="" className="min-h-10" />
-              <div className="text-white text-xl mb-2">
-                You currently have no budget.
-              </div>
-              <div className="text-gray-400 text-sm">
-                Input a budget and we'll help you manage your daily income and
-                expenses.
-              </div>
-              <AddBudget />
-              <div className="text-gray-400 text-sm underline">
-                <HowToBudget />
+            <div className="nobudget-container flex justify-center items-center">
+              <div className="flex flex-col items-center justify-center text-center mt-36">
+                <img src="/images/budget-box.png" alt="" className="min-h-10" />
+                <div className="text-white text-xl mb-2">
+                  You currently have no budget
+                </div>
+                <div className="text-gray-400 text-sm">
+                  Input a budget and we'll help you manage your daily income and
+                  expenses.
+                </div>
+                <AddBudget />
+                <div className="text-gray-400 text-sm underline mt-2">
+                  <HowToBudget />
+                </div>
               </div>
             </div>
           ) : (
-            // If there are budgets
-            <div>
-              <ul className="text-white">
+            <div className="w-full block">
+              <ul className="text-white pb-20">
                 {budgets.map((budget) => (
                   <BudgetCard
-                    key={budget.id} // Pass unique key
+                    key={budget.id}
                     id={budget.id}
-                    budgetLimit={parseFloat(budget.budgetLimit).toFixed(2)} // Ensure budget limit is formatted
-                    //categories={budget.categories || []} // Ensure categories is an array
+                    budgetLimit={parseFloat(budget.budgetLimit).toFixed(2)}
                     date={budget.date}
                     type={budget.type}
                   />
