@@ -29,7 +29,7 @@ const TransactionWeekly = ({ date, netIncome, totalIncome, totalExpense }) => {
   };
 
   return (
-    <div className="weeklystrans-container flex justify-between items-center py-4 border-b border-b-gray-400">
+    <div className="weeklystrans-container flex justify-between items-center p-2 border-b border-b-gray-400">
       <div className="date-range flex flex-row w-16 flex-shrink-0">
         <div className="date1 flex flex-col justify-center items-center">
           <h3 className="text-xs">{months[new Date(date.start).getMonth()]}</h3>

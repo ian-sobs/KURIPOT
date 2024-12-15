@@ -14,7 +14,7 @@ const TransactionMonthly = ({
   };
 
   return (
-    <div className="monthlystrans-container flex justify-between items-center py-4 border-b border-b-gray-400">
+    <div className="monthlystrans-container flex justify-between items-center p-2 border-b border-b-gray-400">
       <div className="date-range flex flex-row flex-shrink-0">
         <div className="date1 flex flex-col justify-center items-center">
           <h3 className="text-lg">{date.month}</h3>

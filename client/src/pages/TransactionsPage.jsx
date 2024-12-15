@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
-import TransactionDaily from "../components/TransactionDaily";
-import TransactionWeekly from "../components/TransactionWeekly";
-import TransactionMonthly from "../components/TransactionMonthly";
+import TransactionDaily from "../components/transactions/TransactionDaily";
+import TransactionWeekly from "../components/transactions/TransactionWeekly";
+import TransactionMonthly from "../components/transactions/TransactionMonthly";
 
 const TransactionsPage = () => {
   const [date, setDate] = useState({ month: 11, year: 2024 }); // Default: December 2024 (0-indexed months)
@@ -227,7 +227,7 @@ const TransactionsPage = () => {
               </>
             )}
           </div>
-          <div className="tab-container">
+          <div className="tab-container w-full px-6">
             <div
               role="tablist"
               className="tab-switch tabs tabs-bordered w-full tabs-lg flex justify-center items-center"
@@ -266,40 +266,46 @@ const TransactionsPage = () => {
             </div>
 
             <div role="tabpanel" className="content-tab">
-              {filteredTransactions().map((data, index) => {
-                if (activeTab === 0) {
-                  return (
-                    <TransactionDaily
-                      key={index}
-                      date={data.date}
-                      day={data.day}
-                      netIncome={data.netIncome}
-                      transactions={data.transactions}
-                    />
-                  );
-                } else if (activeTab === 1) {
-                  return (
-                    <TransactionWeekly
-                      key={index}
-                      date={data.date}
-                      netIncome={data.netIncome}
-                      totalIncome={data.totalIncome}
-                      totalExpense={data.totalExpense}
-                    />
-                  );
-                } else {
-                  return (
-                    <TransactionMonthly
-                      key={index}
-                      date={{ month: data.month, year: data.year }} // Ensure month and year are passed
-                      netIncome={data.netIncome}
-                      totalIncome={data.totalIncome}
-                      totalExpense={data.totalExpense}
-                      transactions={data.transactions}
-                    />
-                  );
-                }
-              })}
+              {filteredTransactions().length === 0 ? (
+                <div className="no-transactions">
+                  <p>No transactions available for the selected period.</p>
+                </div>
+              ) : (
+                filteredTransactions().map((data, index) => {
+                  if (activeTab === 0) {
+                    return (
+                      <TransactionDaily
+                        key={index}
+                        date={data.date}
+                        day={data.day}
+                        netIncome={data.netIncome}
+                        transactions={data.transactions}
+                      />
+                    );
+                  } else if (activeTab === 1) {
+                    return (
+                      <TransactionWeekly
+                        key={index}
+                        date={data.date}
+                        netIncome={data.netIncome}
+                        totalIncome={data.totalIncome}
+                        totalExpense={data.totalExpense}
+                      />
+                    );
+                  } else {
+                    return (
+                      <TransactionMonthly
+                        key={index}
+                        date={{ month: data.month, year: data.year }}
+                        netIncome={data.netIncome}
+                        totalIncome={data.totalIncome}
+                        totalExpense={data.totalExpense}
+                        transactions={data.transactions}
+                      />
+                    );
+                  }
+                })
+              )}
             </div>
           </div>
         </div>
