@@ -1,7 +1,7 @@
 
 const db = require('../../db/models/index')
 const sequelize = db.sequelize
-const {User} = sequelize.models
+const {User, Category} = sequelize.models
 const checkIfUserExists = require('../utility/checkIfUserExists')
 const makeAccessToken = require('../utility/makeAccessToken')
 const makeRefreshToken = require('../utility/makeRefreshToken')
@@ -10,7 +10,7 @@ const {userSignUpSchema} = require('../../validationSchema/userSchema')
 exports.registerUser = async (req,res) =>{
     const {username, birthDate, password} = req.body
     const email = req.body.email.trim()
-    let newUser
+    let newUser = null
 
     try{
         const userExists = await checkIfUserExists(email)
@@ -38,6 +38,27 @@ exports.registerUser = async (req,res) =>{
     catch(error){
         console.error("Error during user registration:", error);
         return res.status(500).json({ error: "Internal server error" });        
+    }
+
+    let defaultCategories
+    if(newUser){
+        defaultCategories = await Category.bulkCreate([
+            {name: "Work Income", user_id: newUser.id, isIncome: true},
+            {name: "Business Income", user_id: newUser.id, isIncome: true},
+            {name: "Investments", user_id: newUser.id, isIncome: true},
+            {name: "Other Income", user_id: newUser.id, isIncome: true},
+
+            {name: "Housing", user_id: newUser.id, isIncome: false},
+            {name: "Utilities", user_id: newUser.id, isIncome: false},
+            {name: "Food", user_id: newUser.id, isIncome: false},
+            {name: "Transportation", user_id: newUser.id, isIncome: false},
+            {name: "Health", user_id: newUser.id, isIncome: false},
+            {name: "Debt Payments", user_id: newUser.id, isIncome: false},
+            {name: "Savings", user_id: newUser.id, isIncome: false},
+            {name: "Entertainment", user_id: newUser.id, isIncome: false},
+            {name: "Shopping", user_id: newUser.id, isIncome: false},
+            {name: "Other Expenses", user_id: newUser.id, isIncome: false},
+        ])
     }
 
     const accessToken = makeAccessToken(newUser)
