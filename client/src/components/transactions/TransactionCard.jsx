@@ -39,9 +39,25 @@ export default function TransactionCard(props) {
             </div>
             <div className="trans-details max-w-28">
               <p className="font-medium text-sm">{props.note}</p>
-              <p className="text-xs text-gray-300 font-extralight">
-                from: Account (frontend)
-              </p>
+                {
+                    (props.type == "transfer") ?
+                    <>
+                        <p className="text-xs text-gray-300 font-extralight">
+                            {/* from: Account (frontend) */}
+                            From: {props.fromAccount.name}
+                        </p>
+                        <p className="text-xs text-gray-300 font-extralight">
+                            {/* from: Account (frontend) */}
+                            To: {props.toAccount.name}
+                        </p>
+                    </> : 
+                    <>
+                        <p className="text-xs text-gray-300 font-extralight">
+                            {/* from: Account (frontend) */}
+                            Account: {props.account.name}
+                        </p>
+                    </>
+                }
             </div>
           </div>
 

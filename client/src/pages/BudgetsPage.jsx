@@ -48,7 +48,7 @@ const Budgets = () => {
                   Input a budget and we'll help you manage your daily income and
                   expenses.
                 </div>
-                <AddBudget />
+                <AddBudget budgets={budgets} setBudgets={setBudgets}/>
                 <div className="text-gray-400 text-sm underline mt-2">
                   <HowToBudget />
                 </div>
