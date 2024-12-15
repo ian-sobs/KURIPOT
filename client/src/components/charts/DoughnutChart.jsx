@@ -103,7 +103,7 @@ const DoughnutChart = () => {
         </div>
 
         {/* Doughnut Chart with Background */}
-        <div className="doughnut-container w-full pt-5 rounded-badge shadow-lg bg-gradient-to-r from-[#180655]/10 via-[#15172E]/10 to-[#180655]/10 p-4">
+        <div className="doughnut-container w-full pt-5 rounded-badge shadow-lg bg-gradient-to-r from-[#180655]/10 via-[#15172E]/50 to-[#180655]/10 p-4">
           {chartData ? (
             <Doughnut data={chartData} options={options} />
           ) : (
