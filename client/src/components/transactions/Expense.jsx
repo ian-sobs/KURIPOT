@@ -4,37 +4,6 @@ import PageHeader from "../PageHeader";
 import { protectedRoute } from "../../apiClient/axiosInstance";
 
 const Expense = () => {
-  const [accounts, setAccounts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [confirmationMessage, setConfirmationMessage] = useState(""); // To store confirmation message
-
-  useEffect(() => {
-    protectedRoute
-      .get("/accounts/getAccounts")
-      .then((response) => {
-        const { data } = response;
-        setAccounts(data.accounts);
-      })
-      .catch((error) => {
-        console.log("Error fetching accounts:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    protectedRoute
-      .get("/categories/getCategories")
-      .then((response) => {
-        const { data } = response;
-        setCategories(Array.isArray(data) ? data : []);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching categories:", error);
-        setIsLoading(false);
-      });
-  }, []);
-
   const [expenseDetails, setExpenseDetails] = useState({
     amount: "",
     date: "",
@@ -56,6 +25,7 @@ const Expense = () => {
   //   "Others",
   // ];
   const [allCategories, setAllCategories] = useState([])
+  const [accounts, setAccounts] = useState([])
 
   useEffect(() => {
     protectedRoute.get("/accounts/getAccounts")
@@ -176,11 +146,8 @@ const Expense = () => {
               </div>
 
               <div>
-                <label
-                  htmlFor="accountId"
-                  className="block text-slate-300 mb-1"
-                >
-                  Account
+                <label htmlFor="account" className="block text-slate-300 mb-1">
+                  Account to Deduct From
                 </label>
                 <select
                   id="account"
@@ -197,8 +164,8 @@ const Expense = () => {
               </div>
 
               <div>
-                <label htmlFor="categoryId" className="block text-slate-300 mb-1">
-                  Category
+                <label htmlFor="categories" className="block text-slate-300 mb-1">
+                  Categories
                 </label>
                 <div className="space-y-2 mt-2 pl-5">
                   {allCategories.map((category, index) => (
@@ -219,21 +186,12 @@ const Expense = () => {
                       </label>
                     </div>
                   ))}
-              </div>
-              </div>
-
-              <div>
-                <label htmlFor="note" className="block text-slate-300 mb-1">
-                  Note (Optional)
-                </label>
-                <textarea
-                  id="note"
-                  name="note"
-                  value={expenseDetails.note}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-600"
-                  placeholder="Add any notes"
-                />
+                </div>
+                <div className="flex items-center text-white">
+                  <p className="text-white text-xs mt-2">
+                    Select multiple categories
+                  </p>
+                </div>
               </div>
 
               <button
@@ -243,17 +201,6 @@ const Expense = () => {
                 Save Expense
               </button>
             </form>
-            {confirmationMessage && (
-              <div
-                className={`mb-4 p-4 text-center rounded-md ${
-                  confirmationMessage.includes("successful")
-                    ? "text-green-600"
-                    : "text-red-600"
-                }`}
-              >
-                {confirmationMessage}
-              </div>
-            )}
           </div>
         </div>
       </div>
