@@ -59,14 +59,17 @@ exports.getTopSpending = async (req, res) => {
             where: whereClause,
             group: ['category_id', 'categoryName'], // Group by 'category'
             order: [sequelize.literal('spent '+ sortIn)], // Use a literal for ordering by the alias
+            raw: true
         })
+
+        console.log("categorySpending", categorySpending)
 
         let catSpent = categorySpending.map((catDetails) => {
             return {
                 categoryId: catDetails.category_id,
                 categoryName: catDetails.categoryName,
-                spent: catDetails.spent,
-                spentPercentage: ((catDetails.spent / totalSpent) * 100).toFixed(2)
+                spent: parseFloat(catDetails.spent).toFixed(2),
+                spentPercentage: ((parseFloat(catDetails.spent).toFixed(2) / totalSpent) * 100).toFixed(2)
             }
         })
 

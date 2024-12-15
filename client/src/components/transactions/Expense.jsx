@@ -38,11 +38,51 @@ const Expense = () => {
   const [expenseDetails, setExpenseDetails] = useState({
     amount: "",
     date: "",
-    accountId: "",
-    categoryId: "",
-    note: "",
-    recurrId: "",
+    accountId: null, // Added account field
+    categoryId: null, // Array to store selected categories
   });
+
+
+  useEffect(() => {
+    console.log("expense details ", expenseDetails)
+  }, [expenseDetails])
+
+  // const allCategories = [
+  //   "Food",
+  //   "Transportation",
+  //   "Entertainment",
+  //   "Utilities",
+  //   "Healthcare",
+  //   "Others",
+  // ];
+  const [allCategories, setAllCategories] = useState([])
+
+  useEffect(() => {
+    protectedRoute.get("/accounts/getAccounts")
+      .then((response) => {
+        const {data} = response
+        console.log("total balance ", data.totalBalance)
+        console.log("accounts of expenses ", data.accounts)
+        setAccounts(data.accounts)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+    protectedRoute.get("/categories/getCategories",{ 
+      params: {
+        isIncome: false
+      }
+    })
+      .then((response) => {
+        const {data} = response
+        console.log("expense categories", data)
+        setAllCategories(data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,35 +93,43 @@ const Expense = () => {
   };
 
   const handleCategoryChange = (e) => {
-    setExpenseDetails((prevDetails) => ({
-      ...prevDetails,
-      categoryId: e.target.value,
-    }));
+    const { value, checked } = e.target;
+    setExpenseDetails((prevDetails) => {
+      // const updatedCategories = checked
+      //   ? [...prevDetails.categories, value]
+      //   : prevDetails.categories.filter((category) => category !== value);
+
+      return {
+        ...prevDetails,
+        categoryId: parseInt(value, 10),
+      };
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setConfirmationMessage(""); // Reset confirmation message before submitting
 
-    protectedRoute
-      .post("/transactions/makeExpense", expenseDetails)
+    const submitData = {
+      date: new Date(expenseDetails.date), 
+      amount: parseFloat(expenseDetails.amount).toFixed(2), 
+      accountId: parseInt(expenseDetails.accountId, 10), 
+      categoryId: parseInt(expenseDetails.categoryId, 10), 
+      note: "", 
+      recurrId: null
+    }
+    
+    protectedRoute.post("/transactions/makeExpense", submitData)
       .then((response) => {
-        setConfirmationMessage("Expense transaction successful!"); // Success message
-        console.log("Expense transaction successful:", response.data);
-        // Optionally, reset the form after a successful transaction
-        setExpenseDetails({
-          amount: "",
-          date: "",
-          accountId: "",
-          categoryId: "",
-          note: "",
-          recurrId: "",
-        });
+        console.log("Expense details submitted:", expenseDetails);
+
+        const {data} = response
+        console.log("new expense ", data)
       })
       .catch((error) => {
-        setConfirmationMessage("Expense transaction failed."); // Error message
-        console.error("Error during expense transaction:", error);
-      });
+        console.log(error)
+      })
+    
+    
   };
 
   return (
@@ -135,19 +183,16 @@ const Expense = () => {
                   Account
                 </label>
                 <select
-                  id="accountId"
+                  id="account"
                   name="accountId"
-                  value={expenseDetails.accountId}
+                  value={expenseDetails.account}
                   onChange={handleChange}
                   className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-600"
                   required
                 >
                   <option value="">Select Account</option>
-                  {accounts.map((account) => (
-                    <option key={account.id} value={account.id}>
-                      {account.name}
-                    </option>
-                  ))}
+                  {accounts.map((account)=><option name={account.name} value={account.id}>{account.name}</option>)}
+
                 </select>
               </div>
 
@@ -155,21 +200,26 @@ const Expense = () => {
                 <label htmlFor="categoryId" className="block text-slate-300 mb-1">
                   Category
                 </label>
-                <select
-                  id="categoryId"
-                  name="categoryId"
-                  value={expenseDetails.categoryId}
-                  onChange={handleCategoryChange}
-                  className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring focus:ring-blue-600"
-                  required
-                >
-                  <option value="">Select Category</option>
-                  {categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </option>
+                <div className="space-y-2 mt-2 pl-5">
+                  {allCategories.map((category, index) => (
+                    <div key={index} className="flex items-center">
+                      <input
+                        type="radio"
+                        id={`category-${category.id}`}
+                        value={category.id}
+                        checked={expenseDetails.categoryId == category.id}
+                        onChange={handleCategoryChange}
+                        className="mr-2"
+                      />
+                      <label
+                        htmlFor={`category-${category.name}`}
+                        className="text-white"
+                      >
+                        {category.name}
+                      </label>
+                    </div>
                   ))}
-                </select>
+              </div>
               </div>
 
               <div>
@@ -187,7 +237,7 @@ const Expense = () => {
               </div>
 
               <button
-                type="submit"
+                onClick={handleSubmit}
                 className="w-full py-2 bg-[#9747FF] text-white rounded-md hover:bg-blue-600 transition"
               >
                 Save Expense
