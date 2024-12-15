@@ -1,23 +1,5 @@
 const {Op, Sequelize, where} = require('sequelize')
-
-function getWeekDateRange(year, month, weekNum) {
-    // Create a Date object for the first day of the month
-    const firstDayOfMonth = new Date(year, month, 1);
-    
-    // Find the day of the week for the 1st of the month (0 = Sunday, 6 = Saturday)
-    const firstDayWeekday = firstDayOfMonth.getDay();
-    
-    // Calculate the start date of the given week
-    const startDate = new Date(firstDayOfMonth);
-    startDate.setDate(1 - firstDayWeekday + (weekNum - 1) * 7);
-    
-    // Calculate the end date of the given week
-    const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 7); // A week is 7 days
-    
-    return { startDate, endDate };
-  }
-
+const {getWeekDateRange} = require('./getWeekDateRange')
 
 exports.valQueryParamDate = function valQueryParamDate(reqQuery, res, dateCol){
     //dateCol is a string of the name of the date column in a table
