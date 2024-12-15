@@ -25,7 +25,7 @@ const TransactionDaily = ({ date, day, netIncome, transactions }) => {
 
   return (
     <div>
-      <div className="daily-container flex justify-between items-center py-2 border-b border-b-gray-400">
+      <div className="daily-container flex justify-between items-center p-2 border-b border-b-gray-400">
         <div className="trans-left flex flex-col items-center">
           <h2 className="text-xl font-semibold">{formattedDate}</h2>
           <h2>{abbreviatedDay}</h2>
