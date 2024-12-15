@@ -101,7 +101,7 @@ const Expense = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <TaskBar />
       <div className="flex-1 md:ml-[20%] lg:ml-[16.666%] page-with-taskbar">
         <PageHeader
