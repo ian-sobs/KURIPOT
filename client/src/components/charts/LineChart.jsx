@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
-import axios from "axios";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -22,7 +21,7 @@ ChartJS.register(
 const LineChart = () => {
   const [selectedYear, setSelectedYear] = useState("2024");
   const [selectedMonth, setSelectedMonth] = useState("1");
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState({ expenses: [], income: [] });
   const [isLoading, setIsLoading] = useState(false);
   const [noDataMessage, setNoDataMessage] = useState("");
 
@@ -31,10 +30,11 @@ const LineChart = () => {
     setNoDataMessage("");
 
     try {
-      const updatedData = Array(12).fill(0);
+      const updatedExpenses = Array(12).fill(0);
+      const updatedIncome = Array(12).fill(0);
 
-      // Fetch data for the selected month
-      const response = await protectedRoute.get(
+      // Fetch total expenses for the selected month
+      const expenseResponse = await protectedRoute.get(
         "/transactions/getTotalExpense",
         {
           params: {
@@ -45,43 +45,29 @@ const LineChart = () => {
         }
       );
 
-      const totalExpense = Math.abs(parseFloat(response.data.totalExpense)) || 0;
-
+      const totalExpense = Math.abs(parseFloat(expenseResponse.data.totalExpense)) || 0;
       if (totalExpense === 0) {
         setNoDataMessage("You have no transactions for this month.");
       } else {
-        updatedData[selectedMonth - 1] = totalExpense;
+        updatedExpenses[selectedMonth - 1] = totalExpense;
       }
 
-      // Fetch data for previous and next months
-      const prevMonth = selectedMonth === "1" ? 12 : selectedMonth - 1;
-      const nextMonth = selectedMonth === "12" ? 1 : parseInt(selectedMonth, 10) + 1;
-
-      const prevResponse = await protectedRoute.get(
-        "/transactions/getTotalExpense",
+      // Fetch total income for the selected month
+      const incomeResponse = await protectedRoute.get(
+        "/transactions/getTotalIncome",
         {
           params: {
             period: "month",
-            month: prevMonth,
+            month: parseInt(selectedMonth, 10),
             year: parseInt(selectedYear, 10),
           },
         }
       );
-      updatedData[prevMonth - 1] = Math.abs(parseFloat(prevResponse.data.totalExpense)) || 0;
 
-      const nextResponse = await protectedRoute.get(
-        "/transactions/getTotalExpense",
-        {
-          params: {
-            period: "month",
-            month: nextMonth,
-            year: parseInt(selectedYear, 10),
-          },
-        }
-      );
-      updatedData[nextMonth - 1] = Math.abs(parseFloat(nextResponse.data.totalExpense)) || 0;
+      const totalIncome = Math.abs(parseFloat(incomeResponse.data.totalIncome)) || 0;
+      updatedIncome[selectedMonth - 1] = totalIncome;
 
-      setChartData(updatedData);
+      setChartData({ expenses: updatedExpenses, income: updatedIncome });
     } catch (err) {
       console.error("Error fetching data:", err);
     } finally {
@@ -93,20 +79,25 @@ const LineChart = () => {
     fetchChartData();
   }, [selectedYear, selectedMonth]);
 
-  const labels = [
-    new Date(selectedYear, selectedMonth - 2).toLocaleString("default", { month: "long" }),
-    new Date(selectedYear, selectedMonth - 1).toLocaleString("default", { month: "long" }),
-    new Date(selectedYear, selectedMonth).toLocaleString("default", { month: "long" }),
-  ];
+  const labels = Array.from({ length: 12 }, (_, i) =>
+    new Date(selectedYear, i).toLocaleString("default", { month: "long" })
+  );
 
   const data = {
     labels,
     datasets: [
       {
         label: "Expenses",
-        data: chartData.slice(selectedMonth - 2, selectedMonth + 1),
+        data: chartData.expenses,
         borderColor: "#9747FF",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        backgroundColor: "rgba(151, 71, 255, 0.2)",
+        tension: 0.4,
+      },
+      {
+        label: "Income",
+        data: chartData.income,
+        borderColor: "#28A745",
+        backgroundColor: "rgba(40, 167, 69, 0.2)",
         tension: 0.4,
       },
     ],
@@ -131,7 +122,7 @@ const LineChart = () => {
       },
       title: {
         display: true,
-        text: `Data for ${selectedYear}`,
+        text: `Monthly Data for ${selectedYear}`,
         color: "white",
       },
     },
@@ -153,7 +144,6 @@ const LineChart = () => {
         ticks: {
           color: "white",
           beginAtZero: true,
-          stepSize: 200,
         },
       },
     },
