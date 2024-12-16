@@ -111,7 +111,9 @@ const DoughnutChart = () => {
           {chartData ? (
             <Doughnut data={chartData} options={options} />
           ) : topSpending.length === 0 ? (
-            <p className="text-center text-sm text-gray-500">No expense data available for the selected date range.</p>
+            <p className="text-center text-sm text-gray-500">
+              No expense data available for the selected date range.
+            </p>
           ) : (
             <p>Loading...</p>
           )}
