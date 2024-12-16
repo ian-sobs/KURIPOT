@@ -127,7 +127,9 @@ export default function AccountCard({ id, name, amount, setAccounts }) {
         <div className="text-green-500 text-center text-xs mb-2 w-full">{success}</div>
       )} */}
       {error && (
-        <div className="text-red-500 text-center text-xs mb-2 w-full">{error}</div>
+        <div className="text-red-500 text-center text-xs mb-2 w-full">
+          {error}
+        </div>
       )}
     </li>
   );
