@@ -41,9 +41,15 @@ const ViewAccounts = () => {
           onBackClick={() => window.history.back()}
         />
         <div className="page-with-navhead p-10 pl-5 pr-5">
-          <div className="bg-bg-[#010827] p-5 rounded-badge shadow-lg">
+          <div className="bg-[#010827]/25 p-5 rounded-badge shadow-lg">
             <ul>
-              {accounts.map((account, index) => <AccountCard {...account} />)}
+              {accounts.map((account) => (
+                <AccountCard
+                  key={account.id} // Ensure each AccountCard has a unique key
+                  {...account}
+                  setAccounts={setAccounts}
+                />
+              ))}
             </ul>
           </div>
           <AddAccount accounts={accounts} setAccounts={setAccounts} />
