@@ -40,7 +40,7 @@ exports.makeExpense = async function makeExpense(req, res){
             amount: amount,
             account_id: accountInfo.id,
             accountName: accountInfo.name,
-            date: new Date(),
+            date: new Date(new Date(date).toISOString()),
             category_id: categoryInfo.id,
             categoryName: categoryInfo.name,
             from_account_id: null,
