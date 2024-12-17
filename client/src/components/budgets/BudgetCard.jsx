@@ -107,12 +107,12 @@ export default function BudgetCard(props) {
       {/* Conditional rendering for Delete Button */}
       {!isEditing && (
         <div className="absolute top-7 right-5 flex gap-5">
-          <button
+          {/* <button
             onClick={handleEditClick}
             className="text-white rounded flex items-center gap-2"
           >
             <i className="bi bi-pencil text-slate-500"></i>
-          </button>
+          </button> */}
 
           <button
             onClick={handleDelete}
