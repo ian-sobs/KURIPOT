@@ -6,7 +6,6 @@ export default function AccountCard({ id, name, amount, setAccounts }) {
   const [editedName, setEditedName] = useState(name);
   const [editedAmount, setEditedAmount] = useState(amount);
 
-  // Success/Error State for Confirmation/Failure Messages
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
@@ -34,7 +33,6 @@ export default function AccountCard({ id, name, amount, setAccounts }) {
     try {
       await protectedRoute.patch("/accounts/updateAccount", updatedAccount);
 
-      // Update the account list locally
       setAccounts((prevAccounts) =>
         prevAccounts.map((acc) => (acc.id === id ? updatedAccount : acc))
       );
@@ -51,18 +49,17 @@ export default function AccountCard({ id, name, amount, setAccounts }) {
   const handleDelete = async () => {
     try {
       const result = await protectedRoute.delete("/accounts/deleteAccounts", {
-        data: { idArr: [id] }, // Send an array of account IDs
+        data: { idArr: [id] },
       });
 
       if (result.data.message.includes("Successfully deleted")) {
-        // Remove the deleted account from the list
         setAccounts((prevAccounts) =>
           prevAccounts.filter((acc) => acc.id !== id)
         );
-        setSuccess(result.data.message); // Success message
+        setSuccess(result.data.message);
         setError(null);
       } else {
-        setError(result.data.message); // Error message if no accounts were deleted
+        setError(result.data.message);
         setSuccess(false);
       }
     } catch (error) {
@@ -123,14 +120,16 @@ export default function AccountCard({ id, name, amount, setAccounts }) {
           </button>
         </div>
       )}
-      {/* {success && (
-        <div className="text-green-500 text-center text-xs mb-2 w-full">{success}</div>
-      )} */}
       {error && (
         <div className="text-red-500 text-center text-xs mb-2 w-full">
           {error}
         </div>
       )}
+      {/* {success && (
+        <div className="text-green-500 text-center text-xs mb-2 w-full">
+          {success}
+        </div>
+      )} */}
     </li>
   );
 }
