@@ -214,7 +214,7 @@ const Dashboard = () => {
           <div className="collapse collapse-arrow max-w-2xl w-full p-3 shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-badge shadow-lg border-2 border-white border-opacity-20">
             <div className="flex justify-center items-center">
               <Link to="/dashboard/viewAccounts">
-                <button className="text-white text-xs hover:underline transition-all">
+                <button className="text-gray-300 text-xs hover:underline transition-all">
                   Manage Accounts
                 </button>
               </Link>
@@ -281,6 +281,13 @@ const Dashboard = () => {
                   No recent transactions available.
                 </p>
               )}
+            </div>
+            <div className="flex justify-center items-center">
+              <Link to="/dashboard/transactions">
+                <button className="see-more p-2 text-gray-300 text-xs hover:underline transition-all">
+                  All Transactions
+                </button>
+              </Link>
             </div>
           </div>
         </div>
