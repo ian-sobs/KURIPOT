@@ -1,3 +1,5 @@
+import formatNumWithCommas from "../../utility/formatNumWithCommas";
+
 export default function TransactionCard(props) {
   console.log(props);
 
@@ -71,8 +73,8 @@ export default function TransactionCard(props) {
             }`}
           >
             {props.amount > 0
-              ? `Php ${props.amount}`
-              : `- Php ${-props.amount}`}
+              ? `Php ${formatNumWithCommas(props.amount)}`
+              : `- Php ${formatNumWithCommas(-props.amount)}`}
           </span>
         </div>
       </li>
