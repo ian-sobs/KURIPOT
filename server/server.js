@@ -28,15 +28,51 @@ const budgetsRouter = require('./routes/budgetsRouter')
 const categoriesRouter = require('./routes/categoriesRouter')
 const transactionsRouter = require('./routes/transactionsRouter')
 const userRouter = require('./routes/userRouter')
+
+const { Sequelize } = require('sequelize');
+
+const ensureDatabaseExists = async () => {
+  const sequelize = new Sequelize('postgres', process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
+    host: process.env.POSTGRES_HOST,
+    dialect: 'postgres',
+    logging: false, // Disable logging for this part
+  });
+
+  try {
+    // Check if the database exists
+    const [results] = await sequelize.query(
+      `SELECT 1 FROM pg_database WHERE datname = :dbName`,
+      { replacements: { dbName: process.env.POSTGRES_DB } }
+    );
+
+    if (results.length === 0) {
+      console.log(`Database "${process.env.POSTGRES_DB}" does not exist. Creating...`);
+      await sequelize.query(
+        `CREATE DATABASE "${process.env.POSTGRES_DB}" WITH OWNER = '${process.env.POSTGRES_USER}' ENCODING = 'UTF8'`
+      );
+      console.log(`Database "${process.env.POSTGRES_DB}" created successfully.`);
+    } else {
+      console.log(`Database "${process.env.POSTGRES_DB}" already exists.`);
+    }
+  } catch (error) {
+    console.error('Error ensuring database existence:', error);
+    process.exit(1);
+  } finally {
+    await sequelize.close(); // Close the connection to the `postgres` database
+  }
+};
+
 // Start the server and connect to the database
 const startServer = async () => {
   app.use(cors({
     origin: process.env.CORS_ORIGIN, // Allow your frontend's origin
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'], // Allow specific methods
     credentials: true // If using cookies or authentication
-}));
+  }));
 
-  try {
+  
+  try{
+    await ensureDatabaseExists(); 
     await connectDB(); // Initialize the database connection
     console.log("Started the server");
   
