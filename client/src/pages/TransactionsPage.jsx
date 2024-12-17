@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
 
-import TransactionDaily from "../components/transactions/TransactionDaily";
 import TransactionDailyContainer from "../components/transactions/TransactionDailyContainer";
 import TransactionMonthlyContainer from "../components/transactions/TransactionMonthlyContainer";
+import TransactionWeeklyContainer from "../components/transactions/TransactionsWeeklyContainer";
 
-import TransactionWeekly from "../components/transactions/TransactionWeekly";
-import TransactionMonthly from "../components/transactions/TransactionMonthly";
 
 function getDaysInMonth(year, month) {
   //month of date constructor is 0 based. passing a 1-based month parameter to getDaysInMonth
@@ -16,24 +14,24 @@ function getDaysInMonth(year, month) {
   return new Date(year, month, 0).getDate();
 }
 
-function getWeeksInMonth(year, month) {
-  // Get the first day of the month
-  const firstDayOfMonth = new Date(year, month - 1, 1);
-  const firstDayWeekday = firstDayOfMonth.getDay(); // Day of the week (0 = Sunday)
+// function getWeeksInMonth(year, month) {
+//   // Get the first day of the month
+//   const firstDayOfMonth = new Date(year, month - 1, 1);
+//   const firstDayWeekday = firstDayOfMonth.getDay(); // Day of the week (0 = Sunday)
 
-  // Get the last day of the month
-  const lastDayOfMonth = new Date(year, month, 0); // Automatically gets the last day
-  const lastDay = lastDayOfMonth.getDate(); // Number of days in the month
-  const lastDayWeekday = lastDayOfMonth.getDay();
+//   // Get the last day of the month
+//   const lastDayOfMonth = new Date(year, month, 0); // Automatically gets the last day
+//   const lastDay = lastDayOfMonth.getDate(); // Number of days in the month
+//   const lastDayWeekday = lastDayOfMonth.getDay();
 
-  // Calculate the total number of days spanned by weeks
-  const totalDays = lastDay + firstDayWeekday; // Offset for the first week
+//   // Calculate the total number of days spanned by weeks
+//   const totalDays = lastDay + firstDayWeekday; // Offset for the first week
 
-  // Calculate the number of weeks, rounding up for partial weeks
-  const numWeeks = Math.ceil(totalDays / 7);
+//   // Calculate the number of weeks, rounding up for partial weeks
+//   const numWeeks = Math.ceil(totalDays / 7);
 
-  return numWeeks;
-}
+//   return numWeeks;
+// }
 
 const TransactionsPage = () => {
   const [date, setDate] = useState({ month: 11, year: 2024 }); // Default: December 2024 (0-indexed months)
@@ -59,12 +57,12 @@ const TransactionsPage = () => {
     "December",
   ];
 
-  const [daysInMonth, setDaysInMonth] = useState(
-    getDaysInMonth(date.year, date.month)
-  );
-  const [weeksInMonth, setWeeksInMonth] = useState(
-    getWeeksInMonth(date.year, date.month)
-  );
+  // const [daysInMonth, setDaysInMonth] = useState(
+  //   getDaysInMonth(date.year, date.month)
+  // );
+  // const [weeksInMonth, setWeeksInMonth] = useState(
+  //   getWeeksInMonth(date.year, date.month)
+  // );
 
   const handlePrevMonth = () => {
     setDate((prev) => {
@@ -97,7 +95,7 @@ const TransactionsPage = () => {
       case 0:
         return <TransactionDailyContainer date={date} />;
       case 1:
-        break;
+        return <TransactionWeeklyContainer date={date}/>;
       default:
         return <TransactionMonthlyContainer date={date}/>
     }
@@ -130,7 +128,7 @@ const TransactionsPage = () => {
         />
         <div className="page-with-navhead flex items-center justify-center flex-col">
           <div className="month-switch w-full flex justify-between items-center mb-4">
-            {activeTab === 0 ? (
+            {(activeTab === 0 || activeTab === 1) ? (
               <>
                 <button onClick={handlePrevMonth}>
                   <i className="bi bi-caret-left ml-6"></i>
