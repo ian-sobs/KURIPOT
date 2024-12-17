@@ -75,24 +75,25 @@ export default function BudgetCard(props) {
   };
 
   return (
-    <li className="relative flex justify-between items-center bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 p-6 rounded-badge mb-2">
-      {/* X Icon for Deletion */}
+    <div className="relative flex justify-between items-center bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 p-6 rounded-badge mb-2">
+      {/* Conditional rendering for Delete Button */}
+      {!isEditing && (
+        <div className="absolute top-7 right-5 flex gap-5">
+          <button
+            onClick={handleEditClick}
+            className="text-white rounded flex items-center gap-2"
+          >
+            <i className="bi bi-pencil text-slate-500"></i>
+          </button>
 
-      <div className="absolute top-7 right-5 right-2 flex gap-5">
-        <button
-          onClick={handleEditClick}
-          className="text-white rounded flex items-center gap-2"
-        >
-          <i className="bi bi-pencil text-slate-500"></i>
-        </button>
-
-        <button
-          onClick={handleDelete}
-          className="text-white rounded flex items-center gap-2"
-        >
-          <i className="bi bi-x-lg text-red-500"></i>
-        </button>
-      </div>
+          <button
+            onClick={handleDelete}
+            className="text-white rounded flex items-center gap-2"
+          >
+            <i className="bi bi-x-lg text-red-500"></i>
+          </button>
+        </div>
+      )}
 
       <div className="flex flex-col w-full">
         {isEditing ? (
@@ -111,7 +112,7 @@ export default function BudgetCard(props) {
               className="p-2 text-white bg-[#9747FF]/10 rounded-badge focus:outline-none caret-[#9747FF]"
               placeholder="Purpose"
             />
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center justify-center">
               <button
                 onClick={handleSaveClick}
                 className="text-white px-4 py-2 rounded flex items-center gap-2"
@@ -168,6 +169,6 @@ export default function BudgetCard(props) {
           {success}
         </div>
       )}
-    </li>
+    </div>
   );
 }
