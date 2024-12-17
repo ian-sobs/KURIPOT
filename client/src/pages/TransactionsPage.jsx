@@ -4,6 +4,7 @@ import PageHeader from "../components/PageHeader";
 
 import TransactionDaily from "../components/transactions/TransactionDaily";
 import TransactionDailyContainer from "../components/transactions/TransactionDailyContainer";
+import TransactionMonthlyContainer from "../components/transactions/TransactionMonthlyContainer";
 
 import TransactionWeekly from "../components/transactions/TransactionWeekly";
 import TransactionMonthly from "../components/transactions/TransactionMonthly";
@@ -39,9 +40,9 @@ const TransactionsPage = () => {
   const [activeTab, setActiveTab] = useState(0); // State to manage active tab
   const [renderJSX, setRenderJSX] = useState([]);
 
-  useEffect(() => {
-    setDaysInMonth(getDaysInMonth(date.year, date.month));
-  }, [date]);
+  // useEffect(() => {
+  //   setDaysInMonth(getDaysInMonth(date.year, date.month));
+  // }, [date]);
 
   const months = [
     "January",
@@ -98,7 +99,7 @@ const TransactionsPage = () => {
       case 1:
         break;
       default:
-        break;
+        return <TransactionMonthlyContainer date={date}/>
     }
     // if (activeTab === 0) {
     //   // for(let x = daysInMonth; x >= 1; x--){
