@@ -1,3 +1,5 @@
+![banner](https://github.com/user-attachments/assets/14ea9068-2653-4cb2-8cc6-907c6dc2291a)
+
 # Kuripot
 
 Kuripot is a simple finance tracker created in compliance for our AppDevelopment(3105) class.
