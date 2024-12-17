@@ -126,7 +126,7 @@ const TransactionsPage = () => {
                     setDate((prev) => ({ ...prev, year: prev.year - 1 }))
                   }
                 >
-                  <i className="bi bi-caret-left ml-6"></i>
+                  <i className="bi bi-caret-left-fill ml-6"></i>
                 </button>
                 <h2>{`${date.year}`}</h2>
                 <button
@@ -134,7 +134,7 @@ const TransactionsPage = () => {
                     setDate((prev) => ({ ...prev, year: prev.year + 1 }))
                   }
                 >
-                  <i className="bi bi-caret-right mr-6"></i>
+                  <i className="bi bi-caret-right-fill mr-6"></i>
                 </button>
               </>
             )}
