@@ -14,7 +14,7 @@ module.exports = {
         host: process.env.POSTGRES_HOST,
         dialect: 'postgres', // Change this if you're using a different DB
         port: process.env.POSTGRES_PORT || 5432,
-        timezone: '+00:00'
+        timezone: '+08:00'
     },
     // You can also set configurations for production or test environments
     test: {
