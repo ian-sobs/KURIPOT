@@ -173,7 +173,7 @@ const Dashboard = () => {
 
         {/* Accounts and Top Spending Section */}
         <div className="flex flex-col lg:flex-row items-stretch gap-4 p-6 h-full">
-          <div className="dash-left w-full lg:max-w-[50%] gap-4 flex flex-col">
+          <div className="dash-left justify-between w-full lg:max-w-[50%] gap-4 flex flex-col">
             <div className="collapse collapse-arrow w-full p-3 shadow- overflow-hidden bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-badge shadow-lg border-2 border-white border-opacity-20">
               <div className="flex justify-center items-center">
                 <Link to="/dashboard/viewAccounts">
@@ -184,7 +184,7 @@ const Dashboard = () => {
               </div>
 
               <input type="checkbox" name="my-accordion-2" defaultChecked />
-              <div className="collapse-title text-xl font-medium pb-2">
+              <div className="collapse-title text-xl font-medium pb-8">
                 My Accounts
               </div>
               <div className="collapse-content">
@@ -235,9 +235,9 @@ const Dashboard = () => {
               <div className="collapse-title text-xl font-medium pb-2">
                 Recent Transactions
               </div>
-              <div className="h-64 md:h-72 lg:h-80 overflow-y-auto">
+              <div className="collapse-content">
                 {recentTransactions.length > 0 ? (
-                  <ul>
+                  <ul className="h-64 md:h-72 lg:h-80 overflow-y-auto">
                     {recentTransactions.map((transaction, index) => (
                       <TransactionCard {...transaction} />
                     ))}
@@ -248,10 +248,10 @@ const Dashboard = () => {
                   </p>
                 )}
               </div>
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center mt-auto">
                 <Link to="/dashboard/transactions">
                   <button className="see-more p-2 text-gray-300 text-xs hover:underline transition-all">
-                    All Transactions
+                    Manage Transactions
                   </button>
                 </Link>
               </div>
