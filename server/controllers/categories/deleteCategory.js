@@ -4,48 +4,45 @@ const {Category, Transaction} = sequelize.models
 const {unspendUnearn} = require('../transactions/helper/unspendUnearn')
 
 exports.deleteCategory = async (req, res) => {
-    if(!req.body.id){
+    if (!req.body.id) {
         return res.status(400).json({ message: 'Category ID is required' });
     }
 
-    const {usrId} = req.user
-    let id = parseInt(req.body.id, 10)
+    const { usrId } = req.user;
+    const id = parseInt(req.body.id, 10);
 
-    if(isNaN(id)){
-        return res.status(400).json({message: 'Invalid category ID provided'})
+    if (isNaN(id)) {
+        return res.status(400).json({ message: 'Invalid category ID provided' });
     }
-
 
     try {
         const results = await Transaction.findAll({
             attributes: [
-              'account_id',
-              'type',
-              [sequelize.fn('SUM', sequelize.col('amount')), 'amount']
+                'account_id',
+                'type',
+                [sequelize.fn('SUM', sequelize.col('amount')), 'amount'],
             ],
             where: { category_id: id },
             group: ['account_id', 'type'],
             order: [['account_id', 'ASC'], ['type', 'ASC']],
         });
 
-        let deletedRowsNum = await Category.destroy({
-            where: {
-                id: id
-            }
-        })
+        const deletedRowsNum = await Category.destroy({ where: { id } });
 
-        if(deletedRowsNum <= 0){
+        if (deletedRowsNum <= 0) {
             return res.status(404).json({ message: 'No matching category to delete' });
         }
 
+        const affected = await Promise.all(
+            results.map((result) => unspendUnearn(result.get({ plain: true }), usrId))
+        );
 
-        let affected = results.map((result)=>unspendUnearn(result.get({ plain: true }), usrId))
-        res.status(200).json({
-            message: "Deleted the category and associated transactions. Accounts' balance change",
-            affectedAccounts: affected
-        })
+        return res.status(200).json({
+            message: 'Deleted the category and associated transactions. Accounts\' balance change',
+            affectedAccounts: affected,
+        });
     } catch (error) {
-        console.error('Error updating the category:', error); // Log the error
-        return res.status(500).json({ message: 'Failed to update category' }); // Respond with an error        
+        console.error('Error in deleteCategory:', error);
+        return res.status(500).json({ message: 'Failed to delete category' });
     }
-}
+};
