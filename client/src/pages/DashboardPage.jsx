@@ -196,7 +196,9 @@ const Dashboard = () => {
           <div className="income-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-badge shadow-lg">
             <i className="bi-arrow-down-circle pr-2"></i>
             Income
-            <div className="income-amount text-md font-bold">₱ {formatNumWithCommas(income)}</div>
+            <div className="income-amount text-md font-bold">
+              ₱ {formatNumWithCommas(income)}
+            </div>
           </div>
           <div className="expenses-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-badge ml-4 shadow-lg">
             <i className="bi-arrow-up-circle pr-2"></i>
@@ -212,7 +214,7 @@ const Dashboard = () => {
           <div className="collapse collapse-arrow max-w-2xl w-full p-3 shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white rounded-badge shadow-lg border-2 border-white border-opacity-20">
             <div className="flex justify-center items-center">
               <Link to="/dashboard/viewAccounts">
-                <button className="text-white text-xs hover:underline transition-all">
+                <button className="text-gray-300 text-xs hover:underline transition-all">
                   Manage Accounts
                 </button>
               </Link>
@@ -229,7 +231,9 @@ const Dashboard = () => {
                     <li key={index} className="py-2">
                       <div className="flex justify-between">
                         <span>{account.name}</span>
-                        <span className="font-bold">₱ {formatNumWithCommas(account.amount)}</span>
+                        <span className="font-bold">
+                          ₱ {formatNumWithCommas(account.amount)}
+                        </span>
                       </div>
                     </li>
                   ))}
@@ -260,12 +264,12 @@ const Dashboard = () => {
               )}
             </div>
           </div>
-          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-badge shadow- overflow-hidden mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white shadow-lg border-2 border-white border-opacity-20">
+          <div className="collapse collapse-arrow max-w-2xl w-full p-3 rounded-badge shadow-  mb-4 bg-gradient-to-r from-[#180655]/20 via-[#15172E]/20 to-[#180655]/20 text-white shadow-lg border-2 border-white border-opacity-20">
             <input type="checkbox" name="my-accordion-2" defaultChecked />
             <div className="collapse-title text-xl font-medium pb-2">
               Recent Transactions
             </div>
-            <div className="collapse-content">
+            <div className=" max-h-56 overflow-y-auto">
               {recentTransactions.length > 0 ? (
                 <ul>
                   {recentTransactions.map((transaction, index) => (
@@ -277,6 +281,13 @@ const Dashboard = () => {
                   No recent transactions available.
                 </p>
               )}
+            </div>
+            <div className="flex justify-center items-center">
+              <Link to="/dashboard/transactions">
+                <button className="see-more p-2 text-gray-300 text-xs hover:underline transition-all">
+                  All Transactions
+                </button>
+              </Link>
             </div>
           </div>
         </div>
