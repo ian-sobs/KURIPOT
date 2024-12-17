@@ -7,6 +7,7 @@ import HamburgerIcon from "../components/HamburgerIcon";
 import TransactionCard from "../components/transactions/TransactionCard";
 import { protectedRoute } from "../apiClient/axiosInstance";
 import TopSpendingCard from "../components/categories/TopSpendingCard";
+import formatNumWithCommas from "../utility/formatNumWithCommas";
 
 const Dashboard = () => {
   // const [data, setData] = useState({
@@ -75,7 +76,7 @@ const Dashboard = () => {
             Date.UTC(
               new Date().getUTCFullYear(),
               new Date().getUTCMonth(),
-              new Date().getUTCDate(),
+              new Date().getUTCDate() + 7,
               new Date().getUTCHours(),
               new Date().getUTCMinutes(),
               new Date().getUTCSeconds()
@@ -176,8 +177,8 @@ const Dashboard = () => {
               <div className="amount text-4xl font-bold">
                 {isBalanceVisible
                   ? totalBalance < 0
-                    ? `- ₱ ${-totalBalance}`
-                    : `₱ ${totalBalance}`
+                    ? `- ₱ ${formatNumWithCommas(-totalBalance)}`
+                    : `₱ ${formatNumWithCommas(totalBalance)}`
                   : "₱ *****"}
               </div>
             </div>
@@ -195,13 +196,13 @@ const Dashboard = () => {
           <div className="income-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-badge shadow-lg">
             <i className="bi-arrow-down-circle pr-2"></i>
             Income
-            <div className="income-amount text-md font-bold">₱ {income}</div>
+            <div className="income-amount text-md font-bold">₱ {formatNumWithCommas(income)}</div>
           </div>
           <div className="expenses-container p-4 flex-1 bg-[#9747FF]/75 border border-white rounded-badge ml-4 shadow-lg">
             <i className="bi-arrow-up-circle pr-2"></i>
             Expenses
             <div className="expenses-amount text-md font-bold">
-              - ₱ {-expenses}
+              - ₱ {formatNumWithCommas(-expenses)}
             </div>
           </div>
         </div>
@@ -228,7 +229,7 @@ const Dashboard = () => {
                     <li key={index} className="py-2">
                       <div className="flex justify-between">
                         <span>{account.name}</span>
-                        <span className="font-bold">₱ {account.amount}</span>
+                        <span className="font-bold">₱ {formatNumWithCommas(account.amount)}</span>
                       </div>
                     </li>
                   ))}

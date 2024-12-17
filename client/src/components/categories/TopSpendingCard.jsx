@@ -1,3 +1,4 @@
+import formatNumWithCommas from "../../utility/formatNumWithCommas"
 export default function TopSpendingCard(props){
     return (
         <>
@@ -5,7 +6,7 @@ export default function TopSpendingCard(props){
                     <div className="flex justify-between">
                     <span>{props.categoryName}</span>
                     <span className="font-bold">
-                        - Php {-props.spent} (
+                        - Php {formatNumWithCommas(-props.spent)} (
                           {props.spentPercentage}%)
                     </span>
                 </div>
