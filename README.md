@@ -10,7 +10,10 @@ Kuripot is a simple finance tracker created in compliance for our AppDevelopment
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Running the Project](#running-the-project)
+<!-- 
 - [Usage](#usage)
+
+<!-- 
   - [Setting up the database](#setting-up-the-database)
     - [Creating the database](#creating-the-database)
     - [Migrating the database](#migrating-the-database)
@@ -19,7 +22,7 @@ Kuripot is a simple finance tracker created in compliance for our AppDevelopment
 
 - [Contributing](#contributing)
 - [License](#license)
-
+``` -->
 ## Technologies Used
 
 - **Frontend:** React, Tailwind CSS
@@ -52,6 +55,7 @@ README.md
 
 - [Node.js](https://nodejs.org/) (v22.11.0 or higher)
 - [Nodemon](https://www.npmjs.com/package/nodemon)
+- [PostgreSQL](https://www.postgresql.org/download/)
 <!-- - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/) -->
 
@@ -67,7 +71,39 @@ git clone https://github.com/ian-sobs/KURIPOT.git
 cd KURIPOT
 ```
 
+Install dependencies in client:
+
+```bash
+cd client
+```
+
+```bash
+npm install
+```
+
+Install dependencies in server:
+
+```bash
+cd server
+```
+
+```bash
+npm install
+```
+
 ### Running the Project
+
+Running the client:
+
+```bash
+npm start
+```
+
+Running the server:
+
+```bash
+npm run dev
+```
 
 <!-- To run both the frontend and backend, use Docker Compose:
 
@@ -79,11 +115,11 @@ cd KURIPOT
    ```
 
 Your Express server should be accessible at `http://localhost:5001`, and your React app at `http://localhost:3000`. -->
-
+<!-- 
 ## Usage
 
 Provide instructions on how to use your project. Include examples if necessary.
-
+<!-- 
 ## Setting up the database
 
 <!-- 
@@ -93,20 +129,20 @@ Provide instructions on how to use your project. Include examples if necessary.
 
 <!-- 
 If you have pulled the repo and built the Docker images and run the containers for the first time, the database associated to this web app will not exist just yet. Hence why running the server container for the first time requires you to build the database in the server container. Instructions to that are in the [[#Creating the database]] section below. -->
-
+<!-- 
 Create the postgresql database first. Use the same database name as the one in the environment variable database name.
 
 ### Creating the database
 
 In server directory run the below command:
-
+<!-- 
 ```
 npx sequelize-cli db:create
 ```
 
 <!-- The database will be created by using the configuration of the databases in the docker-compose.yml file. The database config used is determined by the value of the `depends_on` attribute of `server` service.  By default, the `NODE_ENV` environment variable of `server` service is development. The value of the `depends_on` attribute of `server` service is also the development database by default. (Note: Only development and test environments can sync the models to the database, it is recommended to use development/test for coding and testing purposes). -->
 
-
+<!-- 
 ### Migrating the database
 
 Follow the instructions here if the database exists and already has records. Any change you make to the database will not destroy the database and recreate it with the changes you made (like in syncing the models). This is good for production environments wherein you want scale the database without destroying any records.
@@ -114,25 +150,26 @@ Follow the instructions here if the database exists and already has records. Any
 1. Install sequelize CLI (if not yet installed)
 2. Run the server
 <!-- 3. Access the container of the server and just run the command in exec to do the migrations: -->
-
+<!-- 
 ```
 npx sequelize-cli db:migrate 
 ```
-
+<!-- 
 Alternatively you can also specify the environment:
 ```
 npx sequelize-cli db:migrate --env <environment_name>
 ```
-
+<!-- 
 ### Undoing database migrations
 
 1. Install sequelize CLI (if not yet installed)
 2. Run the server
 <!-- 3. Access the container of the server and just run the command in 'Exec' to undo the last migration: -->
+<!-- 
 ```
 npx sequelize-cli db:migrate:undo
 ```
-
+<!-- 
 To undo all migrations:
 ```
 npx sequelize-cli db:migrate:undo:all
@@ -188,6 +225,7 @@ services:
       retries: 5
 ``` -->
 
+<!-- 
 ## Contributing
 
 If you'd like to contribute to this project, please fork the repository and submit a pull request.
@@ -195,3 +233,4 @@ If you'd like to contribute to this project, please fork the repository and subm
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+``` -->

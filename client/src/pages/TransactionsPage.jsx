@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
-
-import TransactionDaily from "../components/transactions/TransactionDaily";
 import TransactionDailyContainer from "../components/transactions/TransactionDailyContainer";
-
-import TransactionWeekly from "../components/transactions/TransactionWeekly";
-import TransactionMonthly from "../components/transactions/TransactionMonthly";
+import TransactionMonthlyContainer from "../components/transactions/TransactionMonthlyContainer";
 
 function getDaysInMonth(year, month) {
   //month of date constructor is 0 based. passing a 1-based month parameter to getDaysInMonth
@@ -39,9 +35,9 @@ const TransactionsPage = () => {
   const [activeTab, setActiveTab] = useState(0); // State to manage active tab
   const [renderJSX, setRenderJSX] = useState([]);
 
-  useEffect(() => {
-    setDaysInMonth(getDaysInMonth(date.year, date.month));
-  }, [date]);
+  // useEffect(() => {
+  //   setDaysInMonth(getDaysInMonth(date.year, date.month));
+  // }, [date]);
 
   const months = [
     "January",
@@ -98,24 +94,8 @@ const TransactionsPage = () => {
       case 1:
         break;
       default:
-        break;
+        return <TransactionMonthlyContainer date={date} />;
     }
-    // if (activeTab === 0) {
-    //   // for(let x = daysInMonth; x >= 1; x--){
-    //   //   retJSX.push(
-    //   //     <TransactionDaily
-    //   //       key={x}
-    //   //       date={new Date(date.year, date.month, x).toDateString()}
-    //   //       day={x}
-    //   //       // netIncome={data.netIncome}
-    //   //       // transactions={data.transactions}
-    //   //     />
-    //   //   );
-    //   // }
-
-    // }
-
-    // setRenderJSX(retJSX)
   }
 
   return (
@@ -128,15 +108,15 @@ const TransactionsPage = () => {
           onBackClick={() => window.history.back()}
         />
         <div className="page-with-navhead flex items-center justify-center flex-col">
-          <div className="month-switch w-full flex justify-between items-center mb-4">
+          <div className="month-switch w-full flex justify-center space-x-4 items-center mb-4">
             {activeTab === 0 ? (
               <>
                 <button onClick={handlePrevMonth}>
-                  <i className="bi bi-caret-left ml-6"></i>
+                  <i className="bi bi-caret-left-fill ml-6"></i>
                 </button>
                 <h2>{`${months[date.month]} ${date.year}`}</h2>
                 <button onClick={handleNextMonth}>
-                  <i className="bi bi-caret-right mr-6"></i>
+                  <i className="bi bi-caret-right-fill mr-6"></i>
                 </button>
               </>
             ) : (

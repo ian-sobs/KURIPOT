@@ -22,10 +22,8 @@ const Reports = () => {
           onBackClick={() => window.history.back()}
         />
 
-        <div className="page-with-navhead flex flex-col p-6 space-y-5">
-          <div className="doughnutchart-container">
-            <DoughnutChart />
-          </div>
+        <div className="page-with-navhead flex flex-col justify-center items-center p-6 space-y-5">
+          <DoughnutChart />
 
           {/* Dropdown for Monthly/Yearly Selection */}
           <div className="chart-selector-container mb-4">
@@ -46,9 +44,8 @@ const Reports = () => {
             </select>
           </div>
 
-
           {/* Conditional Rendering of Charts */}
-          <div className="linechart-container">
+          <div className="linechart-container w-full flex justify-center">
             {chartType === "monthly" ? <LineChart /> : <LineChartYear />}
           </div>
         </div>
