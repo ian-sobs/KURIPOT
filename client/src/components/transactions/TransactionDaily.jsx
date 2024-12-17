@@ -1,11 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TransactionSingle from "./TransactionSingle";
+import { protectedRoute } from "../../apiClient/axiosInstance";
 
-const TransactionDaily = ({ date, day, netIncome, transactions }) => {
+const TransactionDaily = ({ date, day, netIncome }) => {
+  const [income, setIncome] = useState(0)
+  const [expense, setExpense] = useState(0)
+  const [net, setNet] = useState(0)
+  const [transactions, setTransactions] = useState([])
+
+  const formattedDate = new Date(date).getDate().toString().padStart(2, "0");
+  console.log("params date 2", date)
+  useEffect(() => {
+      protectedRoute.get("/transactions/getTransactions", {
+        params: {
+          period: 'day',
+          year: new Date(date).getFullYear(),
+          month: new Date(date).getMonth() + 1,
+          day: day
+        }
+      })
+      .then((response) => {
+        console.log("transactions for the this day", response.data)
+        const {data} = response
+        setTransactions(data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
   const [isOpen, setIsOpen] = useState(false);
 
   // Format date to be always 2 digits
-  const formattedDate = new Date(date).getDate().toString().padStart(2, "0");
+  
 
   // Get the abbreviated day (e.g., Sun for Sunday)
   const abbreviatedDay = new Date(date).toLocaleString("en-us", {
@@ -22,6 +48,20 @@ const TransactionDaily = ({ date, day, netIncome, transactions }) => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
+
+  function renderTransacSingle(transaction){
+    if(transaction.type != 'transfer'){
+      return <TransactionSingle
+            key={transaction.id}
+            category={transaction.category.name}
+            //name={"klsjaf"}
+            account={transaction.account.name}
+            description={transaction.note}
+            amount={transaction.amount}
+            transactionType={transaction.type}
+          />
+  }
+  }
 
   return (
     <div>
@@ -50,16 +90,12 @@ const TransactionDaily = ({ date, day, netIncome, transactions }) => {
 
       {isOpen && (
         <div className="transaction-details border-b border-gray-400">
-          {transactions.map((transaction, index) => (
-            <TransactionSingle
-              key={index}
-              category={transaction.category}
-              name={transaction.name}
-              description={transaction.description}
-              amount={transaction.amount}
-              transactionType={transaction.transactionType}
-            />
-          ))}
+          {(transactions.length !== 0)?transactions.map((transaction, index) => (
+            //console.log("single transaction", transaction)
+            renderTransacSingle(transaction)
+          ))
+          : <p>No transactions for this day</p>
+        }
         </div>
       )}
     </div>

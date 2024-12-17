@@ -1,14 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
+
 import TransactionDaily from "../components/transactions/TransactionDaily";
+import TransactionDailyContainer from "../components/transactions/TransactionDailyContainer";
+
 import TransactionWeekly from "../components/transactions/TransactionWeekly";
 import TransactionMonthly from "../components/transactions/TransactionMonthly";
-import { protectedRoute } from "../apiClient/axiosInstance";
+
+
+
+
+function getDaysInMonth(year, month) {
+  //month of date constructor is 0 based. passing a 1-based month parameter to getDaysInMonth
+  //and setting day to 0 causes the date to roll over to the last day of the month we want
+  //to find the number of days of
+  return new Date(year, month, 0).getDate();
+}
+
+function getWeeksInMonth(year, month) {
+  // Get the first day of the month
+  const firstDayOfMonth = new Date(year, month - 1, 1);
+  const firstDayWeekday = firstDayOfMonth.getDay(); // Day of the week (0 = Sunday)
+
+    // Get the last day of the month
+  const lastDayOfMonth = new Date(year, month, 0); // Automatically gets the last day
+  const lastDay = lastDayOfMonth.getDate(); // Number of days in the month
+  const lastDayWeekday = lastDayOfMonth.getDay();
+
+    // Calculate the total number of days spanned by weeks
+  const totalDays = lastDay + firstDayWeekday; // Offset for the first week
+
+    // Calculate the number of weeks, rounding up for partial weeks
+  const numWeeks = Math.ceil(totalDays / 7);
+
+  return numWeeks;
+}
+
 
 const TransactionsPage = () => {
   const [date, setDate] = useState({ month: 11, year: 2024 }); // Default: December 2024 (0-indexed months)
   const [activeTab, setActiveTab] = useState(0); // State to manage active tab
+  const [renderJSX, setRenderJSX] = useState([])
+
+  useEffect(() => {
+    setDaysInMonth(getDaysInMonth(date.year, date.month))
+  }, [date])
 
   const months = [
     "January",
@@ -25,34 +62,8 @@ const TransactionsPage = () => {
     "December",
   ];
 
-  function getDaysInMonth(year, month) {
-    //month of date constructor is 0 based. passing a 1-based month parameter to getDaysInMonth
-    //and setting day to 0 causes the date to roll over to the last day of the month we want
-    //to find the number of days of
-    return new Date(year, month, 0).getDate();
-  }
-
-  function getWeeksInMonth(year, month) {
-    // Get the first day of the month
-    const firstDayOfMonth = new Date(year, month - 1, 1);
-    const firstDayWeekday = firstDayOfMonth.getDay(); // Day of the week (0 = Sunday)
-
-      // Get the last day of the month
-    const lastDayOfMonth = new Date(year, month, 0); // Automatically gets the last day
-    const lastDay = lastDayOfMonth.getDate(); // Number of days in the month
-    const lastDayWeekday = lastDayOfMonth.getDay();
-
-      // Calculate the total number of days spanned by weeks
-    const totalDays = lastDay + firstDayWeekday; // Offset for the first week
-
-      // Calculate the number of weeks, rounding up for partial weeks
-    const numWeeks = Math.ceil(totalDays / 7);
-
-    return numWeeks;
-  }
-
-  const daysInMonth = getDaysInMonth()
-
+  const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(date.year, date.month))
+  const [weeksInMonth, setWeeksInMonth] = useState(getWeeksInMonth(date.year, date.month))
 
   const handlePrevMonth = () => {
     setDate((prev) => {
@@ -80,141 +91,37 @@ const TransactionsPage = () => {
     setActiveTab(index);
   };
 
-  // Define transaction data
-  const transactionData = {
-    daily: [
-      {
-        date: "2024-12-01",
-        day: "Sunday",
-        netIncome: 5000.0,
-        transactions: [
-          {
-            category: "Salary",
-            name: "Freelance Project",
-            description: "Payment for freelance project",
-            amount: 5000.0,
-            transactionType: "income",
-          },
-        ],
-      },
-      {
-        date: "2024-12-02",
-        day: "Monday",
-        netIncome: -1000.0,
-        transactions: [
-          {
-            category: "Food",
-            name: "Groceries",
-            description: "Groceries for the week",
-            amount: -1000.0,
-            transactionType: "expense",
-          },
-        ],
-      },
-    ],
-    weekly: [
-      {
-        date: { start: "2024-11-30", end: "2024-12-06" },
-        netIncome: 4000.0,
-        totalIncome: 6000.0,
-        totalExpense: -2000.0,
-      },
-      {
-        date: { start: "2024-12-07", end: "2024-12-13" },
-        netIncome: 3000.0,
-        totalIncome: 7000.0,
-        totalExpense: -4000.0,
-      },
-    ],
-    monthly: [
-      {
-        month: "DEC",
-        year: 2024,
-        transactions: [
-          {
-            category: "Food",
-            name: "Groceries",
-            description: "Monthly groceries",
-            amount: -2000.0,
-            transactionType: "expense",
-          },
-          {
-            category: "Salary",
-            name: "Salary",
-            description: "Full-time job salary",
-            amount: 25000.0,
-            transactionType: "income",
-          },
-          {
-            category: "Utilities",
-            name: "Internet Bill",
-            description: "Monthly internet",
-            amount: -1500.0,
-            transactionType: "expense",
-          },
-        ],
-      },
-      {
-        month: "JAN",
-        year: 2025,
-        transactions: [
-          {
-            category: "Travel",
-            name: "Flight Tickets",
-            description: "Round-trip to destination",
-            amount: -5000.0,
-            transactionType: "expense",
-          },
-          {
-            category: "Salary",
-            name: "Freelance Work",
-            description: "Freelance projects",
-            amount: 10000.0,
-            transactionType: "income",
-          },
-        ],
-      },
-    ],
-  };
 
-  // Map monthly data to include net income, total income, and total expenses
-  const monthlyTransactionDataWithNetIncome = transactionData.monthly.map(
-    (data) => {
-      const netIncome = data.transactions.reduce(
-        (total, transaction) => total + transaction.amount,
-        0
-      );
-      const income = data.transactions
-        .filter((t) => t.transactionType === "income")
-        .reduce((sum, t) => sum + t.amount, 0);
-      const expense = data.transactions
-        .filter((t) => t.transactionType === "expense")
-        .reduce((sum, t) => sum + t.amount, 0);
-
-      return { ...data, netIncome, totalIncome: income, totalExpense: expense };
+  function renderContent() {
+    switch(activeTab){
+      case 0:
+        return <TransactionDailyContainer date={date}/>
+      case 1:
+        break;
+      default:
+        break
     }
-  );
+    // if (activeTab === 0) {
+    //   // for(let x = daysInMonth; x >= 1; x--){
+    //   //   retJSX.push(
+    //   //     <TransactionDaily
+    //   //       key={x}
+    //   //       date={new Date(date.year, date.month, x).toDateString()}
+    //   //       day={x}
+    //   //       // netIncome={data.netIncome}
+    //   //       // transactions={data.transactions}
+    //   //     />
+    //   //   );
+    //   // }
+      
+    // } 
+    
+    
 
-  const filteredTransactions = () => {
-    if (activeTab === 0) {
-      return transactionData.daily.filter((data) => {
-        const transactionDate = new Date(data.date);
-        return (
-          transactionDate.getMonth() === date.month &&
-          transactionDate.getFullYear() === date.year
-        );
-      });
-    } else if (activeTab === 1) {
-      return transactionData.weekly.filter((data) => {
-        const startYear = new Date(data.date.start).getFullYear();
-        return startYear === date.year;
-      });
-    } else if (activeTab === 2) {
-      return monthlyTransactionDataWithNetIncome.filter(
-        (data) => data.year === date.year
-      );
-    }
-  };
+    // setRenderJSX(retJSX)
+  }
+
+  
 
   return (
     <div className="flex flex-col h-screen">
@@ -296,6 +203,13 @@ const TransactionsPage = () => {
             </div>
 
             <div role="tabpanel" className="content-tab">
+              {
+                renderContent()
+              }
+            </div>
+
+            {/*uncomment below code and comment above code if fetches dont work */}
+            {/* <div role="tabpanel" className="content-tab">
               {filteredTransactions().length === 0 ? (
                 <div className="no-transactions">
                   <p>No transactions available for the selected period.</p>
@@ -336,7 +250,7 @@ const TransactionsPage = () => {
                   }
                 })
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
