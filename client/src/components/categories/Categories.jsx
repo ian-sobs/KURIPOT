@@ -6,64 +6,68 @@ import PageHeader from "../PageHeader";
 import AddCategory from "./AddCategory";
 
 const Categories = () => {
-  const [category, setCategory] = useState([]); // Initialize as an empty array
-  const [isLoading, setIsLoading] = useState(true); // To handle loading state
+  const [categories, setCategories] = useState([]); // State to hold categories
+  const [isLoading, setIsLoading] = useState(true); // State for loading status
 
   // Function to handle the addition of a new category
   const handleAddCategory = (newCategory) => {
-    setCategory((prevCategories) => [...prevCategories, newCategory]); // Add the new category to the state
+    setCategories((prevCategories) => [...prevCategories, newCategory]);
   };
 
+  // Fetch categories when the component mounts
   useEffect(() => {
-    protectedRoute
-      .get("/categories/getCategories")
-      .then((response) => {
-        console.log(response); // Log the response to check its structure
-        return response; // Ensure the response is passed to the next .then()
-      })
-      .then((response) => {
-        const { data } = response;
-        console.log("Fetched categories:", data); // Log the response data
-        if (Array.isArray(data)) {
-          setCategory(data); // Set the category directly from the array
+    const fetchCategories = async () => {
+      try {
+        const response = await protectedRoute.get("/categories/getCategories");
+        console.log("Fetched categories response:", response);
+
+        // Check if the response contains an array of categories
+        const fetchedCategories = response.data;
+        if (Array.isArray(fetchedCategories)) {
+          setCategories(fetchedCategories);
         } else {
-          setCategory([]); // Set as empty array if no categories field is present
+          console.warn("Unexpected categories data structure:", fetchedCategories);
+          setCategories([]); // Fallback to an empty array if the response isn't as expected
         }
-        setIsLoading(false); // Stop loading after data is fetched
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching categories:", error);
-        setIsLoading(false); // Stop loading in case of error
-      });
+      } finally {
+        setIsLoading(false); // Stop loading after data fetch attempt
+      }
+    };
+
+    fetchCategories();
   }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
       <TaskBar />
-      <div className="page-with-taskbar flex-1 md:ml-[20%] lg:ml-[16.666%] ">
+      <div className="page-with-taskbar flex-1 md:ml-[20%] lg:ml-[16.666%]">
         <PageHeader
           title="Categories"
           subtitle="Browse and manage your categories"
           onBackClick={() => window.history.back()}
         />
-        <div className="page-with-navhead px-10 py-5 ">
+        <div className="page-with-navhead px-10 py-5">
           <div className="bg-bg-[#010827] p-5 rounded-badge shadow-lg">
             {isLoading ? (
-              <p className="text-white">Loading categories...</p> // Show loading state
-            ) : category.length > 0 ? (
+              <p className="text-white">Loading categories...</p>
+            ) : categories.length > 0 ? (
               <ul>
-                {category.map((item) => (
+                {categories.map((category) => (
                   <CategoryCard
-                    key={item.id} // Provide key for each list item
-                    {...item} // Spread all properties of the item to CategoryCard
+                    key={category.id} // Unique key for React's reconciliation
+                    id={category.id}
+                    name={category.name}
+                    setCategories={setCategories} // Pass the setCategories function
                   />
                 ))}
               </ul>
             ) : (
-              <p className="text-white">No categories found.</p> // Show fallback message
+              <p className="text-white">No categories found.</p>
             )}
           </div>
-          {/* Pass handleAddCategory as a prop to AddCategory */}
+          {/* Render AddCategory and pass handleAddCategory */}
           <AddCategory onAddCategory={handleAddCategory} />
         </div>
       </div>
