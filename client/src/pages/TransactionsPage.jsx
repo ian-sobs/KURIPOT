@@ -8,9 +8,6 @@ import TransactionDailyContainer from "../components/transactions/TransactionDai
 import TransactionWeekly from "../components/transactions/TransactionWeekly";
 import TransactionMonthly from "../components/transactions/TransactionMonthly";
 
-
-
-
 function getDaysInMonth(year, month) {
   //month of date constructor is 0 based. passing a 1-based month parameter to getDaysInMonth
   //and setting day to 0 causes the date to roll over to the last day of the month we want
@@ -23,29 +20,28 @@ function getWeeksInMonth(year, month) {
   const firstDayOfMonth = new Date(year, month - 1, 1);
   const firstDayWeekday = firstDayOfMonth.getDay(); // Day of the week (0 = Sunday)
 
-    // Get the last day of the month
+  // Get the last day of the month
   const lastDayOfMonth = new Date(year, month, 0); // Automatically gets the last day
   const lastDay = lastDayOfMonth.getDate(); // Number of days in the month
   const lastDayWeekday = lastDayOfMonth.getDay();
 
-    // Calculate the total number of days spanned by weeks
+  // Calculate the total number of days spanned by weeks
   const totalDays = lastDay + firstDayWeekday; // Offset for the first week
 
-    // Calculate the number of weeks, rounding up for partial weeks
+  // Calculate the number of weeks, rounding up for partial weeks
   const numWeeks = Math.ceil(totalDays / 7);
 
   return numWeeks;
 }
 
-
 const TransactionsPage = () => {
   const [date, setDate] = useState({ month: 11, year: 2024 }); // Default: December 2024 (0-indexed months)
   const [activeTab, setActiveTab] = useState(0); // State to manage active tab
-  const [renderJSX, setRenderJSX] = useState([])
+  const [renderJSX, setRenderJSX] = useState([]);
 
   useEffect(() => {
-    setDaysInMonth(getDaysInMonth(date.year, date.month))
-  }, [date])
+    setDaysInMonth(getDaysInMonth(date.year, date.month));
+  }, [date]);
 
   const months = [
     "January",
@@ -62,8 +58,12 @@ const TransactionsPage = () => {
     "December",
   ];
 
-  const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(date.year, date.month))
-  const [weeksInMonth, setWeeksInMonth] = useState(getWeeksInMonth(date.year, date.month))
+  const [daysInMonth, setDaysInMonth] = useState(
+    getDaysInMonth(date.year, date.month)
+  );
+  const [weeksInMonth, setWeeksInMonth] = useState(
+    getWeeksInMonth(date.year, date.month)
+  );
 
   const handlePrevMonth = () => {
     setDate((prev) => {
@@ -91,15 +91,14 @@ const TransactionsPage = () => {
     setActiveTab(index);
   };
 
-
   function renderContent() {
-    switch(activeTab){
+    switch (activeTab) {
       case 0:
-        return <TransactionDailyContainer date={date}/>
+        return <TransactionDailyContainer date={date} />;
       case 1:
         break;
       default:
-        break
+        break;
     }
     // if (activeTab === 0) {
     //   // for(let x = daysInMonth; x >= 1; x--){
@@ -113,18 +112,14 @@ const TransactionsPage = () => {
     //   //     />
     //   //   );
     //   // }
-      
-    // } 
-    
-    
+
+    // }
 
     // setRenderJSX(retJSX)
   }
 
-  
-
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <TaskBar />
       <div className="flex-1 md:ml-[20%] lg:ml-[16.666%] page-with-taskbar">
         <PageHeader
@@ -203,9 +198,7 @@ const TransactionsPage = () => {
             </div>
 
             <div role="tabpanel" className="content-tab">
-              {
-                renderContent()
-              }
+              {renderContent()}
             </div>
 
             {/*uncomment below code and comment above code if fetches dont work */}
