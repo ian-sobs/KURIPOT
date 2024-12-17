@@ -64,6 +64,7 @@ const Budgets = () => {
                     budgetLimit={parseFloat(budget.budgetLimit).toFixed(2)}
                     date={budget.date}
                     type={budget.type}
+                    setBudgets={setBudgets} // Pass the setBudgets function to update the budgets
                   />
                 ))}
               </ul>
