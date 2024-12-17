@@ -35,7 +35,8 @@ exports.getAggrMonthTransac = async (req, res) => {
                         income.year,
                         income.month,
                         COALESCE(income.income, 0) AS income,
-                        COALESCE(expense.expense, 0) AS expense
+                        COALESCE(expense.expense, 0) AS expense,
+                        COALESCE(income.income, 0) + COALESCE(expense.expense, 0) AS net
                     FROM (
                         SELECT  
                             user_id,
@@ -48,8 +49,7 @@ exports.getAggrMonthTransac = async (req, res) => {
                             amount > 0 AND 
                             type = 'income' AND
                             user_id = :usrId AND
-                            EXTRACT(YEAR FROM date) = ${parsedYear} AND
-                            EXTRACT(MONTH FROM date) = ${parsedMonth} 
+                            EXTRACT(YEAR FROM date) = :parsedYear
                             ${otherWhere}
                         GROUP BY 
                             user_id, year, month
@@ -66,8 +66,7 @@ exports.getAggrMonthTransac = async (req, res) => {
                             amount < 0 AND 
                             type = 'expense' AND
                             user_id = :usrId AND
-                            EXTRACT(YEAR FROM date) = ${parsedYear} AND
-                            EXTRACT(MONTH FROM date) = ${parsedMonth} 
+                            EXTRACT(YEAR FROM date) = :parsedYear
                             ${otherWhere}
                         GROUP BY 
                             user_id, year, month
@@ -83,7 +82,8 @@ exports.getAggrMonthTransac = async (req, res) => {
                         expense.year,
                         expense.month,
                         COALESCE(income.income, 0) AS income,
-                        COALESCE(expense.expense, 0) AS expense
+                        COALESCE(expense.expense, 0) AS expense,
+                        COALESCE(income.income, 0) + COALESCE(expense.expense, 0) AS net
                     FROM (
                         SELECT  
                             user_id,
@@ -96,8 +96,7 @@ exports.getAggrMonthTransac = async (req, res) => {
                             amount > 0 AND 
                             type = 'income' AND
                             user_id = :usrId AND
-                            EXTRACT(YEAR FROM date) = ${parsedYear} AND
-                            EXTRACT(MONTH FROM date) = ${parsedMonth} 
+                            EXTRACT(YEAR FROM date) = :parsedYear
                             ${otherWhere}
                         GROUP BY 
                             user_id, year, month
@@ -114,8 +113,7 @@ exports.getAggrMonthTransac = async (req, res) => {
                             amount < 0 AND 
                             type = 'expense' AND
                             user_id = :usrId AND
-                            EXTRACT(YEAR FROM date) = ${parsedYear} AND
-                            EXTRACT(MONTH FROM date) = ${parsedMonth} 
+                            EXTRACT(YEAR FROM date) = :parsedYear
                             ${otherWhere}
                         GROUP BY 
                             user_id, year, month
@@ -127,7 +125,7 @@ exports.getAggrMonthTransac = async (req, res) => {
                 ORDER BY year DESC, month DESC;
                 `,
                 {
-                    replacements: { usrId: usrId },
+                    replacements: { usrId: usrId, parsedYear: parsedYear },
                     type: QueryTypes.SELECT,
                     model:Transaction,
                     plain: false,
