@@ -104,10 +104,10 @@ const AddBudget = ({ budgets, setBudgets }) => {
 
   return (
     <div className="flex justify-end">
-      <div className="fixed bottom-20 right-4 z-50">
+      <div className="fixed bottom-20 md:bottom-5 right-4 z-50">
         <button
           onClick={openPopup}
-          className="bg-[#9747FF] text-white py-2 px-10 rounded-lg my-4 hover:bg-[#7e3adf] transition-all"
+          className="bg-[#9747FF] text-white py-2 px-5 md:px-10 rounded-lg my-4 hover:bg-[#7e3adf] transition-all"
         >
           Add a Budget
         </button>

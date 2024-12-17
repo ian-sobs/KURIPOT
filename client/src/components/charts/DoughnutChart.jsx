@@ -99,15 +99,15 @@ const DoughnutChart = () => {
   };
 
   return (
-    <div className="overflow-x-auto relative w-full max-w-3xl">
+    <div className="overflow-x-auto relative w-full max-w-[500px] mx-auto p-4 rounded-badge shadow-lg bg-gradient-to-r from-[#180655]/10 via-[#15172E]/50 to-[#180655]/20">
       <div className="flex flex-col justify-center">
         {/* Expense Breakdown Title */}
         <div className="doughnut-top flex flex-row justify-between items-center mb-2">
           <h2 className="text-xl font-semibold">Expense Breakdown</h2>
         </div>
 
-        {/* Doughnut Chart with Background */}
-        <div className="doughnut-container w-full pt-5 rounded-badge shadow-lg bg-gradient-to-r from-[#180655]/10 via-[#15172E]/50 to-[#180655]/10 p-4">
+        {/* Doughnut Chart */}
+        <div className="doughnut-container w-full pt-5  p-4">
           {chartData ? (
             <Doughnut data={chartData} options={options} />
           ) : topSpending.length === 0 ? (
@@ -120,7 +120,7 @@ const DoughnutChart = () => {
         </div>
 
         {/* Date Range Inputs */}
-        <div className="date-range-filter pt-5 flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
+        <div className="date-range-filter pt-5 flex flex-col gap-4 mb-4">
           <div className="flex flex-col">
             <label
               htmlFor="start-date"
@@ -152,7 +152,7 @@ const DoughnutChart = () => {
 
           <button
             onClick={handleFilter}
-            className="self-end sm:self-center px-4 py-2 bg-[#9747FF] text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="self-end px-4 py-2 bg-[#9747FF] text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Filter
           </button>
