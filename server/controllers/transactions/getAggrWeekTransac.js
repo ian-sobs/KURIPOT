@@ -1,95 +1,73 @@
 const db = require('../../db/models/index')
 const {sequelize} = db
 const {Transaction} = sequelize.models
+const {getNumWeeksInMonth} = require('../utility/getNumWeeksInMonth')
+const {getWeekDateRange} = require('../utility/getWeekDateRange')
+const {Op} = require('sequelize')
 
 exports.getAggrWeekTransac = async (req, res) => {
     let usrId = parseInt(req.user.usrId, 10)
     const {year, month, day} = req.query
+    const numWeeks = getNumWeeksInMonth(year, month)
+    let weekAggrRecs = []
+    let startDate, endDate, dateRange
+    let income, expense, net
     try {
-        const aggregateWeekTransac = await sequelize.query(
-            `
-            SELECT 
-                daily_income.user_id AS user_id,
-                daily_income.income AS income, 
-                daily_expense.expense AS expense,
-                (daily_income.income + daily_expense.expense) AS net,
-                daily_income.year AS year,
-                daily_income.month AS month,
-                daily_income.day AS day
-            FROM 
-                (
-                    SELECT  
-                        user_id,
-                        SUM(amount) AS income, 
-                        EXTRACT(YEAR FROM date) AS year, 
-                        EXTRACT(MONTH FROM date) AS month,
-                        EXTRACT(DAY FROM date) AS day
-                    FROM 
-                        transactions 
-                    WHERE 
-                        amount > 0 AND 
-                        type = 'income' AND
-                        user_id = :usrId
-                    GROUP BY 
-                        user_id,
-                        year, 
-                        month, 
-                        day
-                ) AS daily_income
-            INNER JOIN
-                (
-                    SELECT  
-                        user_id,
-                        SUM(amount) AS expense, 
-                        EXTRACT(YEAR FROM date) AS year, 
-                        EXTRACT(MONTH FROM date) AS month,
-                        EXTRACT(DAY FROM date) AS day
-                    FROM 
-                        transactions 
-                    WHERE 
-                        amount < 0 AND 
-                        type = 'expense' AND
-                        user_id = :usrId
-                    GROUP BY 
-                        user_id,
-                        year, 
-                        month, 
-                        day
-                ) AS daily_expense
-            ON 
-                daily_income.user_id = daily_expense.user_id AND
-                daily_income.year = daily_expense.year AND
-                daily_income.month = daily_expense.month AND
-                daily_income.day = daily_expense.day
-            ORDER BY
-                daily_income.year DESC, daily_income.month DESC, daily_income.day DESC;
-            `,
-            {
-                replacements: { usrId: usrId },
-                type: QueryTypes.SELECT,
-                model:Transaction,
-                plain: false,
-            }
-        )
 
-        return res.status(200).json(aggregateWeekTransac)
+        for(let x = numWeeks; x >= 1; --x){
+            console.log('x', x)
+            dateRange = getWeekDateRange(parseInt(year,10), parseInt(month, 10), x)
+            startDate = dateRange.startDate
+            endDate = dateRange.endDate
 
-        // let retDate = {}
+            income = await Transaction.sum('amount', {
+                where: {
+                    date: {
+                        [Op.gte]: startDate,
+                        [Op.lt]: endDate
+                    },
+                    amount: {
+                        [Op.gt]: 0
+                    },
+                    type: {
+                        [Op.eq]: 'income'
+                    }
+                },
+                logging: false
+            })
 
-        // if(period == 'week'){
-        //     const {year, month, weekNum} = req.query
-        //     const {startDate, endDate} = getWeekDateRange(year, month, weekNum)
-        //     retDate.startDate = startDate
-        //     retDate.endDate = endDate
-        // }
+            income = (!income) ? 0 : income
 
-        // return res.status(200).json({
-        //     ...retDate,
-        //     income: (!income) ? 0 : parseFloat(parseFloat(income).toFixed(2)),
-        //     expense: (!expense) ? 0 : parseFloat(parseFloat(expense).toFixed(2)),
-        //     net: parseFloat(parseFloat(net).toFixed(2))
-        // })
+            expense = await Transaction.sum('amount', {
+                where: {
+                    date: {
+                        [Op.gte]: startDate,
+                        [Op.lt]: endDate
+                    },
+                    amount: {
+                        [Op.lt]: 0
+                    },
+                    type: {
+                        [Op.eq]: 'expense'
+                    }
+                },
+                logging: false
+            })
+            expense = (!expense) ? 0 : expense
 
+            net = parseFloat((parseFloat(income) + parseFloat(expense)).toFixed(2))
+            weekAggrRecs.push({
+                date:{
+                    start: startDate,
+                    end: endDate.setDate(endDate.getDate() - 1)
+                },
+                income: income,
+                expense: expense,
+                net: net
+            })
+        }
+
+        return res.status(200).json(weekAggrRecs)
     } catch (err) {
         console.error('Error fetching aggregate transaction for the period:', err); // Log the error
         return res.status(500).json({ message: 'Failed to fetch aggregate transactions' });
