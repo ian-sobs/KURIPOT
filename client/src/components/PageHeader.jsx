@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import HamburgerIcon from "./HamburgerIcon";
 
 const PageHeader = ({ title, subtitle, onBackClick }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -42,6 +43,7 @@ const PageHeader = ({ title, subtitle, onBackClick }) => {
           {/* {subtitle && <div className="text-xs text-gray-400">{subtitle}</div>} */}
         </div>
       </div>
+      <HamburgerIcon />
     </div>
   );
 };
