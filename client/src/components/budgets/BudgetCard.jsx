@@ -1,11 +1,12 @@
 import { protectedRoute } from "../../apiClient/axiosInstance";
 import { useState, useEffect } from "react";
+import EditBudget from "./EditBudget";
 
 export default function BudgetCard(props) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedAmount, setEditedAmount] = useState(props.budgetLimit);
-  const [editedPurpose, setEditedPurpose] = useState("");
   const [categories, setCategories] = useState([]);
+  const [editedCategories, setEditedCategories] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
@@ -21,6 +22,7 @@ export default function BudgetCard(props) {
         const { data } = response;
         const { Categories } = data;
         setCategories(Categories);
+        setEditedCategories(Categories);  // Set initial categories to editable state
       })
       .catch((error) => {
         console.log(error);
@@ -29,25 +31,51 @@ export default function BudgetCard(props) {
 
   const handleEditClick = () => {
     setIsEditing(true);
-    setEditedPurpose(props.purpose || ""); // Set the initial purpose for editing
   };
 
   const handleCancelClick = () => {
     setIsEditing(false);
     setEditedAmount(props.budgetLimit); // Reset amount to original
-    setEditedPurpose(props.purpose || ""); // Reset purpose to original
+    setEditedCategories(categories); // Reset categories to original
+  };
+
+  const handleCategoryChange = (categoryId, newCategoryName) => {
+    setEditedCategories((prevCategories) =>
+      prevCategories.map((category) =>
+        category.id === categoryId ? { ...category, name: newCategoryName } : category
+      )
+    );
   };
 
   const handleSaveClick = async () => {
     const updatedBudget = {
       id: props.id,
       budgetLimit: editedAmount,
-      purpose: editedPurpose,
     };
 
+    const updatedCategories = editedCategories.map((category) => ({
+      id: category.id,
+      categoryLimit: category.categoryLimit, // Assuming you can update category limits here
+    }));
+
     try {
+      // Update the budget itself
       await protectedRoute.patch("/budgets/updateBudget", updatedBudget);
-      setSuccess("Budget updated successfully!");
+
+      // Update the categories (using the provided updateBudgetCategory API)
+      await Promise.all(
+        updatedCategories.map(async (category) => {
+          const updateData = {
+            id: category.id,
+            categoryId: category.id,
+            categoryLimit: category.categoryLimit,
+          };
+
+          await protectedRoute.patch("/budgets/updateBudgetCategory", updateData);
+        })
+      );
+
+      setSuccess("Budget and categories updated successfully!");
       setError(null);
       setIsEditing(false);
     } catch (error) {
@@ -96,38 +124,17 @@ export default function BudgetCard(props) {
       )}
 
       <div className="flex flex-col w-full">
-        {isEditing ? (
-          // Editing UI
-          <div className="flex flex-col w-full gap-4">
-            <input
-              type="number"
-              value={editedAmount}
-              onChange={(e) => setEditedAmount(e.target.value)}
-              className="p-2 text-white bg-[#9747FF]/10 rounded-badge focus:outline-none caret-[#9747FF]"
-              placeholder="Amount"
-            />
-            <textarea
-              value={editedPurpose}
-              onChange={(e) => setEditedPurpose(e.target.value)}
-              className="p-2 text-white bg-[#9747FF]/10 rounded-badge focus:outline-none caret-[#9747FF]"
-              placeholder="Purpose"
-            />
-            <div className="flex gap-2 items-center justify-center">
-              <button
-                onClick={handleSaveClick}
-                className="text-white px-4 py-2 rounded flex items-center gap-2"
-              >
-                <i className="bi bi-check-lg text-green-500"></i> Save
-              </button>
-              <button
-                onClick={handleCancelClick}
-                className="text-white px-4 py-2 rounded flex items-center gap-2"
-              >
-                <i className="bi bi-x-lg text-red-500"></i> Cancel
-              </button>
-            </div>
-          </div>
-        ) : (
+      {isEditing ? (
+        <EditBudget
+          budgetId={props.id}
+          currentBudgetLimit={props.budgetLimit}
+          currentCategories={categories}
+          setSuccess={setSuccess}
+          setError={setError}
+          setIsEditing={setIsEditing}
+          setBudgets={props.setBudgets}
+        />
+      ) : (
           // View mode UI
           <div className="flex flex-col w-full">
             <div className="text-[#9747FF] text-2xl font-bold mb-2">
@@ -135,7 +142,7 @@ export default function BudgetCard(props) {
             </div>
 
             <div className="text-sm text-gray-400 mb-2">
-              Purpose:{" "}
+              Categories:{" "}
               {categories && categories.length > 0 ? (
                 <ul className="list-disc pl-5">
                   {categories.map((category, idx) => (
