@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import TransactionSingle from "./TransactionSingle";
 import { protectedRoute } from "../../apiClient/axiosInstance";
+import formatNumWithCommas from "../../utility/formatNumWithCommas"
+import TransactionSingleTransfer from "./TransactionSingleTransfer";
 
 const TransactionDaily = ({ date, day, netIncome }) => {
   const [income, setIncome] = useState(0)
@@ -60,7 +62,15 @@ const TransactionDaily = ({ date, day, netIncome }) => {
             amount={transaction.amount}
             transactionType={transaction.type}
           />
-  }
+    }
+    else if(transaction.type == 'transfer'){
+      return <TransactionSingleTransfer 
+        fromAccount={transaction.fromAccount.name}
+        toAccount={transaction.toAccount.name}
+        description={transaction.note}
+        amount={transaction.amount}
+      />
+    }
   }
 
   return (
@@ -76,7 +86,7 @@ const TransactionDaily = ({ date, day, netIncome }) => {
               netIncome
             )}`}
           >
-            ₱{netIncome}
+            ₱{formatNumWithCommas(netIncome)}
           </h2>
           <button onClick={handleToggle}>
             <i
