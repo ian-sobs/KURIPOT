@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import TaskBar from "../components/TaskBar";
 import PageHeader from "../components/PageHeader";
-
-import TransactionDaily from "../components/transactions/TransactionDaily";
 import TransactionDailyContainer from "../components/transactions/TransactionDailyContainer";
 import TransactionMonthlyContainer from "../components/transactions/TransactionMonthlyContainer";
-
-import TransactionWeekly from "../components/transactions/TransactionWeekly";
-import TransactionMonthly from "../components/transactions/TransactionMonthly";
 
 function getDaysInMonth(year, month) {
   //month of date constructor is 0 based. passing a 1-based month parameter to getDaysInMonth
@@ -131,7 +126,7 @@ const TransactionsPage = () => {
                     setDate((prev) => ({ ...prev, year: prev.year - 1 }))
                   }
                 >
-                  <i className="bi bi-caret-left ml-6"></i>
+                  <i className="bi bi-caret-left-fill ml-6"></i>
                 </button>
                 <h2>{`${date.year}`}</h2>
                 <button
@@ -139,7 +134,7 @@ const TransactionsPage = () => {
                     setDate((prev) => ({ ...prev, year: prev.year + 1 }))
                   }
                 >
-                  <i className="bi bi-caret-right mr-6"></i>
+                  <i className="bi bi-caret-right-fill mr-6"></i>
                 </button>
               </>
             )}
