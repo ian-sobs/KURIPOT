@@ -21,7 +21,7 @@ const SignUpPage = () => {
         >
           <i class="bi bi-arrow-left-short text-4xl"></i>
         </button>
-        <h2 className="text-center text-3xl font-bold text-white mb-4 mt-6">
+        <h2 className="text-center text-3xl font-bold text-white mb-4">
           Sign Up
         </h2>
         <SignUpForm />

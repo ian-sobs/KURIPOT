@@ -48,7 +48,7 @@ const Budgets = () => {
                   Input a budget and we'll help you manage your daily income and
                   expenses.
                 </div>
-                <AddBudget budgets={budgets} setBudgets={setBudgets}/>
+                <AddBudget budgets={budgets} setBudgets={setBudgets} />
                 <div className="text-gray-400 text-sm underline mt-2">
                   <HowToBudget />
                 </div>
@@ -64,6 +64,7 @@ const Budgets = () => {
                     budgetLimit={parseFloat(budget.budgetLimit).toFixed(2)}
                     date={budget.date}
                     type={budget.type}
+                    setBudgets={setBudgets}
                   />
                 ))}
               </ul>

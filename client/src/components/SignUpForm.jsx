@@ -16,7 +16,6 @@ const SignUpForm = () => {
   const { accessToken, setAccessToken } = useContext(TokenContext);
   useEffect(() => {
     console.log("React-context access token updated:", accessToken);
-    
   }, [accessToken]);
 
   const handleChange = (e) => {
@@ -54,7 +53,9 @@ const SignUpForm = () => {
           console.log("user: ", user);
           console.log("Access token: ", accessToken);
           setAccessToken(accessToken);
-          navigate('/getting-started', { state: { fromProgrammatically: true } })
+          navigate("/getting-started", {
+            state: { fromProgrammatically: true },
+          });
         } else {
           console.log(response);
           console.error("Failed to submit form");
@@ -69,7 +70,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="signupform-container flex flex-col items-center">
+    <div className="signupform-container flex flex-col items-center ">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center w-full"
