@@ -176,7 +176,7 @@ WATCHPACK_POLLING=true
 
 ##### `/client/.env.development`
 
-Replace `{server_listening_on_port}` with the value of `PORT` in `/server/env.development`
+Replace `{server_listening_on_port}` with the value of `PORT` in `/server/env.development`. If `PORT` is not specified, replace `{server_listening_on_port}` with `5000`.
 ```
 REACT_APP_API_URL=http://localhost:{server_listening_on_port}/api
 ```
