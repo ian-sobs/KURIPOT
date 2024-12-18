@@ -145,6 +145,7 @@ SALT_ROUNDS         # salt rounds/cost factor for Bcrypt hashing process.
 					
 PORT          # the port number the web server should listen to for
 			  # for requests made by the client.
+        # web server defaults to port 5000 if not specified.
 
 ACCESS_TOKEN_JWT_SECRET    # the secret key used to sign access tokens.
 
