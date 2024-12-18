@@ -1,5 +1,6 @@
 import React from "react";
 import formatNumWithCommas from "../../utility/formatNumWithCommas";
+import { protectedRoute } from "../../apiClient/axiosInstance";
 
 const TransactionSingle = ({
   category,
@@ -8,6 +9,8 @@ const TransactionSingle = ({
   description,
   amount,
   transactionType,
+  transactionId,
+  onDelete
 }) => {
   // Determine color based on income or expense type
   const getAmountClass = () => {
@@ -18,6 +21,17 @@ const TransactionSingle = ({
     } else {
       return "text-gray-500"; // Gray for zero
     }
+  };
+
+  const handleDelete = () => {
+    protectedRoute
+      .delete("/transactions/deleteTransaction", { data: { id: transactionId } }) // Use transactionId
+      .then(() => {
+        onDelete(transactionId); // Notify the parent component
+      })
+      .catch((error) => {
+        console.error("Failed to delete transaction", error);
+      });
   };
 
   return (
@@ -40,6 +54,12 @@ const TransactionSingle = ({
       </div>
 
       <div className={`singletrans-right ${getAmountClass()}`}>₱{formatNumWithCommas(amount)}</div>
+      <button
+          className="delete-button text-red-500/50 hover:text-red-700"
+          onClick={handleDelete} // Call local delete handler
+        >
+          <i className="bi bi-trash pl-5"></i>
+        </button>
     </div>
   );
 };
