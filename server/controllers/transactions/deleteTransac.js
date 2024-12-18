@@ -18,7 +18,7 @@ exports.deleteTransac = async (req, res) => {
 
     try {
         // Find the transaction to delete
-        const oldTransacInfo = await Transaction.findOne({
+        let oldTransacInfo = await Transaction.findOne({
             where: {
                 user_id: usrId,
                 id: id,
@@ -46,16 +46,23 @@ exports.deleteTransac = async (req, res) => {
         }
 
         // Update balances based on transaction type
-        if (oldTransacInfo.type === 'income') {
-            console.log('Before Update:', account.amount, 'Transaction Amount:', oldTransacInfo.amount);
-            account.amount = parseFloat(account.amount) - parseFloat(oldTransacInfo.amount);
-            console.log('After Income Update:', account.amount);
-        } else if (oldTransacInfo.type === 'expense') {
-            console.log('Before Update:', account.amount, 'Transaction Amount:', oldTransacInfo.amount);
-            account.amount = parseFloat(account.amount) + parseFloat(oldTransacInfo.amount);
-            console.log('After Expense Update:', account.amount);
-        }
+
+        //console.log('Before Update:', account.amount, 'Transaction Amount:', oldTransacInfo.amount);
         
+        let parsedOldTransacAmount = parseFloat(oldTransacInfo.amount)
+        let parsedAccountAmount = parseFloat(account.amount)
+
+        if((oldTransacInfo.type === 'income' && oldTransacInfo.amount < 0) || (oldTransacInfo.type === 'expense' && oldTransacInfo.amount > 0)){
+            oldTransacInfo.amount = -oldTransacInfo.amount
+        }
+
+        account.amount = parseFloat((parseFloat(account.amount) - parseFloat(oldTransacInfo.amount)).toFixed(2));
+
+        // if (oldTransacInfo.type === 'income') {
+        //     console.log('After Income Update:', account.amount);
+        // } else if (oldTransacInfo.type === 'expense') {
+        //     console.log('After Expense Update:', account.amount);
+        // }
 
         console.log('Updated Account Amount:', account.amount);
 
