@@ -101,13 +101,15 @@ Running the client:
 npm start
 ```
 
-## Server environment variable configurations
+## Server
+
+### Server environment variable configurations
 
 The configurations will focus on the development environment only..
 
 Remove the `.example` extension from the `.env` files and set the appropriate values for the environment variables.
 
-####`/server/.env`
+#### `/server/.env`
 
 Set `NODE_ENV` to `development`.
 ```
@@ -156,7 +158,7 @@ CORS_ORIGIN         # frontend origin allowed to access the server
                     # http://localhost:3000 
 ```
 
-Running the server:
+### Running the server
 
 ```bash
 npm run dev
