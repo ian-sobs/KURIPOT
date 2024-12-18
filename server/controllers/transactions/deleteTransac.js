@@ -47,14 +47,20 @@ exports.deleteTransac = async (req, res) => {
 
         // Update balances based on transaction type
         if (oldTransacInfo.type === 'income') {
-            // Deduct the transaction amount from the account's balance
-            account.balance = parseFloat(account.balance) - parseFloat(oldTransacInfo.amount);
+            // Deduct the transaction amount from the account's amount
+            account.amount = parseFloat(account.amount) - parseFloat(oldTransacInfo.amount);
         } else if (oldTransacInfo.type === 'expense') {
-            // Add the transaction amount back to the account's balance
-            account.balance = parseFloat(account.balance) + parseFloat(oldTransacInfo.amount);
+            // Add the transaction amount back to the account's amount
+            account.amount = parseFloat(account.amount) + parseFloat(oldTransacInfo.amount);
         }
 
-        // Save the updated account balance
+        // Ensure the amount is valid (not NaN or invalid value)
+        if (isNaN(account.amount)) {
+            await t.rollback();
+            return res.status(500).json({ message: 'Error calculating the new account balance' });
+        }
+
+        // Save the updated account amount
         await account.save({ transaction: t });
 
         // Delete the transaction
