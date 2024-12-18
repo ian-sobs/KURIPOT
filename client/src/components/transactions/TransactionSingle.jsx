@@ -27,7 +27,7 @@ const TransactionSingle = ({
     protectedRoute
       .delete("/transactions/deleteTransaction", { data: { id: transactionId } }) // Use transactionId
       .then(() => {
-        onDelete(transactionId); // Notify the parent component
+        onDelete(transactionId, amount); // Notify the parent component
       })
       .catch((error) => {
         console.error("Failed to delete transaction", error);
