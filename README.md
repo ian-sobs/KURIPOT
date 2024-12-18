@@ -95,17 +95,11 @@ npm install
 
 ## Running the Project
 
-Running the client:
-
-```bash
-npm start
-```
-
 ### Server
 
 #### Server environment variable configurations
 
-The configurations will focus on the development environment only..
+The configurations will focus on the development environment only.
 
 Remove the `.example` extension from the `.env` files and set the appropriate values for the environment variables.
 
@@ -160,8 +154,37 @@ CORS_ORIGIN         # frontend origin allowed to access the server
 
 #### Running the server
 
+Run the below command in `/server` directory:
 ```bash
 npm run dev
 ```
 
+### Client
+
+#### Client environment variable configurations
+
+The configurations will focus on the development environment only.
+
+Remove the `.example` extension from the `.env` files and set the appropriate values for the environment variables.
+
+##### `/client/.env`
+
+Set `WATCHPACK_POLLING` to `true`.
+```
+WATCHPACK_POLLING=true
+```
+
+##### `/client/.env.development`
+
+Replace `{server_listening_on_port}` with the value of `PORT` in `/server/env.development`
+```
+REACT_APP_API_URL=http://localhost:{server_listening_on_port}/api
+```
+
+#### Running the client
+
+Run the below command in `/client` directory:
+```bash
+npm start
+```
 
