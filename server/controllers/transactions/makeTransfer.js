@@ -7,7 +7,7 @@ exports.makeTransfer = async function makeTransfer(req, res){
     let {amount, fromAccountId, toAccountId, note, date} = req.body
     const {usrId} = req.user
 
-    amount = parseFloat(amount).toFixed(2)
+    amount = parseFloat(parseFloat(amount).toFixed(2))
     fromAccountId = parseInt(fromAccountId, 10)
     toAccountId = parseInt(toAccountId, 10)
     date = new Date(date).toISOString()
@@ -64,7 +64,7 @@ exports.makeTransfer = async function makeTransfer(req, res){
         })
 
         await Account.update(
-            { amount: (parseFloat(fromAccountInfo.amount) - parseFloat(transacInfo.amount)).toFixed(2) },
+            { amount: parseFloat((parseFloat(fromAccountInfo.amount) - parseFloat(transacInfo.amount)).toFixed(2)) },
             {
                 where: {
                     id: parseInt(fromAccountInfo.id, 10),
@@ -74,7 +74,7 @@ exports.makeTransfer = async function makeTransfer(req, res){
         );
 
         await Account.update(
-            { amount: (parseFloat(toAccountInfo.amount) + parseFloat(transacInfo.amount)).toFixed(2) },
+            { amount: parseFloat((parseFloat(toAccountInfo.amount) + parseFloat(transacInfo.amount)).toFixed(2)) },
             {
                 where: {
                     id: parseInt(toAccountInfo.id, 10),
@@ -87,7 +87,7 @@ exports.makeTransfer = async function makeTransfer(req, res){
             type: 'transfer',
             id: parseInt(transacInfo.id, 10),
             date: new Date(transacInfo.date),
-            amount: parseFloat(transacInfo.amount).toFixed(2),
+            amount: parseFloat(parseFloat(transacInfo.amount).toFixed(2)),
             fromAccount: {
                 id: parseInt(transacInfo.from_account_id, 10),
                 name: transacInfo.from_accountName

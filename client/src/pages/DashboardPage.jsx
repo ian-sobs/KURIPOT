@@ -55,6 +55,7 @@ const Dashboard = () => {
     protectedRoute
       .get("/accounts/getAccounts")
       .then((response) => {
+        console.log(response.data)
         setAccounts(response.data.accounts);
         setTotalBalance(response.data.totalBalance || 0);
       })

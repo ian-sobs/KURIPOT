@@ -115,7 +115,7 @@ export default function CategoryCard({ id, name, setCategories }) {
         </div>
       )}
 
-      {affectedAccounts.length > 0 && (
+      {/* {affectedAccounts.length > 0 && (
         <div className="text-gray-300 text-sm mt-2">
           <h4>Affected Accounts:</h4>
           <ul>
@@ -127,7 +127,7 @@ export default function CategoryCard({ id, name, setCategories }) {
             ))}
           </ul>
         </div>
-      )}
+      )} */}
     </li>
   );
 }

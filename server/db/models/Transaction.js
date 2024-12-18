@@ -1,7 +1,5 @@
 const { Model } = require('sequelize');
 
-
-
 module.exports = (sequelize, DataTypes) => {
   class Transaction extends Model{
     static associate(models){
@@ -17,7 +15,21 @@ module.exports = (sequelize, DataTypes) => {
           name: 'account_id',
           allowNull: true
         }
-      })     
+      })   
+      
+      Transaction.belongsTo(models.Account, {
+        foreignKey:{ 
+          name: 'from_account_id',
+          allowNull: true
+        }
+      })   
+
+      Transaction.belongsTo(models.Account, {
+        foreignKey:{ 
+          name: 'to_account_id',
+          allowNull: true
+        }
+      })   
 
       Transaction.belongsTo(models.Category, {
         foreignKey:{ 
@@ -71,6 +83,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(16,2),
         defaultValue: 0,
         allowNull: false,
+        set(amount){
+          let parsedAmount = parseFloat(parseFloat(amount).toFixed(2))
+          if(isNaN(parsedAmount)){
+            parsedAmount = 0
+          }
+          this.setDataValue('amount', parsedAmount)
+        }
       },
       account_id: {
         type: DataTypes.INTEGER,
