@@ -77,6 +77,13 @@ const TransactionDaily = ({ date, day, netIncome }) => {
           toAccount={transaction.toAccount.name}
           description={transaction.note}
           amount={transaction.amount}
+          transactionType={transaction.type}
+          transactionId={transaction.id} // Pass transactionId for delete
+          onDelete={(id) => {
+            setTransactions((prevTransactions) =>
+              prevTransactions.filter((transac) => transac.id !== id)
+            );
+          }}
         />
       );
     }
