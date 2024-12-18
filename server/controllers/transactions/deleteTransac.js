@@ -47,12 +47,17 @@ exports.deleteTransac = async (req, res) => {
 
         // Update balances based on transaction type
         if (oldTransacInfo.type === 'income') {
-            // Deduct the transaction amount from the account's amount
+            console.log('Before Update:', account.amount, 'Transaction Amount:', oldTransacInfo.amount);
             account.amount = parseFloat(account.amount) - parseFloat(oldTransacInfo.amount);
+            console.log('After Income Update:', account.amount);
         } else if (oldTransacInfo.type === 'expense') {
-            // Add the transaction amount back to the account's amount
+            console.log('Before Update:', account.amount, 'Transaction Amount:', oldTransacInfo.amount);
             account.amount = parseFloat(account.amount) + parseFloat(oldTransacInfo.amount);
+            console.log('After Expense Update:', account.amount);
         }
+        
+
+        console.log('Updated Account Amount:', account.amount);
 
         // Ensure the amount is valid (not NaN or invalid value)
         if (isNaN(account.amount)) {
