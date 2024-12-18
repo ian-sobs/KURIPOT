@@ -62,10 +62,11 @@ const ensureDatabaseExists = async () => {
   }
 };
 
+const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000'
 // Start the server and connect to the database
 const startServer = async () => {
   app.use(cors({
-    origin: process.env.CORS_ORIGIN, // Allow your frontend's origin
+    origin: corsOrigin, // Allow your frontend's origin
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'], // Allow specific methods
     credentials: true // If using cookies or authentication
   }));
