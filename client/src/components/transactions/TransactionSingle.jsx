@@ -9,6 +9,8 @@ const TransactionSingle = ({
   description,
   amount,
   transactionType,
+  transactionId,
+  onDelete
 }) => {
   // Determine color based on income or expense type
   const getAmountClass = () => {
@@ -52,6 +54,12 @@ const TransactionSingle = ({
       </div>
 
       <div className={`singletrans-right ${getAmountClass()}`}>₱{formatNumWithCommas(amount)}</div>
+      <button
+          className="delete-button text-red-500/50 hover:text-red-700"
+          onClick={handleDelete} // Call local delete handler
+        >
+          <i className="bi bi-trash pl-5"></i>
+        </button>
     </div>
   );
 };
