@@ -1,5 +1,6 @@
 import React from "react";
 import formatNumWithCommas from "../../utility/formatNumWithCommas";
+import { protectedRoute } from "../../apiClient/axiosInstance";
 
 const TransactionSingle = ({
   category,
@@ -18,6 +19,17 @@ const TransactionSingle = ({
     } else {
       return "text-gray-500"; // Gray for zero
     }
+  };
+
+  const handleDelete = () => {
+    protectedRoute
+      .delete("/transactions/deleteTransaction", { data: { id: transactionId } }) // Use transactionId
+      .then(() => {
+        onDelete(transactionId); // Notify the parent component
+      })
+      .catch((error) => {
+        console.error("Failed to delete transaction", error);
+      });
   };
 
   return (
