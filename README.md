@@ -93,146 +93,98 @@ cd server
 npm install
 ```
 
-### Running the Project
+## Running the Project
 
-Running the client:
+### Server
 
-```bash
-npm start
+#### Server environment variable configurations
+
+The configurations will focus on the development environment only.
+
+Remove the `.example` extension from the `.env` files and set the appropriate values for the environment variables.
+
+##### `/server/.env`
+
+Set `NODE_ENV` to `development`.
+```
+NODE_ENV=development    # the environment the server should run in. 
 ```
 
-Running the server:
+##### `/server/.env.development`
 
+After loading `/server/.env`, the value of `NODE_ENV` is used to load another `env` file for `/server` at runtime. Since `NODE_ENV` in `/server/.env` is `development`, `/server/.env.development` gets loaded.
+
+```
+NODE_ENV       # environment the server should run in.
+			   # defaults to 'development'
+
+POSTGRES_HOST     # the IP address of the database server.
+				  # defaults to 'localhost'.
+
+POSTGRES_USER     # the username you set for the postgresql database.
+			      # defaults to 'postgres'.
+
+POSTGRES_PASSWORD  # the password of the postgresql user POSTGRES_USER.
+
+POSTGRES_DB         # the name of the postgresql database containing
+					# the user's data for Kuripot.
+					# defaults to 'Kuripot_dev'. 
+					# if database doesn't exist, it will be created by 
+					# running 'npm run dev' in the /server directory.
+
+POSTGRES_PORT       # port number the database server should listen for 
+					# sequelize queries.
+
+SALT_ROUNDS         # salt rounds/cost factor for Bcrypt hashing process.
+					# defaults to 10 for the hashing of passwords in
+					# sign up.
+					
+PORT          # the port number the web server should listen to for
+			  # for requests made by the client.
+        # web server defaults to port 5000 if not specified.
+
+ACCESS_TOKEN_JWT_SECRET    # the secret key used to sign access tokens.
+
+REFRESH_TOKEN_JWT_SECRET   # the secret key for signing refresh tokens.
+
+CORS_ORIGIN         # frontend origin allowed to access the server
+                    # if not specified, server defaults to 
+                    # http://localhost:3000 
+```
+
+#### Running the server
+
+Run the below command in `/server` directory:
 ```bash
 npm run dev
 ```
 
-<!-- To run both the frontend and backend, use Docker Compose:
+### Client
 
-1. Make sure you’re in the root of your project directory.
-2. Run the following command:
+#### Client environment variable configurations
 
-   ```bash
-   docker-compose up
-   ```
+The configurations will focus on the development environment only.
 
-Your Express server should be accessible at `http://localhost:5001`, and your React app at `http://localhost:3000`. -->
-<!-- 
-## Usage
+Remove the `.example` extension from the `.env` files and set the appropriate values for the environment variables.
 
-Provide instructions on how to use your project. Include examples if necessary.
-<!-- 
-## Setting up the database
+##### `/client/.env`
 
-<!-- 
-> **Note:** Install Docker Desktop before proceeding.  
-> It is recommended to install Docker Desktop first since it includes many of the utilities used in the project and simplifies the commands you need to run for setting up the database.
- -->
-
-<!-- 
-If you have pulled the repo and built the Docker images and run the containers for the first time, the database associated to this web app will not exist just yet. Hence why running the server container for the first time requires you to build the database in the server container. Instructions to that are in the [[#Creating the database]] section below. -->
-<!-- 
-Create the postgresql database first. Use the same database name as the one in the environment variable database name.
-
-### Creating the database
-
-In server directory run the below command:
-<!-- 
+Set `WATCHPACK_POLLING` to `true`.
 ```
-npx sequelize-cli db:create
+WATCHPACK_POLLING=true
 ```
 
-<!-- The database will be created by using the configuration of the databases in the docker-compose.yml file. The database config used is determined by the value of the `depends_on` attribute of `server` service.  By default, the `NODE_ENV` environment variable of `server` service is development. The value of the `depends_on` attribute of `server` service is also the development database by default. (Note: Only development and test environments can sync the models to the database, it is recommended to use development/test for coding and testing purposes). -->
+##### `/client/.env.development`
 
-<!-- 
-### Migrating the database
-
-Follow the instructions here if the database exists and already has records. Any change you make to the database will not destroy the database and recreate it with the changes you made (like in syncing the models). This is good for production environments wherein you want scale the database without destroying any records.
-
-1. Install sequelize CLI (if not yet installed)
-2. Run the server
-<!-- 3. Access the container of the server and just run the command in exec to do the migrations: -->
-<!-- 
+Replace `{server_listening_on_port}` with the value of `PORT` in `/server/env.development`. If `PORT` is not specified, replace `{server_listening_on_port}` with `5000`.
 ```
-npx sequelize-cli db:migrate 
-```
-<!-- 
-Alternatively you can also specify the environment:
-```
-npx sequelize-cli db:migrate --env <environment_name>
-```
-<!-- 
-### Undoing database migrations
-
-1. Install sequelize CLI (if not yet installed)
-2. Run the server
-<!-- 3. Access the container of the server and just run the command in 'Exec' to undo the last migration: -->
-<!-- 
-```
-npx sequelize-cli db:migrate:undo
-```
-<!-- 
-To undo all migrations:
-```
-npx sequelize-cli db:migrate:undo:all
+REACT_APP_API_URL=http://localhost:{server_listening_on_port}/api
 ```
 
-<!-- 
-### Connecting dbeaver to the database in docker container
+#### Running the client
 
-1. In dbeaver, create a new connection to a database.
-2. When asked for the user, just use the value of `POSTGRES_USER` server environment variable for connecting to the database.
-3. When asked for the password, just use the value of `POSTGRES_PASSWORD` server environment variable.
-4. When asked for the host, just use 'localhost' without the quotes.
-5. When asked for the port, use the value of `POSTGRES_PORT`. -->
-<!-- 
+Run the below command in `/client` directory:
+```bash
+npm start
 ```
-# version: "3"
 
-services:
-  server:
-    build:
-      context: ./server
-    ports:
-      - "5001:5000"
-    environment:
-      - PORT=5000
-      - NODE_ENV=development
-      - POSTGRES_HOST=dbDev
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=somePassword
-      - POSTGRES_DB=Kuripot_dev
-      - POSTGRES_PORT=5432
-    depends_on:
-      dbDev:
-        condition: service_healthy
-
-  dbDev:
-    image: postgres
-    restart: always
-    user: postgres
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=Kuripot_dev
-      - POSTGRES_PASSWORD=somePassword
-    expose:
-      - 5432
-    ports:
-      - "5433:5432" # port 5432(docker) is mapped to port 5433(localhost)
-    healthcheck:
-      test: ["CMD", "pg_isready"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-``` -->
-
-<!-- 
-## Contributing
-
-If you'd like to contribute to this project, please fork the repository and submit a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-``` -->
