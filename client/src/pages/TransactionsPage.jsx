@@ -33,7 +33,7 @@ function getDaysInMonth(year, month) {
 // }
 
 const TransactionsPage = () => {
-  const [date, setDate] = useState({ month: 11, year: 2024 }); // Default: December 2024 (0-indexed months)
+  const [date, setDate] = useState({ month: new Date().getMonth(), year: new Date().getFullYear() }); // Default: December 2024 (0-indexed months)
   const [activeTab, setActiveTab] = useState(0); // State to manage active tab
   const [renderJSX, setRenderJSX] = useState([]);
 

@@ -5,6 +5,7 @@ const {Transaction, Account, Category} = sequelize.models
 exports.makeIncome = async function makeIncome(req, res){
     let {date, amount, accountId, categoryId, note, recurrId} = req.body
     const {usrId} = req.user
+    amount = parseFloat(amount)
 
     if(amount < 0){
         amount = -amount
@@ -57,7 +58,7 @@ exports.makeIncome = async function makeIncome(req, res){
 
         // Change everyone without a last name to "Doe"
         await Account.update(
-            { amount: (parseFloat(accountInfo.amount) + parseFloat(transacInfo.amount)).toFixed(2) },
+            { amount: parseFloat((parseFloat(accountInfo.amount) + parseFloat(transacInfo.amount)).toFixed(2)) },
             {
                 where: {
                     id: accountInfo.id,

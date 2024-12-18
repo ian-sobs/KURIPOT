@@ -35,7 +35,7 @@ exports.getTopSpending = async (req, res) => {
             where: whereClause,
         });
 
-        const categorySpending = await Transaction.findAll({
+        let categorySpending = await Transaction.findAll({
             attributes: [
                 'category_id',
                 'categoryName', 
@@ -52,9 +52,17 @@ exports.getTopSpending = async (req, res) => {
                 categoryId: catDetails.category_id,
                 categoryName: catDetails.categoryName,
                 spent: parseFloat(catDetails.spent).toFixed(2),
-                spentPercentage: ((parseFloat(catDetails.spent).toFixed(2) / totalSpent) * 100).toFixed(2),
+                spentPercentage: ((parseFloat(parseFloat(catDetails.spent).toFixed(2)) / parseFloat(totalSpent)) * 100).toFixed(2),
             };
         });
+
+
+        // // Insert nullCategoryTopSpent into categorySpending
+        // categorySpending.push(nullCategoryTopSpent);
+
+        // // Re-sort the array based on the spent value
+        // categorySpending.sort(comparison);
+
 
         return res.status(200).json({
             totalSpent: totalSpent,

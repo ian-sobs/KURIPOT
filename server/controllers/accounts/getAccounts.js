@@ -22,6 +22,7 @@ exports.getAccounts = async (req, res)=>{
             attributes: ['id', 'name', 'amount']
         })
 
+        console.log("total balance", totalBalance)
         // if(accountsOfUser.length === 0){
         //     res.status(404).json({message: "Could not find any account"})
         // }

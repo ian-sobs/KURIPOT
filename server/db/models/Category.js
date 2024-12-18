@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
               
               allowNull: true
           },
-          onDelete: 'CASCADE',
+          onDelete: 'SET NULL',
       })
 
       Category.hasMany(models.BudgetCategory,{
