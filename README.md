@@ -101,6 +101,60 @@ Running the client:
 npm start
 ```
 
+## Server environment variable configurations
+
+The configurations will focus on the development environment only..
+
+Remove the `.example` extension from the `.env` files and set the appropriate values for the environment variables.
+
+####`/server/.env`
+
+Set `NODE_ENV` to `development`.
+```
+NODE_ENV=development    # the environment the server should run in. 
+```
+
+#### `/server/.env.development`
+
+After loading `/server/.env`, the value of `NODE_ENV` is used to load another `env` file for `/server` at runtime. Since `NODE_ENV` in `/server/.env` is `development`, `/server/.env.development` gets loaded.
+
+```
+NODE_ENV       # environment the server should run in.
+			   # defaults to 'development'
+
+POSTGRES_HOST     # the IP address of the database server.
+				  # defaults to 'localhost'.
+
+POSTGRES_USER     # the username you set for the postgresql database.
+			      # defaults to 'postgres'.
+
+POSTGRES_PASSWORD  # the password of the postgresql user POSTGRES_USER.
+
+POSTGRES_DB         # the name of the postgresql database containing
+					# the user's data for Kuripot.
+					# defaults to 'Kuripot_dev'. 
+					# if database doesn't exist, it will be created by 
+					# running 'npm run dev' in the /server directory.
+
+POSTGRES_PORT       # port number the database server should listen for 
+					# sequelize queries.
+
+SALT_ROUNDS         # salt rounds/cost factor for Bcrypt hashing process.
+					# defaults to 10 for the hashing of passwords in
+					# sign up.
+					
+PORT          # the port number the web server should listen to for
+			  # for requests made by the client.
+
+ACCESS_TOKEN_JWT_SECRET    # the secret key used to sign access tokens.
+
+REFRESH_TOKEN_JWT_SECRET   # the secret key for signing refresh tokens.
+
+CORS_ORIGIN         # frontend origin allowed to access the server
+                    # if not specified, server defaults to 
+                    # http://localhost:3000 
+```
+
 Running the server:
 
 ```bash
