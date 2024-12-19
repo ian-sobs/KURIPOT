@@ -51,7 +51,7 @@ async function toIncomeOrExpense(req, res, oldTransacInfo){
         to_accountName: null,
     };
 
-    amount = parseFloat(amount).toFixed(2);
+    amount = parseFloat(parseFloat(amount).toFixed(2));
     if(!isNaN(amount)){
         if((amount < 0 && type === 'income') || (amount > 0 && type === 'expense')){
             amount = -amount;
@@ -84,7 +84,7 @@ async function toIncomeOrExpense(req, res, oldTransacInfo){
     }
 
     if(date){
-        date = new Date(date).toISOString();
+        date = new Date(new Date(date).toISOString());
         updateFields['date'] = date;
     }
 
@@ -113,48 +113,14 @@ async function toIncomeOrExpense(req, res, oldTransacInfo){
         // consider the case when the transaction was initially a transfer
         let [updatedTransacInfo] = affectedRows
         if(oldTransacInfo.type !== 'transfer'){
-            // await Account.update(
-            //     {
-            //         amount: Sequelize.literal(`amount - ${oldTransacInfo.amount}`)
-            //     },
-            //     {
-            //         where: {
-            //             id: oldTransacInfo.account_id,
-            //             user_id: usrId
-            //         }
-            //     }
-            // );
-            unspendUnearn(oldTransacInfo, usrId)
+
+            await unspendUnearn(oldTransacInfo, usrId)
         }
         else{
-            // await Account.update(
-            //     {
-            //         amount: Sequelize.literal(`amount - ${oldTransacInfo.amount}`)
-            //     },
-            //     {
-            //         where: {
-            //             id: oldTransacInfo.to_account_id,
-            //             user_id: usrId
-            //         }
-            //     }
-            // );
-            // await Account.update(
-            //     {
-            //         amount: Sequelize.literal(`amount + ${oldTransacInfo.amount}`)
-            //     },
-            //     {
-            //         where: {
-            //             id: oldTransacInfo.from_account_id,
-            //             user_id: usrId
-            //         }
-            //     }
-            // );
-            untransfer(oldTransacInfo, usrId)
+            await untransfer(oldTransacInfo, usrId)
         }
 
-        spendEarn(updatedTransacInfo, usrId)
-
-        // await Account.update(
+        await spendEarn(updatedTransacInfo, usrId)
         //     {
         //         amount: Sequelize.literal(`amount + ${updatedTransacInfo.amount}`)
         //     },
@@ -194,7 +160,7 @@ async function toTransfer(req, res, oldTransacInfo){
         categoryName: null,
     };
 
-    amount = parseFloat(amount).toFixed(2);
+    amount = parseFloat(parseFloat(amount).toFixed(2));
     if(!isNaN(amount)){
         amount = Math.abs(amount)
         updateFields['amount'] = amount;
@@ -221,11 +187,11 @@ async function toTransfer(req, res, oldTransacInfo){
             return res.status(400).json({message: 'The account with the given account ID does not exist'});
         }
         updateFields['to_account_id'] = to_account_id;
-        updateFields['from_accountName'] = toAccountInfo.name;
+        updateFields['to_accountName'] = toAccountInfo.name;
     }
 
     if(date){
-        date = new Date(date).toISOString();
+        date = new Date(new Date(date).toISOString());
         updateFields['date'] = date;
     }
 
@@ -265,7 +231,7 @@ async function toTransfer(req, res, oldTransacInfo){
             //         }
             //     }
             // );
-            unspendUnearn(oldTransacInfo, usrId)
+            await unspendUnearn(oldTransacInfo, usrId)
         }
         else{
             // await Account.update(
@@ -290,11 +256,11 @@ async function toTransfer(req, res, oldTransacInfo){
             //         }
             //     }
             // );
-            untransfer(oldTransacInfo, usrId)
+            await untransfer(oldTransacInfo, usrId)
 
         }
 
-        transfer(updatedTransacInfo, usrId)
+        await transfer(updatedTransacInfo, usrId)
         // await Account.update(
         //     {
         //         amount: Sequelize.literal(`amount + ${updatedTransacInfo.amount}`)
@@ -333,6 +299,10 @@ exports.updateTransac = async (req, res) => {
     if(!id || !type){
         return res.status(400).json({message: 'Provide ID and type of the transaction to update.'})
     }
+
+    // if(!id) {
+    //     return res.status(400).json({message: 'Provide id of transaction to update'})
+    // }
 
     let oldTransacInfo = await Transaction.findOne({
         where: {
