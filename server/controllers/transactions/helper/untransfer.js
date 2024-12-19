@@ -46,7 +46,8 @@ exports.untransfer = async (toUntransfer, usrId) => {
             where: {
                 id: toUntransfer.from_account_id,
                 user_id: usrId
-            }
+            },
+            returning: true
         }
     );
 
