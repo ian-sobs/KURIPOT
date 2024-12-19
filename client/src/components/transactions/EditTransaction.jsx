@@ -13,7 +13,9 @@ const EditTransaction = ({
   error,
   onClose,
   transacType,
-  setTransacType // New prop for transaction type (Income, Expense, Transfer)
+  setTransacType, // New prop for transaction type (Income, Expense, Transfer)
+  setLastUpdatedTransaction,
+  lastUpdatedTransaction
 }) => {
   const [updatedData, setUpdatedData] = useState(modalData);
 
@@ -46,7 +48,7 @@ const EditTransaction = ({
       amount: parseFloat(parseFloat(updatedData.amount).toFixed(2)),
       account_id: parseInt(updatedData.account, 10),
       category_id: parseInt(updatedData.category, 10),
-      date: new Date(updatedData.date),
+      date: new Date(new Date(updatedData.date).toISOString()),
       type: updatedData.transactionType,
       id: parseInt(updatedData.transactionId)
     };
@@ -64,6 +66,7 @@ const EditTransaction = ({
         if (response.status === 200) {
           console.log("Transaction updated successfully:", response.data);
           setIsModalOpen(false);
+          setLastUpdatedTransaction(transactionData.id)
         } else if(response.status === 204){
           console.log("no changes were made")
           setIsModalOpen(false);

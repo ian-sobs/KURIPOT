@@ -6,11 +6,15 @@ import EditTransferTransaction from "./EditTransferTransaction";
 const TransactionSingleTransfer = ({
   fromAccount,
   toAccount,
+  fromAccountId,
+  toAccountId,
   description,
   amount,
   transactionId,
   date, // Add this line
   onDelete,
+  setLastUpdatedTransaction,
+  lastUpdatedTransaction
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalData, setModalData] = useState({
@@ -24,10 +28,13 @@ const TransactionSingleTransfer = ({
   const openEditModal = () => {
     setModalData({
       fromAccount,
+      fromAccountId,
       toAccount,
+      toAccountId,
       description,
       amount,
       date, // Pass date here
+      transactionId
     });
     setIsModalOpen(true);
   };
@@ -117,6 +124,8 @@ const TransactionSingleTransfer = ({
           categories={categories}
           error={error}
           onClose={closeModal}
+          setLastUpdatedTransaction = {setLastUpdatedTransaction}
+          lastUpdatedTransaction = {lastUpdatedTransaction}
         />
       )}
     </div>

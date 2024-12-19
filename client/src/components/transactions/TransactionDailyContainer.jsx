@@ -4,6 +4,7 @@ import { protectedRoute } from "../../apiClient/axiosInstance";
 
 export default function TransactionDailyContainer({date}){
     const [aggrDailyTransac, setAggrDailyTransac] = useState([])
+    const [lastUpdatedTransaction, setLastUpdatedTransaction] = useState(null)
     console.log("params date", date)
     useEffect(() => {
         protectedRoute.get("/transactions/getAggrDayTransactions", {
@@ -21,12 +22,14 @@ export default function TransactionDailyContainer({date}){
             .catch((error) => {
                 console.log(error)
             })
-    }, [date])
+    }, [date, lastUpdatedTransaction])
 
     return <>
         {
             (aggrDailyTransac.length !== 0) ? aggrDailyTransac.map((data, index) => <TransactionDaily
                 key={index}
+                lastUpdatedTransaction={lastUpdatedTransaction}
+                setLastUpdatedTransaction={setLastUpdatedTransaction}
                 date={new Date(data.year, data.month - 1, data.day).toDateString()}
                 day={data.day}
                 netIncome={data.net}
