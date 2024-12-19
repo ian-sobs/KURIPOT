@@ -5,7 +5,7 @@ import { isExpired, decodeToken } from "react-jwt";
 // import { useNavigate } from 'react-router-dom';
 
 const AxiosRequestInterceptor = ({ children }) => {
-    const { accessToken, setAccessToken } = useContext(TokenContext);
+    const { accessToken, setAccessToken, isAuthenticated, setIsAuthenticated } = useContext(TokenContext);
 
     useEffect(() => {
         const requestInterceptor = protectedRoute.interceptors.request.use(
