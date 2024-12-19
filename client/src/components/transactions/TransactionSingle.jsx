@@ -6,6 +6,8 @@ import EditTransaction from "./EditTransaction";// Import the modal component
 const TransactionSingle = ({
   category,
   account,
+  categoryId,
+  accountId,
   description,
   amount,
   transactionType,
@@ -16,16 +18,18 @@ const TransactionSingle = ({
   const [modalData, setModalData] = useState({
     description,
     amount,
-    account,
-    category,
+    account: accountId,
+    category: categoryId,
     transactionId,
     date: "",
+    transactionType
   });
 
   const [loading, setLoading] = useState(false);
   const [accounts, setAccounts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState("");
+  const [transacType, setTransacType] = useState(transactionType)
 
   // Fetch account data
   useEffect(() => {
@@ -50,7 +54,7 @@ const TransactionSingle = ({
   useEffect(() => {
     if (isModalOpen) {
       setLoading(true);
-      const isIncome = transactionType === "income"; // Determine category type
+      const isIncome = transacType === "income"; // Determine category type
       protectedRoute
         .get("/categories/getCategories", {
           params: { isIncome },
@@ -66,7 +70,7 @@ const TransactionSingle = ({
           setLoading(false);
         });
     }
-  }, [isModalOpen, transactionType]);
+  }, [isModalOpen, transacType]);
 
   // Handle delete transaction
   const handleDelete = () => {
@@ -146,6 +150,8 @@ const TransactionSingle = ({
           categories={categories}
           error={error}
           onClose={closeModal}
+          transacType={transacType}
+          setTransacType={setTransacType}
         />
       )}
     </div>
