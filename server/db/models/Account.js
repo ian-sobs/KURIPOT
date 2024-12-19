@@ -92,13 +92,13 @@ module.exports = (sequelize, DataTypes) =>{
 
           get() {
             const rawValue = this.getDataValue('amount');
-            const parsedValue = parseFloat(rawValue).toFixed(2);
+            const parsedValue = parseFloat(parseFloat(rawValue).toFixed(2));
             return parsedValue;
           },
           set(value) {
             // Storing passwords in plaintext in the database is terrible.
             // Hashing the value with an appropriate cryptographic hash function is better.
-            this.setDataValue('amount', parseFloat(value).toFixed(2));
+            this.setDataValue('amount', parseFloat(parseFloat(value).toFixed(2)));
           },
       }
     },
