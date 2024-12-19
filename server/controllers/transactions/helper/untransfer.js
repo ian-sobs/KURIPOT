@@ -9,25 +9,38 @@ exports.untransfer = async (toUntransfer, usrId) => {
         return null
     }
 
-    toUntransfer.amount = Math.abs(toUntransfer.amount)
+    let currToAccount = await Account.findByPk(parseInt(toUntransfer.to_account_id, 10), {
+        attributes: ['amount']
+    })
+    let currToAccountBalance = parseFloat(currToAccount.amount)
+
+    let currUntransferAmount = parseFloat(Math.abs(toUntransfer.amount))
+    let newToAccountBalance = currToAccountBalance - currUntransferAmount
 
     const [affectedToAccountsNum, affectedToAccounts] = await Account.update(
         {
-            amount: Sequelize.literal(`amount - ${toUntransfer.amount}`)
+            amount: newToAccountBalance
         },
         {
             where: {
                 id: toUntransfer.to_account_id,
                 user_id: usrId
-            }
+            },
+            returning: true
         }
     );
 
     const [affectedToAccount] = affectedToAccounts
 
+    let currFromAccount = await Account.findByPk(parseInt(toUntransfer.from_account_id, 10), {
+        attributes: ['amount']
+    })
+    let currFromAccountBalance = parseFloat(currFromAccount.amount)
+    let newFromAccountBalance = currFromAccountBalance + currUntransferAmount
+
     const [affectedFromAccountsNum, affectedFromAccounts] = await Account.update(
         {
-            amount: Sequelize.literal(`amount + ${toUntransfer.amount}`)
+            amount: newFromAccountBalance
         },
         {
             where: {

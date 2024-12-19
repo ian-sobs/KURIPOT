@@ -12,32 +12,50 @@ const EditTransaction = ({
   categories,
   error,
   onClose,
-  transactionType, // New prop for transaction type (Income, Expense, Transfer)
+  transacType,
+  setTransacType // New prop for transaction type (Income, Expense, Transfer)
 }) => {
   const [updatedData, setUpdatedData] = useState(modalData);
+
+  const transacTypes = [{name: 'Income', value:'income'}, {name: 'Expense', value:'expense'}, {name: 'Transfer', value:'transfer'}]
+
+  function categoryWasDeleted(category){
+    if(!category || category == ''){
+      return <option value=''>Select a category</option>
+    }
+  }
 
   useEffect(() => {
     setUpdatedData(modalData);
   }, [modalData]);
 
+  useEffect(() => {
+    console.log("updatedData", updatedData)
+    console.log('transacType', transacType)
+  }, [updatedData])
+
   const handleEditChange = (e) => {
+
     setUpdatedData({ ...updatedData, [e.target.name]: e.target.value });
   };
 
   const handleSave = () => {
     setLoading(true);
     const transactionData = {
-      description: updatedData.description,
-      amount: updatedData.amount,
-      account: updatedData.account,
-      category: updatedData.category,
-      date: updatedData.date,
+      note: updatedData.description,
+      amount: parseFloat(parseFloat(updatedData.amount).toFixed(2)),
+      account_id: parseInt(updatedData.account, 10),
+      category_id: parseInt(updatedData.category, 10),
+      date: new Date(updatedData.date),
+      type: updatedData.transactionType,
+      id: parseInt(updatedData.transactionId)
     };
 
     // If it's a transfer, we might need to send two accounts (from and to)
     // if (transactionType === "Transfer") {
     //   transactionData.toAccount = updatedData.toAccount;
     // }
+    
 
     protectedRoute
       .patch(`/transactions/updateTransaction`, transactionData)
@@ -45,6 +63,9 @@ const EditTransaction = ({
         setLoading(false);
         if (response.status === 200) {
           console.log("Transaction updated successfully:", response.data);
+          setIsModalOpen(false);
+        } else if(response.status === 204){
+          console.log("no changes were made")
           setIsModalOpen(false);
         } else {
           console.error("Failed to update transaction");
@@ -83,7 +104,7 @@ const EditTransaction = ({
           />
         </div>
 
-        {transactionType !== "Transfer" && (
+        {transacType !== "transfer" && (
           <>
             <div className="mb-4">
               <label className="block text-gray-300 font-medium">Category:</label>
@@ -93,9 +114,10 @@ const EditTransaction = ({
                 onChange={handleEditChange}
                 className="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
+                {categoryWasDeleted(updatedData.category)}
                 {categories.length > 0 ? (
                   categories.map((categoryItem) => (
-                    <option key={categoryItem.id} value={categoryItem.name}>
+                    <option key={categoryItem.id} value={categoryItem.id}>
                       {categoryItem.name}
                     </option>
                   ))
@@ -111,13 +133,13 @@ const EditTransaction = ({
           <label className="block text-gray-300 font-medium">Account:</label>
           <select
             name="account"
-            value={updatedData.account}
+            value={updatedData.account || ''}
             onChange={handleEditChange}
             className="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {accounts.length > 0 ? (
               accounts.map((accountItem) => (
-                <option key={accountItem.id} value={accountItem.name}>
+                <option key={accountItem.id} value={accountItem.id}>
                   {accountItem.name}
                 </option>
               ))
@@ -159,6 +181,26 @@ const EditTransaction = ({
             className="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
+
+        {/* { <div className="mb-4">
+          <label className="block text-gray-300 font-medium">Account:</label>
+          <select
+            name="transactionType"
+            value={updatedData.transactionType}
+            onChange={handleEditChange}
+            className="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {transacTypes.length > 0 ? (
+              transacTypes.map((transacType, index) => (
+                <option key={index} onClick={()=>setTransacType(transacType.value)} value={transacType.value}>
+                  {transacType.name}
+                </option>
+              ))
+            ) : (
+              <option value="">No types available</option>
+            )}
+          </select>
+        </div> } */}
 
         <div className="flex justify-between mt-4">
           <button

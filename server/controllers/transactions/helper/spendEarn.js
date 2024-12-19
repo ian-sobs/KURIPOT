@@ -5,22 +5,35 @@ const {sequelize} = db
 const {Account} = sequelize.models
 
 exports.spendEarn = async (toSpendEarn, usrId) => {
-    if(toSpendEarn.type !== 'income' && toSpendEarn !== 'expense'){
+    let increaseBy = parseFloat(toSpendEarn.amount)
+    if(toSpendEarn.type !== 'income' && toSpendEarn.type !== 'expense'){
         return null
     }
-    if((toSpendEarn.amount > 0 && toSpendEarn.type === 'expense') || (toSpendEarn.amount < 0 && toSpendEarn.type === 'income')){
-        toSpendEarn.amount = -toSpendEarn.amount
-}
+    if((increaseBy > 0 && toSpendEarn.type === 'expense') || (increaseBy < 0 && toSpendEarn.type === 'income')){
+        increaseBy = -increaseBy
+    }
+
+    let currentAccount = await Account.findByPk(parseInt(toSpendEarn.account_id, 10), {
+        attributes: ['amount']
+    })
+
+    console.log('spendEarn account curr balance', currentAccount.amount)
+    console.log('increaseBy', increaseBy)
+    let currentAmount = parseFloat(currentAccount.amount)
+    let newBalance = currentAmount + increaseBy
+
+    console.log('newBalance', newBalance)
 
     const [affectedAccountsNum, affectedAccounts] = await Account.update(
         {
-            amount: Sequelize.literal(`amount + ${toSpendEarn.amount}`)
+            amount: newBalance
         },
         {
             where: {
                 id: toSpendEarn.account_id,
                 user_id: usrId
-            }
+            },
+            returning: true
         }
     );
 

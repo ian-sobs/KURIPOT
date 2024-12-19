@@ -57,6 +57,8 @@ const TransactionDaily = ({ date, day, netIncome }) => {
         <TransactionSingle
           key={transaction.id}
           category={transaction.category.name}
+          categoryId={transaction.category.id}
+          accountId={transaction.account.id}
           //name={"klsjaf"}
           account={transaction.account.name}
           description={transaction.note}
