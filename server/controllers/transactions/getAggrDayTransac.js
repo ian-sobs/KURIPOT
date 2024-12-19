@@ -171,8 +171,8 @@ exports.getAggrDayTransac = async (req, res) => {
                 t.type = 'transfer' AND 
                 t.user_id = :usrId AND
                 EXTRACT(YEAR FROM t.date) = :parsedYear AND
-                EXTRACT(MONTH FROM t.date) = :parsedMonth AND
-                EXTRACT(DAY FROM t.date) NOT IN (:daysToIgnoreArr)
+                EXTRACT(MONTH FROM t.date) = :parsedMonth 
+                ${daysToIgnoreArr.length !== 0 ? ' AND EXTRACT(DAY FROM t.date) NOT IN (:daysToIgnoreArr)' : ''}
             GROUP BY 
                 t.user_id, year, month, day
             ORDER BY 
