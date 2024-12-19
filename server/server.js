@@ -80,7 +80,7 @@ const startServer = async () => {
     // Execute this only after the first try-catch block is successful
     if (process.env.NODE_ENV === "test" || process.env.NODE_ENV === "development") {
       try {
-        await db.sequelize.sync();
+        await db.sequelize.sync({ alter: true });
         console.log("Models have been synchronized to the database");
       } catch (error) {
         console.error("Failed to synchronize models:", error);
