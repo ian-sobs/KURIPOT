@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { protectedRoute } from "../../apiClient/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const EditTransaction = ({
   isModalOpen,
@@ -18,7 +19,7 @@ const EditTransaction = ({
   lastUpdatedTransaction
 }) => {
   const [updatedData, setUpdatedData] = useState(modalData);
-
+  const navigate = useNavigate(); 
   const transacTypes = [{name: 'Income', value:'income'}, {name: 'Expense', value:'expense'}, {name: 'Transfer', value:'transfer'}]
 
   function categoryWasDeleted(category){
@@ -67,9 +68,11 @@ const EditTransaction = ({
           console.log("Transaction updated successfully:", response.data);
           setIsModalOpen(false);
           setLastUpdatedTransaction(transactionData.id)
+          navigate("/dashboard/transactions");
         } else if(response.status === 204){
           console.log("no changes were made")
           setIsModalOpen(false);
+          navigate("/dashboard/transactions");
         } else {
           console.error("Failed to update transaction");
         }
