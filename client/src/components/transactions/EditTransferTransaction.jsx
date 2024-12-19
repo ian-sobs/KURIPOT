@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { protectedRoute } from "../../apiClient/axiosInstance";
+import { useNavigate } from "react-router-dom"; 
 
 const EditTransferTransaction = ({
   isModalOpen,
@@ -12,6 +13,8 @@ const EditTransferTransaction = ({
   lastUpdatedTransaction
 }) => {
   const [updatedData, setUpdatedData] = useState(modalData);
+  const [formError, setFormError] = useState("");
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     setUpdatedData(modalData);
@@ -49,6 +52,13 @@ const EditTransferTransaction = ({
   };
 
   const handleSave = () => {
+
+    if (!updatedData.date) {
+      setFormError("Date is required.");
+      return;
+    }
+
+    setFormError("");
     // Logic to save the updated data
     const transactionData = {
       id: parseInt(updatedData.transactionId, 10),
@@ -64,9 +74,13 @@ const EditTransferTransaction = ({
         setIsModalOpen(false); // Close modal after saving
         const {data} = response
         console.log(data)
+        navigate("/dashboard/transactions");
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error)
+        setIsModalOpen(false);
+        navigate("/dashboard/transactions");
       })
     console.log("Updated Data:", updatedData);
     
@@ -81,6 +95,9 @@ const EditTransferTransaction = ({
             Edit Transfer Transaction
           </h3>
 
+          {formError && (
+          <p className="text-red-500 text-sm mb-4">{formError}</p>
+        )}
           {/* From Account */}
           <div className="mb-4">
             <label className="block text-gray-300 font-medium">
