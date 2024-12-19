@@ -134,7 +134,7 @@ exports.getAggrMonthTransac = async (req, res) => {
             return res.status(200).json(aggregateMonthTransac)
         
     } catch (err) {
-        console.error('Error fetching aggregate transactions for the month:', err); // Log the error
+      //  console.error('Error fetching aggregate transactions for the month:', err); // Log the error
         return res.status(500).json({ message: 'Failed to fetch aggregate month transactions' });
     }
 };

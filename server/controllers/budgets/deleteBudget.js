@@ -32,7 +32,7 @@ exports.deleteBudget = async (req, res)=>{
 
         return res.status(200).json({numRowsAffected: numRowsAffected})
     } catch (err) {
-        console.error('Error deleting the budget:', err.message); // Log the error
+        //console.error('Error deleting the budget:', err.message); // Log the error
         return res.status(500).json({ message: 'Failed to delete the budget' }); // Respond with an error
     }
 

@@ -17,7 +17,7 @@ exports.makeAccount = async (req, res)=>{
                 user_id: usrId, 
                 amount: amount || 0
             });
-        console.log('accountOfUser', accountOfUser)
+        //console.log('accountOfUser', accountOfUser)
         if (parseFloat(accountOfUser.amount).toFixed(2) != 0){
             const transacAdjust = await Transaction.create(
                 {
@@ -42,7 +42,7 @@ exports.makeAccount = async (req, res)=>{
             account: accountOfUser
         })
     } catch (err) {
-        console.error('Error making the account:', err.message); // Log the error
+        //console.error('Error making the account:', err.message); // Log the error
         return res.status(500).json({ message: 'Failed to make account' }); // Respond with an error
     }
 

@@ -39,7 +39,7 @@ exports.addNewBudgetCategories = async (req, res) => {
         return res.status(201).json(newBudgetCategories)
 
     } catch (error) {
-        console.error('Error making a new budget category:', error.message); // Log the error
+        //console.error('Error making a new budget category:', error.message); // Log the error
         return res.status(500).json({ message: 'Failed to to make a new budget category' }); // Respond with an error
     }
 }

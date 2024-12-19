@@ -67,7 +67,7 @@ exports.deleteTransac = async (req, res) => {
             //     console.log('After Expense Update:', account.amount);
             // }
 
-            console.log('Updated Account Amount:', account.amount);
+          //  console.log('Updated Account Amount:', account.amount);
 
             // Ensure the amount is valid (not NaN or invalid value)
             if (isNaN(account.amount)) {
@@ -134,8 +134,8 @@ exports.deleteTransac = async (req, res) => {
             //     console.log('After Expense Update:', account.amount);
             // }
 
-            console.log('Updated destination account amount:', toAccount.amount);
-            console.log('Updated source account amount:', fromAccount.amount);
+          //  console.log('Updated destination account amount:', toAccount.amount);
+         //   console.log('Updated source account amount:', fromAccount.amount);
 
             // Ensure the amount is valid (not NaN or invalid value)
             if (isNaN(toAccount.amount) || isNaN(fromAccount.amount)) {
@@ -169,7 +169,7 @@ exports.deleteTransac = async (req, res) => {
     } catch (error) {
         // Rollback the transaction in case of an error
         await t.rollback();
-        console.error('Failed to delete the transaction', error);
+      //  console.error('Failed to delete the transaction', error);
         return res.status(500).json({ message: `Failed to delete the transaction with id ${id}` });
     }
 };

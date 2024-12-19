@@ -152,8 +152,8 @@ exports.getAggrDayTransac = async (req, res) => {
             return daySummary.day
         })
 
-        console.log("aggregateDayTransac", aggregateDayTransac)
-        console.log("daysToIgnoreArr", daysToIgnoreArr)
+      //  console.log("aggregateDayTransac", aggregateDayTransac)
+      //  console.log("daysToIgnoreArr", daysToIgnoreArr)
 
         const additionalTransfersQuery = await sequelize.query(
             `
@@ -190,7 +190,7 @@ exports.getAggrDayTransac = async (req, res) => {
             }
         );
         
-        console.log("additionalTransfersQuery", additionalTransfersQuery);
+      //  console.log("additionalTransfersQuery", additionalTransfersQuery);
 
         const combinedResults = [...aggregateDayTransac, ...additionalTransfersQuery];
 
@@ -205,13 +205,13 @@ exports.getAggrDayTransac = async (req, res) => {
             }
         });
 
-        console.log("combinedResults", combinedResults);
+       // console.log("combinedResults", combinedResults);
         
 
         return res.status(200).json(combinedResults)
 
     } catch (err) {
-        console.error('Error fetching aggregate transaction for the period:', err); // Log the error
+       // console.error('Error fetching aggregate transaction for the period:', err); // Log the error
         return res.status(500).json({ message: 'Failed to fetch aggregate transactions' });
     }
 };

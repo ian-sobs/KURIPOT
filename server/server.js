@@ -104,12 +104,12 @@ const startServer = async () => {
   // REFRESH_TOKEN_JWT_SECRET="ljeqw7rcl4V0DCYZ2SzYtPLEJudxCVI+l2J8eVQiCuA="
   // CORS_ORIGIN=http://localhost:3000
 
-  console.log("process.env.NODE_ENV : ", process.env.NODE_ENV)
-  console.log("process.env.POSTGRES_HOST : ", process.env.POSTGRES_HOST)
-  console.log("process.env.POSTGRES_USER : ", process.env.POSTGRES_USER)
-  console.log("process.env.POSTGRES_PASSWORD : ", process.env.POSTGRES_PASSWORD)
-  console.log("process.env.POSTGRES_DB : ", process.env.POSTGRES_DB)
-  console.log("process.env.POSTGRES_PORT : ", process.env.POSTGRES_PORT)
+  // console.log("process.env.NODE_ENV : ", process.env.NODE_ENV)
+  // console.log("process.env.POSTGRES_HOST : ", process.env.POSTGRES_HOST)
+  // console.log("process.env.POSTGRES_USER : ", process.env.POSTGRES_USER)
+  // console.log("process.env.POSTGRES_PASSWORD : ", process.env.POSTGRES_PASSWORD)
+  // console.log("process.env.POSTGRES_DB : ", process.env.POSTGRES_DB)
+  // console.log("process.env.POSTGRES_PORT : ", process.env.POSTGRES_PORT)
 
   app.use(cookieParser())
   app.use(loggingMiddleware);  // Use the logging middleware for all routes

@@ -38,7 +38,7 @@ exports.getTotalExpense = async (req, res) => {
             totalExpense: totalSpent
         })
     } catch(err){
-        console.error('Error fetching transactions:', err); // Log the error
+       // console.error('Error fetching transactions:', err); // Log the error
         return res.status(500).json({ message: 'Failed to fetch total expense' });
     }
 

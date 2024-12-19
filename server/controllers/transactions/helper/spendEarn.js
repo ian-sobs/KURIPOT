@@ -17,12 +17,12 @@ exports.spendEarn = async (toSpendEarn, usrId) => {
         attributes: ['amount']
     })
 
-    console.log('spendEarn account curr balance', currentAccount.amount)
-    console.log('increaseBy', increaseBy)
+   // console.log('spendEarn account curr balance', currentAccount.amount)
+  //  console.log('increaseBy', increaseBy)
     let currentAmount = parseFloat(currentAccount.amount)
     let newBalance = currentAmount + increaseBy
 
-    console.log('newBalance', newBalance)
+  //  console.log('newBalance', newBalance)
 
     const [affectedAccountsNum, affectedAccounts] = await Account.update(
         {

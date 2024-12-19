@@ -53,8 +53,8 @@ exports.makeExpense = async function makeExpense(req, res){
             type: 'expense'
         })
 
-        console.log("accountInfo.amount:", accountInfo.amount); // Should log the current account amount
-        console.log("transacInfo.amount:", transacInfo.amount); // Should log the transaction amount
+      //  console.log("accountInfo.amount:", accountInfo.amount); // Should log the current account amount
+       // console.log("transacInfo.amount:", transacInfo.amount); // Should log the transaction amount
 
         // Change everyone without a last name to "Doe"
         await Account.update(
@@ -84,7 +84,7 @@ exports.makeExpense = async function makeExpense(req, res){
             recurrId: transacInfo.recurrId
         })
     } catch(err){
-        console.error('Error creating the expense transaction:', err); // Log the error
+      //  console.error('Error creating the expense transaction:', err); // Log the error
         return res.status(500).json({ message: 'Failed to create expense transaction' });
     }
 }

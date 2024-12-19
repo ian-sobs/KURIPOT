@@ -19,13 +19,13 @@ exports.signInUser = async (req, res) => {
         }
     }
     catch(error){
-        console.error("Error during user sign-in:", error);
+      //  console.error("Error during user sign-in:", error);
         return res.status(500).json({ error: "Internal server error" });        
     }
 
     try{
         const match = await bcrypt.compare(password, user.password).catch(err => {
-            console.error("Error comparing password:", err);
+           // console.error("Error comparing password:", err);
             return false;
           });
 
@@ -35,14 +35,14 @@ exports.signInUser = async (req, res) => {
         }
     }
     catch(error){
-        console.error("Error during user sign-in:", error);
+       // console.error("Error during user sign-in:", error);
         return res.status(500).json({ error: "Internal server error" });                
     }
         // jwt automatically adds an 'issuedAt' attribute to the token
     const accessToken = makeAccessToken(user)
     const refreshToken = makeRefreshToken(user)
 
-    console.log("User signed-in successfully") 
+   // console.log("User signed-in successfully") 
 
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,

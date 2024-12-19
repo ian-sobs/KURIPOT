@@ -13,7 +13,7 @@ const basename = path.basename(__filename);
 
 const db = {};
 
-console.log("config", config[process.env.NODE_ENV])
+//console.log("config", config[process.env.NODE_ENV])
 // Initialize Sequelize instance
 let sequelize = new Sequelize(process.env.POSTGRES_DB, process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, config[process.env.NODE_ENV]);
 // if (config.use_env_variable) {

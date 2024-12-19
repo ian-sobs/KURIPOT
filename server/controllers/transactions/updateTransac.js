@@ -134,7 +134,7 @@ async function toIncomeOrExpense(req, res, oldTransacInfo){
 
         return res.status(200).json(retTransac(updatedTransacInfo))
     } catch (error) {
-        console.error('Error updating transaction:', err); // Log the error
+      //  console.error('Error updating transaction:', err); // Log the error
         return res.status(500).json({ message: 'Failed to update the transaction' });
     }
 
@@ -287,7 +287,7 @@ async function toTransfer(req, res, oldTransacInfo){
 
         return res.status(200).json(retTransac(updatedTransacInfo))
     } catch (error) {
-        console.error('Error updating transaction:', error); // Log the error
+      //  console.error('Error updating transaction:', error); // Log the error
         return res.status(500).json({ message: 'Failed to update the transaction' });
     }
 }

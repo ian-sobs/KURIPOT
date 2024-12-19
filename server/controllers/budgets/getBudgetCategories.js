@@ -49,7 +49,7 @@ exports.getBudgetCategories = async (req, res)=>{
         return res.status(200).json(monthBudget)
 
     } catch (err) {
-        console.error('Error fetching budget of a month:', err.message); // Log the error
+        //console.error('Error fetching budget of a month:', err.message); // Log the error
         return res.status(500).json({ message: 'Failed to fetch budget of a month' }); // Respond with an error
     }
 

@@ -11,7 +11,7 @@ exports.makeCategory = async (req, res) => {
 
         return res.status(201).json(newCategory)
     } catch(err){
-        console.error('Error making the new category:', err.message); // Log the error
+       // console.error('Error making the new category:', err.message); // Log the error
         return res.status(500).json({ message: 'Failed to make category' }); 
     }
 

@@ -7,7 +7,7 @@ async function checkIfUserExists(email) {
         const user = await User.findOne({ where: { email } });
         return user !== null; // Returns true if user exists, otherwise false
     } catch (error) {
-        console.error("Error checking if user exists:", error);
+       // console.error("Error checking if user exists:", error);
         return false; // Return false in case of error
     }
 }

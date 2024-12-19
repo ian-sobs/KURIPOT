@@ -32,7 +32,7 @@ exports.valQueryParamDate = function valQueryParamDate(reqQuery, res, dateCol){
         if (parsedStartDate > parsedEndDate) {
             return res.status(400).json({ message: 'Start date cannot be later than end date' });
         }
-        console.log("dateCol ", dateCol)
+      //  console.log("dateCol ", dateCol)
 
         parsedStartDate = new Date(parsedStartDate.toISOString())
         parsedEndDate = new Date(parsedEndDate.toISOString())
