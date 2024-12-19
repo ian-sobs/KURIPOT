@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { protectedRoute } from "../../apiClient/axiosInstance";
 
 const EditTransferTransaction = ({
   isModalOpen,
@@ -7,6 +8,8 @@ const EditTransferTransaction = ({
   setModalData,
   accounts,
   onClose,
+  setLastUpdatedTransaction,
+  lastUpdatedTransaction
 }) => {
   const [updatedData, setUpdatedData] = useState(modalData);
 
@@ -14,15 +17,59 @@ const EditTransferTransaction = ({
     setUpdatedData(modalData);
   }, [modalData]);
 
+  useEffect(()=>{
+    console.log('updatedData', updatedData)
+  })
+
   const handleEditChange = (e) => {
     const { name, value } = e.target;
-    setUpdatedData({ ...updatedData, [name]: value });
+  
+    if (name === "toAccount") {
+      // Find the selected account
+      const selectedAccount = accounts.find(account => account.id === parseInt(value));
+      if (selectedAccount) {
+        setUpdatedData({
+          ...updatedData,
+          toAccount: selectedAccount.name, // Update account name
+          toAccountId: selectedAccount.id // Update account ID
+        });
+      }
+    } else if (name === "fromAccount") {
+      const selectedAccount = accounts.find(account => account.id === parseInt(value));
+      if (selectedAccount) {
+        setUpdatedData({
+          ...updatedData,
+          fromAccount: selectedAccount.name, // Update account name
+          fromAccountId: selectedAccount.id // Update account ID
+        });
+      }
+    } else {
+      setUpdatedData({ ...updatedData, [name]: value });
+    }
   };
 
   const handleSave = () => {
     // Logic to save the updated data
+    const transactionData = {
+      id: parseInt(updatedData.transactionId, 10),
+      amount: parseFloat(parseFloat(updatedData.amount).toFixed(2)),
+      from_account_id: parseInt(updatedData.fromAccountId, 10),
+      date: new Date(new Date(updatedData.date).toISOString()),
+      to_account_id: parseInt(updatedData.toAccountId, 10),
+      note: updatedData.description,
+      type: 'transfer'
+    }
+    protectedRoute.patch("/transactions/updateTransaction", transactionData)
+      .then((response) => {
+        setIsModalOpen(false); // Close modal after saving
+        const {data} = response
+        console.log(data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     console.log("Updated Data:", updatedData);
-    setIsModalOpen(false); // Close modal after saving
+    
   };
 
 
@@ -41,13 +88,13 @@ const EditTransferTransaction = ({
             </label>
             <select
               name="fromAccount"
-              value={updatedData.fromAccount}
+              value={updatedData.fromAccountId || ""}
               onChange={handleEditChange}
               className="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               {accounts.length > 0 ? (
                 accounts.map((accountItem) => (
-                  <option key={accountItem.id} value={accountItem.name}>
+                  <option key={accountItem.id} value={accountItem.id}>
                     {accountItem.name}
                   </option>
                 ))
@@ -55,6 +102,7 @@ const EditTransferTransaction = ({
                 <option value="">No accounts available</option>
               )}
             </select>
+
           </div>
 
           {/* To Account */}
@@ -64,13 +112,13 @@ const EditTransferTransaction = ({
             </label>
             <select
               name="toAccount"
-              value={updatedData.toAccount}
+              value={updatedData.toAccountId || ""}
               onChange={handleEditChange}
               className="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               {accounts.length > 0 ? (
                 accounts.map((accountItem) => (
-                  <option key={accountItem.id} value={accountItem.name}>
+                  <option key={accountItem.id} value={accountItem.id}>
                     {accountItem.name}
                   </option>
                 ))

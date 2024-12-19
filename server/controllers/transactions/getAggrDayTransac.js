@@ -144,10 +144,71 @@ exports.getAggrDayTransac = async (req, res) => {
                     type: QueryTypes.SELECT,
                     model:Transaction,
                     plain: false,
+                    raw: true
                 }
             )
 
-        return res.status(200).json(aggregateDayTransac)
+        const daysToIgnoreArr = aggregateDayTransac.map((daySummary) => {
+            return daySummary.day
+        })
+
+        console.log("aggregateDayTransac", aggregateDayTransac)
+        console.log("daysToIgnoreArr", daysToIgnoreArr)
+
+        const additionalTransfersQuery = await sequelize.query(
+            `
+            SELECT 
+                t.user_id,
+                EXTRACT(YEAR FROM t.date) AS year,
+                EXTRACT(MONTH FROM t.date) AS month,
+                EXTRACT(DAY FROM t.date) AS day,
+                0 AS income,
+                0 AS expense,
+                0 AS net
+            FROM 
+                transactions t
+            WHERE 
+                t.type = 'transfer' AND 
+                t.user_id = :usrId AND
+                EXTRACT(YEAR FROM t.date) = :parsedYear AND
+                EXTRACT(MONTH FROM t.date) = :parsedMonth 
+                ${daysToIgnoreArr.length !== 0 ? ' AND EXTRACT(DAY FROM t.date) NOT IN (:daysToIgnoreArr)' : ''}
+            GROUP BY 
+                t.user_id, year, month, day
+            ORDER BY 
+                year DESC, month DESC, day DESC;
+            `,
+            {
+                replacements: {
+                    usrId: usrId,
+                    parsedYear: parsedYear,
+                    parsedMonth: parsedMonth,
+                    daysToIgnoreArr: daysToIgnoreArr
+                },
+                type: QueryTypes.SELECT,
+                raw: true
+            }
+        );
+        
+        console.log("additionalTransfersQuery", additionalTransfersQuery);
+
+        const combinedResults = [...aggregateDayTransac, ...additionalTransfersQuery];
+
+        // Sort the combined array by year, month, and day in descending order
+        combinedResults.sort((a, b) => {
+            if (b.year !== a.year) {
+                return b.year - a.year; // Compare by year
+            } else if (b.month !== a.month) {
+                return b.month - a.month; // Compare by month
+            } else {
+                return b.day - a.day; // Compare by day
+            }
+        });
+
+        console.log("combinedResults", combinedResults);
+        
+
+        return res.status(200).json(combinedResults)
 
     } catch (err) {
         console.error('Error fetching aggregate transaction for the period:', err); // Log the error

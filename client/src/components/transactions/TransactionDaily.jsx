@@ -4,7 +4,7 @@ import { protectedRoute } from "../../apiClient/axiosInstance";
 import formatNumWithCommas from "../../utility/formatNumWithCommas";
 import TransactionSingleTransfer from "./TransactionSingleTransfer";
 
-const TransactionDaily = ({ date, day, netIncome: initialNetIncome }) => {
+const TransactionDaily = ({ date, day, netIncome: initialNetIncome, lastUpdatedTransaction, setLastUpdatedTransaction }) => {
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
   const [net, setNet] = useState(0);
@@ -31,7 +31,7 @@ const TransactionDaily = ({ date, day, netIncome: initialNetIncome }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [lastUpdatedTransaction]);
   const [isOpen, setIsOpen] = useState(false);
 
   // Format date to be always 2 digits
@@ -61,6 +61,8 @@ const TransactionDaily = ({ date, day, netIncome: initialNetIncome }) => {
           categoryId={transaction.category.id}
           accountId={transaction.account.id}
           //name={"klsjaf"}
+          setLastUpdatedTransaction={setLastUpdatedTransaction}
+          lastUpdatedTransaction={lastUpdatedTransaction}
           account={transaction.account.name}
           description={transaction.note}
           amount={transaction.amount}
@@ -77,8 +79,12 @@ const TransactionDaily = ({ date, day, netIncome: initialNetIncome }) => {
     } else if (transaction.type == "transfer") {
       return (
         <TransactionSingleTransfer
+          setLastUpdatedTransaction={setLastUpdatedTransaction}
+          lastUpdatedTransaction={lastUpdatedTransaction}
           fromAccount={transaction.fromAccount.name}
           toAccount={transaction.toAccount.name}
+          fromAccountId={transaction.fromAccount.id}
+          toAccountId={transaction.toAccount.id}
           description={transaction.note}
           amount={transaction.amount}
           transactionType={transaction.type}

@@ -13,6 +13,8 @@ const TransactionSingle = ({
   transactionType,
   transactionId,
   onDelete,
+  setLastUpdatedTransaction,
+  lastUpdatedTransaction
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalData, setModalData] = useState({
@@ -152,6 +154,8 @@ const TransactionSingle = ({
           onClose={closeModal}
           transacType={transacType}
           setTransacType={setTransacType}
+          setLastUpdatedTransaction={setLastUpdatedTransaction}
+          lastUpdatedTransaction={lastUpdatedTransaction}
         />
       )}
     </div>
