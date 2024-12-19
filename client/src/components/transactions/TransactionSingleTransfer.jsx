@@ -1,12 +1,26 @@
 import React from "react";
 import formatNumWithCommas from "../../utility/formatNumWithCommas";
+import { protectedRoute } from "../../apiClient/axiosInstance";
 
 const TransactionSingleTransfer = ({
   fromAccount,
   toAccount,
   description,
-  amount
+  amount,
+  transactionId,
+  onDelete,
 }) => {
+
+  const handleDelete = () => {
+    protectedRoute
+      .delete("/transactions/deleteTransaction", { data: { id: transactionId } })
+      .then(() => {
+        onDelete(transactionId); // Notify the parent component
+      })
+      .catch((error) => {
+        console.error("Failed to delete transaction", error);
+      });
+  };
 
   return (
     <div className="singletrans-container flex justify-between items-center p-2 pl-8">
@@ -28,6 +42,12 @@ const TransactionSingleTransfer = ({
       </div>
 
       <div className="singletrans-right text-gray-500">₱{formatNumWithCommas(amount)}</div>
+      <button
+        className="delete-button text-red-500/50 hover:text-red-700"
+        onClick={handleDelete}
+      >
+        <i className="bi bi-trash pl-5"></i>
+      </button>
     </div>
   );
 };
