@@ -50,7 +50,7 @@ exports.getTopIncome = async (req, res) => {
             categories: catEarned
         })
     } catch(err){
-        console.error('Error fetching categories:', err); // Log the error
+      //  console.error('Error fetching categories:', err); // Log the error
         return res.status(500).json({ message: 'Failed to fetch top spending categories in the given date or date range' });
     }
 

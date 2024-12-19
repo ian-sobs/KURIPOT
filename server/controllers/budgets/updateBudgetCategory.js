@@ -45,7 +45,7 @@ exports.updateBudgetCategory = async (req, res) => {
         return res.status(200).json(updatedBudgetCategory)
 
     } catch (error) {
-        console.error('Error updating a budget category:', error.message); // Log the error
+        //console.error('Error updating a budget category:', error.message); // Log the error
         return res.status(500).json({ message: 'Failed to to update a budget category' }); // Respond with an error
     }
 }

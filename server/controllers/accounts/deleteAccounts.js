@@ -24,7 +24,7 @@ exports.deleteAccounts = async (req, res) => {
 
         return res.status(404).json({message: 'No accounts found to delete for the specified user.'})
     } catch (error) {
-        console.error('Error deleting the accounts:', error); // Log the error for debugging
+        //console.error('Error deleting the accounts:', error); // Log the error for debugging
         return res.status(500).json({ message: 'Failed to delete account(s), please try again later.' });   
     }
 }

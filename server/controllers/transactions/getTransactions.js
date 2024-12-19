@@ -66,7 +66,7 @@ exports.getTransac = async (req, res) => {
 
         return res.status(200).json(retTransacArr);
     } catch (err) {
-        console.error('Error fetching transactions:', err); // Log the error
+      //  console.error('Error fetching transactions:', err); // Log the error
         return res.status(500).json({ message: 'Failed to fetch transactions' });
     }
 };

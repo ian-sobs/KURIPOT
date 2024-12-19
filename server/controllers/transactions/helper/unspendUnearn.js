@@ -18,12 +18,12 @@ exports.unspendUnearn = async (toUnspendUnearn, usrId) => {
     let currentAccount = await Account.findByPk(parseInt(toUnspendUnearn.account_id, 10), {
         attributes: ['amount']
     })
-    console.log('unspeadEarn curr account balance', currentAccount.amount)
-    console.log('deductBy', deductBy)
+   // console.log('unspeadEarn curr account balance', currentAccount.amount)
+  //  console.log('deductBy', deductBy)
     let currentAmount = parseFloat(currentAccount.amount)
     let newBalance = currentAmount - deductBy
 
-    console.log('newBalance', newBalance)
+ //   console.log('newBalance', newBalance)
     const [affectedAccountsNum, affectedAccounts] = await Account.update(
         {
             amount: newBalance
@@ -37,8 +37,8 @@ exports.unspendUnearn = async (toUnspendUnearn, usrId) => {
         }
     );
 
-    console.log("affectedAccountsNum", affectedAccountsNum)
-    console.log("affectedAccounts", affectedAccounts)
+   // console.log("affectedAccountsNum", affectedAccountsNum)
+  //  console.log("affectedAccounts", affectedAccounts)
     const [affectedAccount] = affectedAccounts
 
     return {

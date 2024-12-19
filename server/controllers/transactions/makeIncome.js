@@ -53,8 +53,8 @@ exports.makeIncome = async function makeIncome(req, res){
             type: 'income'
         })
 
-        console.log("accountInfo.amount:", accountInfo.amount); // Should log the current account amount
-        console.log("transacInfo.amount:", transacInfo.amount);
+      //  console.log("accountInfo.amount:", accountInfo.amount); // Should log the current account amount
+      //  console.log("transacInfo.amount:", transacInfo.amount);
 
         // Change everyone without a last name to "Doe"
         await Account.update(
@@ -84,7 +84,7 @@ exports.makeIncome = async function makeIncome(req, res){
             recurrId: parseInt(transacInfo.recurrId, 10)
         })
     } catch(err){
-        console.error('Error creating the income transaction:', err); // Log the error
+      //  console.error('Error creating the income transaction:', err); // Log the error
         return res.status(500).json({ message: 'Failed to create income transaction' });
     }
 }

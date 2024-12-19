@@ -15,7 +15,7 @@ exports.getAggrWeekTransac = async (req, res) => {
     try {
 
         for(let x = numWeeks; x >= 1; --x){
-            console.log('x', x)
+         //   console.log('x', x)
             dateRange = getWeekDateRange(parseInt(year,10), parseInt(month, 10), x)
             startDate = dateRange.startDate
             endDate = dateRange.endDate
@@ -69,7 +69,7 @@ exports.getAggrWeekTransac = async (req, res) => {
 
         return res.status(200).json(weekAggrRecs)
     } catch (err) {
-        console.error('Error fetching aggregate transaction for the period:', err); // Log the error
+       // console.error('Error fetching aggregate transaction for the period:', err); // Log the error
         return res.status(500).json({ message: 'Failed to fetch aggregate transactions' });
     }
 };

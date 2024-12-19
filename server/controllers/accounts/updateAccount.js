@@ -92,7 +92,7 @@ exports.updateAccount = async (req, res) => {
       numTransacAffected: numTransacAffected
     });
   } catch (error) {
-    console.error('Error updating the account:', error); // Log the error
+    //console.error('Error updating the account:', error); // Log the error
     return res.status(500).json({ message: 'Failed to update account' }); // Respond with an error        
   }
 };

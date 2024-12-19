@@ -19,14 +19,14 @@ exports.finalizeUser = async (req, res) =>{
                 id: id,
               },
             },)
-        console.log("User updated successfully")      
+      //  console.log("User updated successfully")      
         return res.status(200).json({
             message: (affectedCount > 0) ? "User updated successfully" : "No such user exists",
             affectedCount: affectedCount
         })
     }
     catch(error){
-        console.error("Error during user update:", error);
+      //  console.error("Error during user update:", error);
         return res.status(500).json({ error: "Internal server error" });        
     }
 

@@ -20,7 +20,7 @@ exports.registerUser = async (req,res) =>{
         }
     }
     catch(error){
-        console.error("Error during user registration:", error);
+   //     console.error("Error during user registration:", error);
         return res.status(500).json({ error: "Internal server error" });
     }
 
@@ -32,11 +32,11 @@ exports.registerUser = async (req,res) =>{
                 email: email, 
                 password: password
             })
-        console.log("User registered successfully")      
-        console.log(newUser) 
+      //  console.log("User registered successfully")      
+      //  console.log(newUser) 
     }
     catch(error){
-        console.error("Error during user registration:", error);
+      //  console.error("Error during user registration:", error);
         return res.status(500).json({ error: "Internal server error" });        
     }
 

@@ -14,7 +14,7 @@ exports.authAccessToken = (req, res, next) => {
     }
 
     req.user = user; // Add user data to request for later use
-    console.log("jwtAuth req.user: ", req.user)
+    //console.log("jwtAuth req.user: ", req.user)
     next(); // Proceed to the next middleware or route handler
   });
 };

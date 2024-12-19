@@ -37,7 +37,7 @@ exports.updateCategory = async (req, res) => {
 
         res.status(200).json(updatedCategory)
     } catch (error) {
-        console.error('Error updating the category:', error); // Log the error
+       // console.error('Error updating the category:', error); // Log the error
         return res.status(500).json({ message: 'Failed to update category' }); // Respond with an error        
     }
 }

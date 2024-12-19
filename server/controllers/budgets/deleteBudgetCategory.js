@@ -32,7 +32,7 @@ exports.deleteBudgetCategory = async (req, res)=>{
 
         return res.status(200).json({numRowsAffected: numRowsAffected})
     } catch (err) {
-        console.error('Error deleting the budget\'s category:', err.message); // Log the error
+        //console.error('Error deleting the budget\'s category:', err.message); // Log the error
         return res.status(500).json({ message: 'Failed to delete the budget\'s category' }); // Respond with an error
     }
 

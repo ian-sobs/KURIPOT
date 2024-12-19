@@ -57,7 +57,7 @@ exports.makeBudget = async (req, res)=>{
             budgetCategories: newBudgetCategories
         })
     } catch (err) {
-        console.error('Error to make a new budget:', err); // Log the error
+        //console.error('Error to make a new budget:', err); // Log the error
         return res.status(500).json({ message: 'Failed to to make a new budget' }); // Respond with an error
     }
 

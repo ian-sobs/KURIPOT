@@ -34,7 +34,7 @@ exports.getCategories = async (req, res)=>{
     
         return res.status(200).json(categoriesOfUser)
     } catch (err) {
-        console.error('Error fetching categories:', err.message); // Log the error
+       // console.error('Error fetching categories:', err.message); // Log the error
         return res.status(500).json({ message: 'Failed to fetch categories' }); // Respond with an error
     }
 

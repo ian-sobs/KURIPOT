@@ -30,11 +30,11 @@ exports.refAccessToken = (req, res) => {
                 res.status(200).json({ accessToken: newAccessToken });
             })
             .catch((error) => {
-                console.error('Error fetching record:', error);
+                //console.error('Error fetching record:', error);
                 res.status(500).json({ message: 'Internal Server Error' });
             })
     } catch (error) {
-        console.error('Error generating access token:', error);
+        //console.error('Error generating access token:', error);
         return res.status(403).json({ message: 'Invalid Token' });
     }
 

@@ -37,9 +37,9 @@ exports.makeTransfer = async function makeTransfer(req, res){
             
         })
 
-        console.log("toAccountInfo.id", toAccountInfo.id)
-        console.log("toAccountInfo.name", toAccountInfo.name)
-        console.log("toAccountInfo.amount", toAccountInfo.amount)
+        // console.log("toAccountInfo.id", toAccountInfo.id)
+        // console.log("toAccountInfo.name", toAccountInfo.name)
+        // console.log("toAccountInfo.amount", toAccountInfo.amount)
 
         if(!fromAccountInfo || !toAccountInfo){
             return res.status(400).json({message: 'no such account exists'})
@@ -99,7 +99,7 @@ exports.makeTransfer = async function makeTransfer(req, res){
             note: transacInfo.note
         })
     } catch(err){
-        console.error('Error creating the transfer transaction:', err); // Log the error
+      //  console.error('Error creating the transfer transaction:', err); // Log the error
         return res.status(500).json({ message: 'Failed to create transfer transaction' });
     }
 }

@@ -69,7 +69,7 @@ exports.getTopSpending = async (req, res) => {
             categories: catSpent,
         });
     } catch (err) {
-        console.error('Error fetching categories:', err);
+       // console.error('Error fetching categories:', err);
         return res.status(500).json({ message: 'Failed to fetch top spending categories' });
     }
 };

@@ -45,7 +45,7 @@ exports.deleteCategory = async (req, res) => {
             //affectedAccounts: affected,
         });
     } catch (error) {
-        console.error('Error in deleteCategory:', error);
+        //console.error('Error in deleteCategory:', error);
         return res.status(500).json({ message: 'Failed to delete category' });
     }
 };
