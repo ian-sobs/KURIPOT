@@ -1,6 +1,5 @@
 const path = require('path');
 const dotenv = require('dotenv');
-const logging = require('../../logging');
 dotenv.config()
 
 const env = process.env.NODE_ENV
