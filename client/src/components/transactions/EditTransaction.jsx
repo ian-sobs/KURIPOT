@@ -20,6 +20,7 @@ const EditTransaction = ({
 }) => {
   const [updatedData, setUpdatedData] = useState(modalData);
   const navigate = useNavigate(); 
+  const [formError, setFormError] = useState("");
   const transacTypes = [{name: 'Income', value:'income'}, {name: 'Expense', value:'expense'}, {name: 'Transfer', value:'transfer'}]
 
   function categoryWasDeleted(category){
@@ -43,6 +44,12 @@ const EditTransaction = ({
   };
 
   const handleSave = () => {
+    if (!updatedData.date) {
+      setFormError("Date is required.");
+      return;
+    }
+
+    setFormError(""); // Clear errors if any
     setLoading(true);
     const transactionData = {
       note: updatedData.description,
@@ -87,6 +94,10 @@ const EditTransaction = ({
     <div className="modal-overlay fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center z-50">
       <div className="modal-container bg-gray-950 w-11/12 max-w-md p-6 rounded-badge shadow-lg">
         <h3 className="text-xl font-semibold text-white mb-4">Edit Transaction</h3>
+
+        {formError && (
+          <p className="text-red-500 text-sm mb-4">{formError}</p>
+        )}
 
         <div className="mb-4">
           <label className="block text-gray-300 font-medium">Description:</label>
