@@ -14,7 +14,8 @@ const TransactionSingleTransfer = ({
   date, // Add this line
   onDelete,
   setLastUpdatedTransaction,
-  lastUpdatedTransaction
+  lastUpdatedTransaction,
+  transactionType
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalData, setModalData] = useState({
@@ -48,7 +49,7 @@ const TransactionSingleTransfer = ({
   const handleDelete = () => {
     protectedRoute
       .delete("/transactions/deleteTransaction", {
-        data: { id: transactionId },
+        data: { id: transactionId, type: transactionType },
       })
       .then(() => {
         onDelete(transactionId); // Notify parent component
