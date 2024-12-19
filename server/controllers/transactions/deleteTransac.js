@@ -5,7 +5,7 @@ const { Transaction, Account } = sequelize.models;
 
 exports.deleteTransac = async (req, res) => {
     const { usrId } = req.user;
-    let { id } = req.body; // id is the ID of the transaction to be deleted
+    let { id, type } = req.body; // id is the ID of the transaction to be deleted
 
     id = parseInt(id, 10);
 
@@ -31,64 +31,136 @@ exports.deleteTransac = async (req, res) => {
             return res.status(400).json({ message: 'Transaction with the given ID does not exist' });
         }
 
-        // Determine the account affected by this transaction
-        const account = await Account.findOne({
-            where: {
-                id: oldTransacInfo.account_id,
-                user_id: usrId,
-            },
-            transaction: t,
-        });
+        if(type == 'income' || type == 'expense'){
+            let oldTransacInfoAmount = oldTransacInfo.amount
 
-        if (!account) {
-            await t.rollback();
-            return res.status(400).json({ message: 'Account associated with the transaction does not exist' });
+            // Determine the account affected by this transaction
+            const account = await Account.findOne({
+                where: {
+                    id: oldTransacInfo.account_id,
+                    user_id: usrId,
+                },
+                transaction: t,
+            });
+
+            if (!account) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Account associated with the transaction does not exist' });
+            }
+
+            // Update balances based on transaction type
+
+            //console.log('Before Update:', account.amount, 'Transaction Amount:', oldTransacInfo.amount);
+            
+            // let parsedOldTransacAmount = parseFloat(oldTransacInfo.amount)
+            // let parsedAccountAmount = parseFloat(account.amount)
+
+            if((oldTransacInfo.type === 'income' && oldTransacInfoAmount < 0) || (oldTransacInfo.type === 'expense' && oldTransacInfoAmount > 0)){
+                oldTransacInfoAmount = -oldTransacInfoAmount
+            }
+
+            account.amount = parseFloat((parseFloat(account.amount) - oldTransacInfoAmount).toFixed(2));
+
+            // if (oldTransacInfo.type === 'income') {
+            //     console.log('After Income Update:', account.amount);
+            // } else if (oldTransacInfo.type === 'expense') {
+            //     console.log('After Expense Update:', account.amount);
+            // }
+
+            console.log('Updated Account Amount:', account.amount);
+
+            // Ensure the amount is valid (not NaN or invalid value)
+            if (isNaN(account.amount)) {
+                await t.rollback();
+                return res.status(500).json({ message: 'Error calculating the new account balance' });
+            }
+
+            // Save the updated account amount
+            await account.save({ transaction: t });
+
+            // Delete the transaction
+            const numRowsDeleted = await Transaction.destroy({
+                where: {
+                    user_id: usrId,
+                    id: id,
+                },
+                transaction: t,
+            });
+
+            if (numRowsDeleted <= 0) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Transaction with the given ID does not exist' });
+            }
         }
+        else if(type == 'transfer'){
+            let oldTransacInfoAmount = oldTransacInfo.amount
 
-        // Update balances based on transaction type
+            // Determine the account affected by this transaction
+            const toAccount = await Account.findOne({
+                where: {
+                    id: oldTransacInfo.to_account_id,
+                    user_id: usrId,
+                },
+                transaction: t,
+            });
 
-        //console.log('Before Update:', account.amount, 'Transaction Amount:', oldTransacInfo.amount);
-        
-        let parsedOldTransacAmount = parseFloat(oldTransacInfo.amount)
-        let parsedAccountAmount = parseFloat(account.amount)
+            const fromAccount = await Account.findOne({
+                where: {
+                    id: oldTransacInfo.from_account_id,
+                    user_id: usrId,
+                },
+                transaction: t,
+            });
 
-        if((oldTransacInfo.type === 'income' && oldTransacInfo.amount < 0) || (oldTransacInfo.type === 'expense' && oldTransacInfo.amount > 0)){
-            oldTransacInfo.amount = -oldTransacInfo.amount
+            if (!toAccount || !fromAccount) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Transfer has no source or destination account' });
+            }
+
+            // Update balances based on transaction type
+
+            //console.log('Before Update:', account.amount, 'Transaction Amount:', oldTransacInfo.amount);
+            
+            // let parsedOldTransacAmount = parseFloat(oldTransacInfo.amount)
+            // let parsedAccountAmount = parseFloat(account.amount)
+
+            oldTransacInfoAmount = Math.abs(oldTransacInfoAmount)
+
+            toAccount.amount = parseFloat((parseFloat(toAccount.amount) - oldTransacInfoAmount).toFixed(2));
+            fromAccount.amount = parseFloat((parseFloat(fromAccount.amount) + oldTransacInfoAmount).toFixed(2));
+            // if (oldTransacInfo.type === 'income') {
+            //     console.log('After Income Update:', account.amount);
+            // } else if (oldTransacInfo.type === 'expense') {
+            //     console.log('After Expense Update:', account.amount);
+            // }
+
+            console.log('Updated destination account amount:', toAccount.amount);
+            console.log('Updated source account amount:', fromAccount.amount);
+
+            // Ensure the amount is valid (not NaN or invalid value)
+            if (isNaN(toAccount.amount) || isNaN(fromAccount.amount)) {
+                await t.rollback();
+                return res.status(500).json({ message: 'Error calculating the new account balance' });
+            }
+
+            // Save the updated account amount
+            await toAccount.save({ transaction: t });
+            await fromAccount.save({ transaction: t });
+
+            // Delete the transaction
+            const numRowsDeleted = await Transaction.destroy({
+                where: {
+                    user_id: usrId,
+                    id: id,
+                },
+                transaction: t,
+            });
+
+            if (numRowsDeleted <= 0) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Transaction with the given ID does not exist' });
+            }
         }
-
-        account.amount = parseFloat((parseFloat(account.amount) - parseFloat(oldTransacInfo.amount)).toFixed(2));
-
-        // if (oldTransacInfo.type === 'income') {
-        //     console.log('After Income Update:', account.amount);
-        // } else if (oldTransacInfo.type === 'expense') {
-        //     console.log('After Expense Update:', account.amount);
-        // }
-
-        console.log('Updated Account Amount:', account.amount);
-
-        // Ensure the amount is valid (not NaN or invalid value)
-        if (isNaN(account.amount)) {
-            await t.rollback();
-            return res.status(500).json({ message: 'Error calculating the new account balance' });
-        }
-
-        // Save the updated account amount
-        await account.save({ transaction: t });
-
-        // Delete the transaction
-        const numRowsDeleted = await Transaction.destroy({
-            where: {
-                user_id: usrId,
-                id: id,
-            },
-            transaction: t,
-        });
-
-        if (numRowsDeleted <= 0) {
-            await t.rollback();
-            return res.status(400).json({ message: 'Transaction with the given ID does not exist' });
-        }
-
         // Commit the transaction
         await t.commit();
 

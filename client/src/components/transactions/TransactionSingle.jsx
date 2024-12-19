@@ -77,7 +77,7 @@ const TransactionSingle = ({
   // Handle delete transaction
   const handleDelete = () => {
     protectedRoute
-      .delete("/transactions/deleteTransaction", { data: { id: transactionId } })
+      .delete("/transactions/deleteTransaction", { data: { id: transactionId, type: transactionType } })
       .then(() => {
         onDelete(transactionId, amount); // Notify the parent component
       })

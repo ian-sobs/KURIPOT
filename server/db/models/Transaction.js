@@ -83,6 +83,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(16,2),
         defaultValue: 0,
         allowNull: false,
+
+        get() {
+          const rawValue = this.getDataValue('amount');
+          const parsedRawValue = parseFloat(rawValue)
+          return parsedRawValue;
+        },
+
         set(amount){
           let parsedAmount = parseFloat(parseFloat(amount).toFixed(2))
           if(isNaN(parsedAmount)){
