@@ -4,11 +4,12 @@ import { protectedRoute } from "../../apiClient/axiosInstance";
 import formatNumWithCommas from "../../utility/formatNumWithCommas";
 import TransactionSingleTransfer from "./TransactionSingleTransfer";
 
-const TransactionDaily = ({ date, day, netIncome, lastUpdatedTransaction, setLastUpdatedTransaction }) => {
+const TransactionDaily = ({ date, day, netIncome: initialNetIncome, lastUpdatedTransaction, setLastUpdatedTransaction }) => {
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
   const [net, setNet] = useState(0);
   const [transactions, setTransactions] = useState([]);
+  const [netIncome, setNetIncome] = useState(initialNetIncome);
 
   const formattedDate = new Date(date).getDate().toString().padStart(2, "0");
   console.log("params date 2", date);
@@ -67,10 +68,11 @@ const TransactionDaily = ({ date, day, netIncome, lastUpdatedTransaction, setLas
           amount={transaction.amount}
           transactionType={transaction.type}
           transactionId={transaction.id} // Pass transactionId for delete
-          onDelete={(id) => {
+          onDelete={(id, amount) => {
             setTransactions((prevTransactions) =>
               prevTransactions.filter((transac) => transac.id !== id)
             );
+            setNetIncome((prevNetIncome) => prevNetIncome - amount); 
           }}
         />
       );
