@@ -114,6 +114,8 @@ NODE_ENV=development    # the environment the server should run in.
 
 After loading `/server/.env`, the value of `NODE_ENV` is used to load another `env` file for `/server` at runtime. Since `NODE_ENV` in `/server/.env` is `development`, `/server/.env.development` gets loaded.
 
+NOTE: The postres user must have a non-empty password.
+
 ```
 NODE_ENV       # environment the server should run in.
 			   # defaults to 'development'
